@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# Graficzne programowanie
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Graficzne programowanie - opracowanie graficznego narzędzia (np. bazującego na języku UML) umożliwiającego graficzny zapis programu, na podstawie którego generowany jest następnie kod źródłowy.
+Spis technologii, które będą używane:
+JavaScript, React.js, goJS
 
-## Available Scripts
+## Lista funkcjonalności
 
-In the project directory, you can run:
+Przeciągnij i upuść komponenty: Umożliwienie użytkownikom tworzenia programów poprzez przeciąganie gotowych bloków lub komponentów reprezentujących różne funkcje i struktury danych (listy, tablice, stos, kolejki, mapy, klasy) na płótno pracy.
+Wizualne tworzenie logiki: Narzędzie do tworzenia logiki programu za pomocą wizualnych bloków, takich jak pętle, instrukcje warunkowe, operacje na danych, które można łączyć w większe sekwencje.
+Automatyczna generacja kodu: Funkcja, która na podstawie stworzonego schematu wizualnego generuje kod źródłowy w wybranym języku programowania, np. JavaScript, Cpp, Python.
+Interaktywny edytor schematów: Możliwość modyfikowania i łączenia komponentów w łatwy sposób, wraz z funkcją podglądu zmian w czasie rzeczywistym.
+Wbudowany przewodnik i materiały, które pomagają nowym użytkownikom nauczyć się korzystać z narzędzia.
 
-### `npm start`
+### Harmonogram pracy
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Do końca marca:
+Przygotowanie szkieletu graficznego interfejsu (wygląd strony, bloczki itd.)
+Do końca kwietnia:
+Implementacja funkcjonalności manipulacji „bloczkami”.
+Do końca maja:
+Generowanie kodu na podstawie bloczków
+Czerwiec:
+Dokumentacja techniczna i obrona.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Podział pracy w zespole
 
-### `npm test`
+Przygotowanie szkieletu graficznego interfejsu – Dawid Spychalski
+Implementacja funkcjonalności manipulacji „bloczkami” – Karol Gardian/Damian Gajda
+Generowanie kodu na podstawie bloczków (3 języki, po jednym na każdą osobę w zespole) – Damian Gajda, Karol Gardian, Dawid Spychalski
+Dokumentacja techniczna – Damian Gajda
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Nazwiska, imiona oraz adresy mailowe
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Karol Gardian, s091257@student.tu.kielce.pl
+Damian Gajda, s091255@student.tu.kielce.pl
+Dawid Spychalski, s092003@student.tu.kielce.pl
