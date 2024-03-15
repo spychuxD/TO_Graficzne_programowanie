@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 
 import "./App.css";
 import { FaCog } from "react-icons/fa";
+
+import * as go from 'gojs';
+import { ReactDiagram, ReactPalette } from 'gojs-react';
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,7 +12,96 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
+const $ = go.GraphObject.make;
+const diagram = $(go.Diagram,
+{
+    'undoManager.isEnabled': true,
+    'clickCreatingTool.archetypeNodeData': { text: 'new node', color: 'lightblue' },
+    model: new go.GraphLinksModel(
+      {
+        linkKeyProperty: 'key'
+      })
+});
+
+function initDiagram() {
+  
+
+  diagram.nodeTemplate =
+    $(go.Node, 'Auto', 
+      new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+      $(go.Shape, 'RoundedRectangle',
+        { name: 'SHAPE', fill: 'white', strokeWidth: 0 },
+        new go.Binding('fill', 'color')),
+      $(go.TextBlock,
+        { margin: 8, editable: true },
+        new go.Binding('text').makeTwoWay(),
+        
+      ),
+      {
+        contextMenu:     // define a context menu for each node
+        $("ContextMenu",  // that has one button
+          $("ContextMenuButton",
+            {
+              "ButtonBorder.fill": "white",
+              "_buttonFillOver": "skyblue"
+            },
+            $(go.TextBlock, "Usuń"),
+            { click: test})
+          // more ContextMenuButtons would go here
+        ) 
+      }
+    );
+
+  return diagram;
+}
+
+function test(e, obj){
+
+  var node = obj.part;
+
+  if(node !== null)
+  {
+    diagram.startTransaction()
+    diagram.remove(node)
+    diagram.requestUpdate()
+    diagram.commitTransaction("delete node")
+    
+  }
+}
+function initPalette() {
+  const $ = go.GraphObject.make;
+
+  const palette = $(go.Palette);
+
+  // Define the template for the palette items
+  palette.nodeTemplate =
+    $(go.Node, 'Auto',
+      $(go.Shape, 'RoundedRectangle',
+        { fill: 'white', strokeWidth: 0 },
+        new go.Binding('fill', 'color')),
+      $(go.TextBlock,
+        { margin: 8 },
+        new go.Binding('text', 'text'))
+    );
+
+  // Set the node data array for the palette
+  palette.model.nodeDataArray = [
+    { key: 'Group1', text: 'Group 1', isGroup: true, category: 'Group', color: 'lightgray' },
+    { key: 'Node1', text: 'Node 1', group: 'Group1', color: 'lightblue' },
+    { key: 'Node2', text: 'Node 2', group: 'Group1', color: 'orange' },
+    { key: 'Group2', text: 'Group 2', isGroup: true, category: 'Group', color: 'lightgray' },
+    { key: 'Node3', text: 'Node 3', group: 'Group2', color: 'lightgreen' },
+    { key: 'Node4', text: 'Node 4', group: 'Group2', color: 'pink' }
+  ];
+
+  return palette;
+}
+
+
+
 function App() {
+  const diagramRef = useRef(null);
+
   const [open, setOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [isHoverPython, setIsHoverPython] = useState(false);
@@ -86,8 +178,32 @@ function App() {
         </Button>
       </header>
       <main className="main-content">
-        <div className="sectionTight">Sekcja 1</div>
-        <div className="sectionWide">Sekcja 2</div>
+        <div className="sectionTight">
+          <ReactPalette
+          initPalette={initPalette}
+          divClassName='diagram-component'
+          />
+        </div>
+        <div className="sectionWide">
+          <ReactDiagram
+          ref={diagramRef}
+          initDiagram={()=>initDiagram(diagramRef)}
+          divClassName='diagram-component'
+          nodeDataArray={[
+            { key: 0, text: 'Alpha', color: 'lightblue', loc: '0 0' },
+            { key: 1, text: 'Beta', color: 'orange', loc: '150 0' },
+            { key: 2, text: 'Gamma', color: 'lightgreen', loc: '0 150' },
+            { key: 3, text: 'Delta', color: 'pink', loc: '150 150' },
+          ]}
+          linkDataArray={[
+            { key: -1, from: 0, to: 1 },
+            { key: -2, from: 0, to: 2 },
+            { key: -3, from: 1, to: 1 },
+            { key: -4, from: 2, to: 3 },
+            { key: -5, from: 3, to: 0 }
+          ]}
+          />
+        </div>
         <div className="sectionTight">Sekcja 3</div>
       </main>
       <footer className="footer">
