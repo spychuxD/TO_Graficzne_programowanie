@@ -1,9 +1,52 @@
 .App {
   text-align: center;
+  height: 100vh; /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
+  background-image: url('./background.png'); /* Dostosuj ścieżkę do swojej grafiki */
+  background-size: cover; /* Zapewnia, że tło pokryje całą dostępną przestrzeń */
+  background-position: center; /* Centruje grafikę */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-around; /* Rozkłada trzy sekcje równomiernie */
+  height: 100%; /* Zapewnia, że główna treść zajmie całą dostępną przestrzeń */
+}
+
+.sectionTight {
+  width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
+  padding: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
+
+.sectionWide {
+  width: 50%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 5vmin;
   pointer-events: none;
 }
 
@@ -14,25 +57,82 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  min-height: 1vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
 }
 
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+} */
+
+.footer {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 0.2vmin);
+  color: white;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-bold {
+ font-weight: bold;
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.1); 
+  color: black; 
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+.settings-icon {
+  pointer-events: none;
+  margin-right: 10px;
 }
