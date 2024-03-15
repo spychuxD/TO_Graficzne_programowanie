@@ -12,26 +12,44 @@ Automatyczna generacja kodu: Funkcja, która na podstawie stworzonego schematu w
 Interaktywny edytor schematów: Możliwość modyfikowania i łączenia komponentów w łatwy sposób, wraz z funkcją podglądu zmian w czasie rzeczywistym.
 Wbudowany przewodnik i materiały, które pomagają nowym użytkownikom nauczyć się korzystać z narzędzia.
 
-### Harmonogram pracy
+## Harmonogram pracy
 
-Do końca marca:
+###Do końca marca:
+
 Przygotowanie szkieletu graficznego interfejsu (wygląd strony, bloczki itd.)
-Do końca kwietnia:
+
+###Do końca kwietnia:
+
 Implementacja funkcjonalności manipulacji „bloczkami”.
-Do końca maja:
+
+###Do końca maja:
+
 Generowanie kodu na podstawie bloczków
-Czerwiec:
+
+###Czerwiec:
+
 Dokumentacja techniczna i obrona.
 
-### Podział pracy w zespole
+## Podział pracy w zespole
 
-Przygotowanie szkieletu graficznego interfejsu – Dawid Spychalski
-Implementacja funkcjonalności manipulacji „bloczkami” – Karol Gardian/Damian Gajda
-Generowanie kodu na podstawie bloczków (3 języki, po jednym na każdą osobę w zespole) – Damian Gajda, Karol Gardian, Dawid Spychalski
-Dokumentacja techniczna – Damian Gajda
+###Przygotowanie szkieletu graficznego interfejsu 
 
-### Nazwiska, imiona oraz adresy mailowe
+Dawid Spychalski
 
-Karol Gardian, s091257@student.tu.kielce.pl
-Damian Gajda, s091255@student.tu.kielce.pl
-Dawid Spychalski, s092003@student.tu.kielce.pl
+###Implementacja funkcjonalności manipulacji „bloczkami” 
+
+Karol Gardian/Damian Gajda
+
+###Generowanie kodu na podstawie bloczków (3 języki, po jednym na każdą osobę w zespole) 
+
+Damian Gajda, Karol Gardian, Dawid Spychalski
+
+###Dokumentacja techniczna 
+
+Damian Gajda
+
+## Nazwiska, imiona oraz adresy mailowe
+
+###Karol Gardian, s091257@student.tu.kielce.pl
+###Damian Gajda, s091255@student.tu.kielce.pl
+###Dawid Spychalski, s092003@student.tu.kielce.pl
