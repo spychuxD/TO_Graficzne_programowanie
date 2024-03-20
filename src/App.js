@@ -1,27 +1,45 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import { FaCog } from "react-icons/fa";
 
-import * as go from "gojs";
-//import { ReactDiagram, ReactPalette } from 'gojs-react';
-
+import ForBlock from "./blocks/ForBlock";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { beginBlock, endBlock, forBlock } from "./blockTypes";
+import BeginBlock from "./blocks/BeginBlock";
+import EndBlock from "./blocks/EndBlock";
+import Palette from "./blocks/Palette";
 
-// function test(e, obj) {
-//   var node = obj.part;
-
-//   if (node !== null) {
-//     diagram.startTransaction();
-//     diagram.remove(node);
-//     diagram.requestUpdate();
-//     diagram.commitTransaction("delete node");
-//   }
-// }
+const DATA = [
+  {
+    id: "0e2f0db1-5457-46b0-949e-8032d2f9997a",
+    name: "start",
+    type: beginBlock,
+    items: [],
+  },
+  {
+    id: "487f68b4-1746-438c-920e-d67b7df46247",
+    name: "for",
+    type: forBlock,
+    items: [{ id: "960cbbcf-89a0-4d79-aa8e-56abbc15eacc", name: "Workbench" }],
+  },
+  {
+    id: "487f68b4-1746-438c-920e-d67b7df46277",
+    name: "for",
+    type: forBlock,
+    items: [{ id: "960cbbcf-89a0-4d79-aa8e-56abbc15eact", name: "Workbench" }],
+  },
+  {
+    id: "25daffdc-aae0-4d73-bd31-43f73101e7c0",
+    name: "end",
+    type: endBlock,
+    items: [],
+  },
+];
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -51,300 +69,83 @@ function App() {
     setOpen(false);
   };
 
+
+  
   const handleLanguageClick = (language) => {
     setIsLanguage(language);
   };
 
-  const diagramRef = useRef(null);
-  const palletRef = useRef(null);
+  
+  ////////////////////////////////////
+  const [stores, setStores] = useState(DATA);
 
-  useEffect(() => {
-    if (!diagramRef.current) return;
-    if (!palletRef.current) return;
+  const handleDragAndDrop = (results) => {
+    const { source, destination, type } = results;
+    if (!destination) return;
 
-    // Inicjalizacja diagramu
-    const $ = go.GraphObject.make;
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return;
 
-    const diagram = $(go.Diagram, diagramRef.current, {
-      // Konfiguracja interakcji użytkownika
-      "draggingTool.dragsLink": true,
-      "draggingTool.isGridSnapEnabled": true,
-      //"linkingTool.isUnconnectedLinkValid": true,
-      "linkingTool.portGravity": 20,
-      //"relinkingTool.isUnconnectedLinkValid": true,
-      "clickCreatingTool.archetypeNodeData": { text: "Node", color: "white" },
-      "commandHandler.archetypeGroupData": {
-        text: "Group",
-        isGroup: true,
-        color: "blue",
-      },
-      "undoManager.isEnabled": true,
+    if (type === "group") {
+      const reorderedStores = [...stores];
 
-      model: $(go.GraphLinksModel, {
-        linkKeyProperty: "key", // Klucz dla połączeń
-      }),
-    });
-    function makeButton(text, action, visiblePredicate) {
-      return $(
-        "ContextMenuButton",
-        $(go.TextBlock, text),
-        { click: action },
-        // don't bother with binding GraphObject.visible if there's no predicate
-        visiblePredicate
-          ? new go.Binding("visible", "", (o, e) =>
-              o.diagram ? visiblePredicate(o, e) : false
-            ).ofObject()
-          : {}
-      );
+      const storeSourceIndex = source.index;
+      const storeDestinatonIndex = destination.index;
+
+      const [removedStore] = reorderedStores.splice(storeSourceIndex, 1);
+      reorderedStores.splice(storeDestinatonIndex, 0, removedStore);
+
+      return setStores(reorderedStores);
     }
-    var partContextMenu = $(
-      "ContextMenu",
-      makeButton(
-        "Cut",
-        (e, obj) => e.diagram.commandHandler.cutSelection(),
-        (o) => o.diagram.commandHandler.canCutSelection()
-      ),
-      makeButton(
-        "Copy",
-        (e, obj) => e.diagram.commandHandler.copySelection(),
-        (o) => o.diagram.commandHandler.canCopySelection()
-      ),
-      makeButton(
-        "Paste",
-        (e, obj) =>
-          e.diagram.commandHandler.pasteSelection(
-            e.diagram.toolManager.contextMenuTool.mouseDownPoint
-          ),
-        (o) =>
-          o.diagram.commandHandler.canPasteSelection(
-            o.diagram.toolManager.contextMenuTool.mouseDownPoint
-          )
-      ),
-      makeButton(
-        "Delete",
-        (e, obj) => e.diagram.commandHandler.deleteSelection(),
-        (o) => o.diagram.commandHandler.canDeleteSelection()
-      ),
-      makeButton(
-        "Undo",
-        (e, obj) => e.diagram.commandHandler.undo(),
-        (o) => o.diagram.commandHandler.canUndo()
-      ),
-      makeButton(
-        "Redo",
-        (e, obj) => e.diagram.commandHandler.redo(),
-        (o) => o.diagram.commandHandler.canRedo()
-      ),
-      makeButton(
-        "Group",
-        (e, obj) => e.diagram.commandHandler.groupSelection(),
-        (o) => o.diagram.commandHandler.canGroupSelection()
-      ),
-      makeButton(
-        "Ungroup",
-        (e, obj) => e.diagram.commandHandler.ungroupSelection(),
-        (o) => o.diagram.commandHandler.canUngroupSelection()
-      )
+    const itemSourceIndex = source.index;
+    const itemDestinationIndex = destination.index;
+
+    const storeSourceIndex = stores.findIndex(
+      (store) => store.id === source.droppableId
+    );
+    const storeDestinationIndex = stores.findIndex(
+      (store) => store.id === destination.droppableId
     );
 
-    diagram.contextMenu = $(
-      "ContextMenu",
-      makeButton(
-        "Paste",
-        (e, obj) =>
-          e.diagram.commandHandler.pasteSelection(
-            e.diagram.toolManager.contextMenuTool.mouseDownPoint
-          ),
-        (o) =>
-          o.diagram.commandHandler.canPasteSelection(
-            o.diagram.toolManager.contextMenuTool.mouseDownPoint
-          )
-      ),
-      makeButton(
-        "Undo",
-        (e, obj) => e.diagram.commandHandler.undo(),
-        (o) => o.diagram.commandHandler.canUndo()
-      ),
-      makeButton(
-        "Redo",
-        (e, obj) => e.diagram.commandHandler.redo(),
-        (o) => o.diagram.commandHandler.canRedo()
-      )
-    );
-    // Utwórz automatyczny układ
-    const layout = $(go.LayeredDigraphLayout, {
-      direction: 90, // układ pionowy
-      layerSpacing: 10, // odstęp między warstwami
-    });
+    const newSourceItems = [...stores[storeSourceIndex].items];
+    const newDestinationItems =
+      source.droppableId !== destination.droppableId
+        ? [...stores[storeDestinationIndex].items]
+        : newSourceItems;
 
-    diagram.layout = layout;
+    const [deletedItem] = newSourceItems.splice(itemSourceIndex, 1);
+    newDestinationItems.splice(itemDestinationIndex, 0, deletedItem);
 
-    function changeZOrder(amt, obj) {
-      diagram.commit((d) => {
-        var data = obj.part.data;
-        d.model.set(data, "zOrder", amt);
-      }, "modified zOrder");
-    }
-    // Tworzenie bloków
-    diagram.nodeTemplate = $(
-      go.Node,
-      "Auto",
-      { locationSpot: go.Spot.Center },
-      //new go.Binding("layerName", "color"),
-      //new go.Binding("location", "loc"),
-      new go.Binding("zOrder", "zOrder"),
-      { deletable: true },
-      $(
-        go.Shape,
-        "RoundedRectangle",
-        {
-          fill: "lightgray",
-          portId: "",
-          cursor: "pointer",
-          fromLinkable: true,
-          fromLinkableSelfNode: true,
-          fromLinkableDuplicates: true,
-          toLinkable: true,
-          toLinkableSelfNode: true,
-          toLinkableDuplicates: true,
-        },
-        new go.Binding("fill", "color")
-      ),
-      $(go.TextBlock, { margin: 5 }, new go.Binding("text", "text"), {
-        contextMenu: partContextMenu,
-      })
-    );
+    const newStores = [...stores];
 
-    diagram.linkTemplate = $(
-      go.Link,
-      { toShortLength: 3, relinkableFrom: true, relinkableTo: true },
-      $(go.Shape, { strokeWidth: 2 }, new go.Binding("stroke", "color")),
-      $(
-        go.Shape,
-        { toArrow: "Standard", stroke: null },
-        new go.Binding("fill", "color")
-      ),
-      {
-        contextMenu: partContextMenu,
-      }
-    );
-
-    // Słuchacz zdarzenia dla przeciągnięcia
-    diagram.addDiagramListener("SelectionMoved", function (e) {
-      var node = e.subject.first(); // Pobierz przesunięty wierzchołek
-      if (!node) return;
-
-      changeZOrder(-1, node);
-      var target = e.diagram.findPartAt(
-        e.diagram.lastInput.documentPoint,
-        true
-      ); // Pobierz element docelowy
-      if (!target || !(target instanceof go.Node)) return;
-
-      if (target.key === node.key) {
-        return;
-      }
-
-      if (target instanceof go.Node) {
-        // Utwórz połączenie między blokami
-        var link = { from: target.key, to: node.key };
-        //console.log(e.diagram.model.sd);
-
-        e.diagram.model.addLinkData(link);
-      }
-      changeZOrder(1, node);
-    });
-    diagram.groupTemplate = $(
-      go.Group,
-      "Vertical",
-      {
-        selectionObjectName: "PANEL", // selection handle goes around shape, not label
-        ungroupable: true, // enable Ctrl-Shift-G to ungroup a selected Group
-      },
-      $(
-        go.TextBlock,
-        {
-          //alignment: go.Spot.Right,
-          font: "bold 19px sans-serif",
-          isMultiline: false, // don't allow newlines in text
-          editable: true, // allow in-place editing by user
-        },
-        new go.Binding("text", "text").makeTwoWay(),
-        new go.Binding("stroke", "color")
-      ),
-      $(
-        go.Panel,
-        "Auto",
-        { name: "PANEL" },
-        $(
-          go.Shape,
-          "Rectangle", // the rectangular shape around the members
-          {
-            fill: "rgba(128,128,128,0.2)",
-            stroke: "gray",
-            strokeWidth: 3,
-            portId: "",
-            cursor: "pointer", // the Shape is the port, not the whole Node
-            // allow all kinds of links from and to this port
-            fromLinkable: true,
-            fromLinkableSelfNode: true,
-            fromLinkableDuplicates: true,
-            toLinkable: true,
-            toLinkableSelfNode: true,
-            toLinkableDuplicates: true,
-          }
-        ),
-        $(go.Placeholder, { margin: 10, background: "transparent" }) // represents where the members are
-      ),
-      {
-        // the same context menu Adornment is shared by all groups
-        contextMenu: partContextMenu,
-      }
-    );
-
-    // Zdefiniowanie przykładowych danych
-    const model = diagram.model;
-    model.nodeDataArray = [
-      { key: "1", color: "cyan", text: "Block 1", zOrder: 1 },
-      { key: "2", color: "cyan", text: "Block 2", zOrder: 1 }, // Ustawienie początkowej pozycji dla drugiego bloku
-      { key: "3", color: "cyan", text: "Block 3", zOrder: 1 }, // Ustawienie początkowej pozycji dla drugiego bloku
-      { key: "4", color: "cyan", text: "Block 4", zOrder: 1 }, // Ustawienie początkowej pozycji dla drugiego bloku
-    ];
-    model.linkDataArray = [];
-
-    diagram.undoManager.isEnabled = true;
-
-    const myPalette = $(go.Palette, palletRef.current);
-
-    myPalette.nodeTemplate = $(
-      go.Node,
-      "Auto",
-      $(
-        go.Shape,
-        "RoundedRectangle",
-        { fill: "white", strokeWidth: 0 },
-        new go.Binding("fill", "color")
-      ),
-      $(go.TextBlock, { margin: 8 }, new go.Binding("text", "text"))
-    );
-
-    myPalette.model.nodeDataArray = [
-      { key: "C", color: "cyan", text: "Pętla For", zOrder: 1 },
-      { key: "LC", color: "lightcyan", text: "Pętla while", zOrder: 1 },
-      { key: "A", color: "aquamarine", text: "Pętla For", zOrder: 1 },
-      { key: "T", color: "turquoise", text: "Pętla For", zOrder: 1 },
-      { key: "PB", color: "powderblue", text: "Pętla For", zOrder: 1 },
-      { key: "LB", color: "lightblue", text: "Pętla For", zOrder: 1 },
-      { key: "LSB", color: "lightskyblue", text: "Pętla For", zOrder: 1 },
-      { key: "DSB", color: "deepskyblue", text: "Pętla For", zOrder: 1 },
-    ];
-
-    // Zapisz referencję do diagramu
-    return () => {
-      diagram.div = null;
-      myPalette.div = null;
+    newStores[storeSourceIndex] = {
+      ...stores[storeSourceIndex],
+      items: newSourceItems,
     };
-  }, []);
+    newStores[storeDestinationIndex] = {
+      ...stores[storeDestinationIndex],
+      items: newDestinationItems,
+    };
+
+    setStores(newStores);
+  };
+  ////////////////////////////////////
+
+  const renderBlocks = (store) =>{
+    switch (store.type) {
+      case beginBlock:
+        return <BeginBlock {...store} setBlocksState={setStores}/>
+      case  forBlock:
+        return <ForBlock {...store} setBlocksState={setStores}/>
+      case endBlock:
+        return <EndBlock {...store} setBlocksState={setStores}/>
+      default:
+        break;
+    }
+  }
 
   return (
     <div className="App">
@@ -409,21 +210,49 @@ function App() {
       </header>
       <main className="main-content">
         <div className="sectionTight">
-          <div
-            id="myPaletteDiv"
-            ref={palletRef}
-            className="diagram-component"
-          />
+          <Palette setBlocksState={setStores} blocksState={stores}/>
         </div>
 
         <div className="sectionWide">
-          <div
-            id="myDiagramDiv"
-            ref={diagramRef}
-            className="diagram-component"
-          />
+        <DragDropContext onDragEnd={handleDragAndDrop}>
+          <Droppable droppableId="ROOT" type="group">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {stores.map((store, index) => (
+                  <Draggable
+                    draggableId={store.id}
+                    index={index}
+                    key={store.id}
+                  >
+                    {(provided) => (
+                      <div
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                      >
+                        {
+                          renderBlocks(store)
+                        }
+                        
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                  
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
         </div>
-        <div className="sectionTight">Sekcja 3</div>
+        <div className="sectionTight">
+        
+        <div className="layout__wrapper">
+     
+    </div>
+
+        </div>
       </main>
       <footer className="footer">
         <div>
