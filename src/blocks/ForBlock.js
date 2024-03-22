@@ -1,8 +1,6 @@
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import "../App.css";
 import { Fragment, useState } from "react";
-import { inputStyle } from "../styles/InputStyles";
-import { forBlockStyles, blockText } from "../styles/BlockStyles";
 import { forBlock } from "../blockTypes";
 import { v4 as uuidv4 } from "uuid";
 import DeleteBlock from "./DeleteBlock";
