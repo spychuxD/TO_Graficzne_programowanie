@@ -1,13 +1,10 @@
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import "../App.css";
 import { Fragment, useState } from "react";
-import { inputStyle } from "../styles/InputStyles";
-import { forBlockStyles, blockText } from "../styles/BlockStyles";
 import { v4 as uuidv4 } from "uuid";
 import DeleteBlock from "./DeleteBlock";
 import ArithmeticBlocks from "./ArithmeticBlocks/ArithmeticBlocks";
 import { arithmeticBlocks, forBlock, ifElseBlock } from "../blockTypes";
-import { red } from "@mui/material/colors";
 import ForBlock from "./ForBlock";
 function IfElseBlock({
   name,
@@ -50,12 +47,12 @@ function IfElseBlock({
   return (
     <Fragment>
       {id !== undefined ? (
-        <div style={forBlockStyles}>
+        <div className="control-block bg-color-if">
           <Droppable droppableId={id + "ifCondition"}>
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 <div style={{ display: "flex", gap: 5 }}>
-                  <div style={blockText}>if</div>
+                  <div className="text-bold text-white">if</div>
                   <div
                     style={{
                       backgroundColor: "blue",
@@ -134,7 +131,7 @@ function IfElseBlock({
                 ref={provided.innerRef}
               >
                 <div style={{ display: "flex", gap: 5 }}>
-                  <div style={blockText}>else</div>
+                  <div className="text-bold text-white">else</div>
 
                   <div
                     //className="items-container"
@@ -172,23 +169,23 @@ function IfElseBlock({
           <DeleteBlock id={id} setBlocksState={setBlocksState} />
         </div>
       ) : (
-        <div style={forBlockStyles} onClick={onAddElement}>
+        <div  className="control-block bg-color-if" onClick={onAddElement}>
           {/* <div style={{ display: "flex", gap: 5 }}>
-            <div style={blockText}>for</div>
+            <div className="text-bold text-white">for</div>
             <select
               disabled
-              style={inputStyle}
+              className="block-input"
               value={selectedOption}
               onChange={handleOptionChange}
             >
               <option value="">Wybierz opcję</option>
             </select>
-            <div style={blockText}>from</div>
-            <input disabled style={inputStyle} type="number" value={0} />
-            <div style={blockText}>to</div>
-            <input disabled style={inputStyle} type="number" value={10} />
-            <div style={blockText}>at step</div>
-            <input disabled style={inputStyle} type="number" value={1} />
+            <div className="text-bold text-white">from</div>
+            <input disabled className="block-input" type="number" value={0} />
+            <div className="text-bold text-white">to</div>
+            <input disabled className="block-input" type="number" value={10} />
+            <div className="text-bold text-white">at step</div>
+            <input disabled className="block-input" type="number" value={1} />
           </div>
           <div className="items-container"></div> */}
         </div>

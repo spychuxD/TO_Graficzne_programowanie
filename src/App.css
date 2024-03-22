@@ -26,6 +26,7 @@
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  z-index: 10;
 }
 
 .footer {
@@ -44,6 +45,7 @@
 }
 
 .main-content {
+  padding-top: 100px;
   display: flex;
   justify-content: space-around; /* Rozkłada trzy sekcje równomiernie */
   height: 100%; /* Zapewnia, że główna treść zajmie całą dostępną przestrzeń */
@@ -299,12 +301,12 @@ div {
 .bg-color-9 { background-color: #004d40; }
 .bg-color-start { background-color: #1b5e20; }
 .bg-color-13 { background-color: #33691e; }
-.bg-color-15 { background-color: #827717; }
+.bg-color-if { background-color: #827717; }
 .bg-color-for { background-color: #f57f17; }
 .bg-color-end { background-color: #bf360c; }
 
 /* ======== Odcienie kolorów wyzej (nieparzysta z parzystą, np. 1 i 2 (2 to odcień 1) i anlogicznie reszta) */
-.bg-color-2 { background-color: #304ffe; }
+.bg-color-arithmetic { background-color: #304ffe; }
 .bg-color-4 { background-color: #2962ff; }
 .bg-color-6 { background-color: #0091ea; }
 .bg-color-8 { background-color: #00b8d4; }

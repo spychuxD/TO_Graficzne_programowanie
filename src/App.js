@@ -2,11 +2,6 @@ import React, { useState } from "react"; //useRef
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import ForBlock from "./blocks/ForBlock";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 import {
   arithmeticBlocks,
   beginBlock,
@@ -20,7 +15,6 @@ import EndBlock from "./blocks/EndBlock";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import SectionLeft from "./components/sectionLeft";
-import Palette from "./blocks/Palette";
 import ArithmeticBlocks from "./blocks/ArithmeticBlocks/ArithmeticBlocks";
 import IfElseBlock from "./blocks/IfElseBlock";
 import { ArithmeticOperations } from "./blocks/ArithmeticBlocks/ArithmeticOperations";

@@ -1,9 +1,6 @@
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 import "../../App.css";
-import { beginBlockStyles, blockText } from "../../styles/BlockStyles";
 import { arithmeticBlocks } from "../../blockTypes";
-import { inputStyle } from "../../styles/InputStyles";
-
 import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteBlock from "../DeleteBlock";
@@ -22,15 +19,15 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
   const arithemticType = (name) => {
     switch (name) {
       case ArithmeticOperations.addition:
-        return <div style={blockText}>+</div>;
+        return <div className="text-bold text-white">+</div>;
       case ArithmeticOperations.subtraction:
-        return <div style={blockText}>-</div>;
+        return <div className="text-bold text-white">-</div>;
       case ArithmeticOperations.multiplication:
-        return <div style={blockText}>*</div>;
+        return <div className="text-bold text-white">*</div>;
       case ArithmeticOperations.division:
-        return <div style={blockText}>/</div>;
+        return <div className="text-bold text-white">/</div>;
       case ArithmeticOperations.modulo:
-        return <div style={blockText}>%</div>;
+        return <div className="text-bold text-white">%</div>;
       default:
         break;
     }
@@ -41,14 +38,14 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
         <Draggable draggableId={id} isDragDisabled={true} index={0}>
           {(provided) => (
             <div
-              style={beginBlockStyles}
+              className="control-block bg-color-arithmetic"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              <div style={beginBlockStyles}>
-                <input style={inputStyle} type="number" />
+              <div className="control-block bg-color-arithmetic">
+                <input className="block-input" type="number" />
                 {arithemticType(name)}
-                <input style={inputStyle} type="number" />{" "}
+                <input className="block-input" type="number" />{" "}
                 {provided.placeholder}
               </div>
               <DeleteBlock setBlocksState={setBlocksState} id={id} />
@@ -56,10 +53,10 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
           )}
         </Draggable>
       ) : (
-        <div style={beginBlockStyles} onClick={() => onAddElement(name)}>
-          <input style={inputStyle} type="number" />
+        <div className="control-block bg-color-arithmetic" onClick={() => onAddElement(name)}>
+          <input className="block-input" type="number" />
           {arithemticType(name)}
-          <input style={inputStyle} type="number" />
+          <input className="block-input" type="number" />
         </div>
       )}
     </Fragment>

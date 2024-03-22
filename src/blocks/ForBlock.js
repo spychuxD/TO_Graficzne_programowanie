@@ -26,30 +26,30 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
       {id !== undefined ? (
         <Droppable droppableId={id}>
           {(provided) => (
-            <div
-              style={forBlockStyles}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              <div style={{ display: "flex", gap: 5 }}>
-                <div style={blockText}>for</div>
-                <select
-                  style={inputStyle}
-                  value={selectedOption}
-                  onChange={handleOptionChange}
-                >
-                  <option value="">Wybierz opcję</option>
-                  <option value="option1">Opcja 1</option>
-                  <option value="option2">Opcja 2</option>
-                  <option value="option3">Opcja 3</option>
-                </select>
-                <div style={blockText}>from</div>
-                <input style={inputStyle} type="number" />
-                <div style={blockText}>to</div>
-                <input style={inputStyle} type="number" />
-                <div style={blockText}>at step</div>
-                <input style={inputStyle} type="number" />
-                <DeleteBlock id={id} setBlocksState={setBlocksState} />
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              <div className="bg-color-for border-r-10 for-shadow">
+                <div className="control-block-grid">
+                  <div className="text-bold text-white">FOR</div>
+                  <select
+                    className="block-select"
+                    value={selectedOption}
+                    onChange={handleOptionChange}
+                  >
+                    <option value="">Wybierz opcję</option>
+                    <option value="option1">Opcja 1</option>
+                    <option value="option2">Opcja 2</option>
+                    <option value="option3">Opcja 3</option>
+                  </select>
+                  <div className="text-bold text-white">FROM</div>
+                  <input className="block-input" type="number" />
+                  <div className="text-bold text-white">TO</div>
+                  <input className="block-input" type="number" />
+                  <div className="text-bold text-white">AT STEP</div>
+                  <input className="block-input" type="number" />
+                </div>
+                <div>
+                  <DeleteBlock id={id} setBlocksState={setBlocksState} />
+                </div>
               </div>
               <div className="items-container">
                 {items.map((item, index) => (
@@ -61,9 +61,7 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
                         {...provided.draggableProps}
                         ref={provided.innerRef}
                       >
-                        <div style={{ backgroundColor: "red" }}>
-                          {item.name}
-                        </div>
+                        <div className="workbench">{item.name}</div>
                       </div>
                     )}
                   </Draggable>
@@ -74,25 +72,22 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
           )}
         </Droppable>
       ) : (
-        <div style={forBlockStyles} onClick={onAddElement}>
-          <div style={{ display: "flex", gap: 5 }}>
-            <div style={blockText}>for</div>
-            <select
-              disabled
-              style={inputStyle}
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option value="">Wybierz opcję</option>
-            </select>
-            <div style={blockText}>from</div>
-            <input disabled style={inputStyle} type="number" value={0} />
-            <div style={blockText}>to</div>
-            <input disabled style={inputStyle} type="number" value={10} />
-            <div style={blockText}>at step</div>
-            <input disabled style={inputStyle} type="number" value={1} />
-          </div>
-          <div className="items-container"></div>
+        <div className="control-block-grid bg-color-for for-shadow" onClick={onAddElement}>
+          <div className="text-bold text-white">FOR</div>
+          <select
+            disabled
+            className="block-select"
+            value={selectedOption}
+            onChange={handleOptionChange}
+          >
+            <option value="">Wybierz opcję</option>
+          </select>
+          <div className="text-bold text-white">FROM</div>
+          <input disabled className="block-input" type="number" value={0} />
+          <div className="text-bold text-white">TO</div>
+          <input disabled className="block-input" type="number" value={10} />
+          <div className="text-bold text-white">AT STEP</div>
+          <input disabled className="block-input" type="number" value={1} />
         </div>
       )}
     </Fragment>
