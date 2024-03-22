@@ -9,62 +9,16 @@
   justify-content: space-between;
 }
 
-.main-content {
-  display: flex;
-  justify-content: space-around; /* Rozkłada trzy sekcje równomiernie */
-  height: 100%; /* Zapewnia, że główna treść zajmie całą dostępną przestrzeń */
-}
-
-.sectionTight {
-  width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
-  padding: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-}
-
-.sectionWide {
-  width: 50%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
-  padding: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-}
-
-.App-logo {
-  height: 5vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   min-height: 1vh;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -72,21 +26,8 @@
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-/* @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
 .footer {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
@@ -100,13 +41,86 @@
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
 }
 
-.text-center {
-  text-align: center;
+.main-content {
+  display: flex;
+  justify-content: space-around; /* Rozkłada trzy sekcje równomiernie */
+  height: 100%; /* Zapewnia, że główna treść zajmie całą dostępną przestrzeń */
 }
 
-.text-bold {
- font-weight: bold;
+.sectionLeft {
+  width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  background-color: rgba(255, 255, 255, 0.4); /* Przykładowy półprzezroczysty biały tło */
+  padding: 0px 20px 20px 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
+
+
+.sectionRight {
+  width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  background-color: rgba(255, 255, 255, 0.4); /* Przykładowy półprzezroczysty biały tło */
+  padding: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+}
+
+.sectionMid {
+  width: 50%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  background-color: rgba(255, 255, 255, 0.4); /* Przykładowy półprzezroczysty biały tło */
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.App-logo {
+  height: 3vmin;
+  pointer-events: none;
+}
+/* 
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+} */
+
+/* @keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+
 
 .button:hover {
   background-color: rgba(255, 255, 255, 0.5);
@@ -140,6 +154,123 @@
 .diagram-component {
   width: 100%;
   height: 100%;
-
-
 }
+
+.blocks-container {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+
+.block-input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 30px;
+  padding: 5px 10px 5px 10px;
+  width: 80%;
+}
+
+.block-select {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 30px;
+  padding: 5px 10px 5px 10px;
+  width: 80%;
+}
+
+.control-block {
+  display: flex;
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-block-grid {
+  display: grid;
+  grid-template-columns: auto auto; /* Dostosuj do swoich potrzeb */
+  grid-gap: 5px;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =============Do wielorazowego użytku (np className="text-center text-bold") ============ */
+.text-center {
+  text-align: center;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-bold {
+ font-weight: bold;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.m-8 {
+  margin: 8px;
+}
+.mr-8 {
+  margin-right: 8px;
+}
+
+.text-small {
+  font-size: small;
+}
+
+.w-full {
+  width: 100%;
+}
+
+div {
+  color: #1565c0
+}
+
+
+/* ============== Kolory pod bloki ================ */
+.bg-color-end { background-color: #b71c1c; }
+.bg-color-2 { background-color: #880e4f; }
+.bg-color-3 { background-color: #4a148c; }
+.bg-color-4 { background-color: #311b92; }
+.bg-color-5 { background-color: #1a237e; }
+.bg-color-6 { background-color: #0d47a1; }
+.bg-color-7 { background-color: #01579b; }
+.bg-color-8 { background-color: #006064; }
+.bg-color-9 { background-color: #004d40; }
+.bg-color-10 { background-color: #1b5e20; }
+.bg-color-start { background-color: #33691e; }
+.bg-color-12 { background-color: #827717; }
+.bg-color-13 { background-color: #f57f17; }
+.bg-color-for { background-color: #ff6f00; }
+.bg-color-16 { background-color: #bf360c; }
+.bg-color-17 { background-color: #3e2723; }
+.bg-color-18 { background-color: #212121; }
+.bg-color-19 { background-color: #263238; }

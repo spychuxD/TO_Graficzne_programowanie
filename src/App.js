@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react"; //useRef
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import { FaCog } from "react-icons/fa";
-
 import ForBlock from "./blocks/ForBlock";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -13,6 +12,8 @@ import { beginBlock, endBlock, forBlock } from "./blockTypes";
 import BeginBlock from "./blocks/BeginBlock";
 import EndBlock from "./blocks/EndBlock";
 import Palette from "./blocks/Palette";
+import Header from "./components/header";
+import { MdHelp } from "react-icons/md";
 
 const DATA = [
   {
@@ -43,23 +44,6 @@ const DATA = [
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-  const [isHoverPython, setIsHoverPython] = useState(false);
-  const [isHoverCpp, setIsHoverCpp] = useState(false);
-  const [isHoverJavascript, setIsHoverJavascript] = useState(false);
-  const [isLanguage, setIsLanguage] = useState("cpp");
-
-  const defaultStyle = {
-    backgroundColor: "transparent",
-    color: "#fff",
-    margin: "10px",
-  };
-
-  const hoverStyle = {
-    backgroundColor: "#ffffff80", // Ciemniejszy odcień dla efektu hover
-    color: "#fff",
-    margin: "10px",
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,13 +53,6 @@ function App() {
     setOpen(false);
   };
 
-
-  
-  const handleLanguageClick = (language) => {
-    setIsLanguage(language);
-  };
-
-  
   ////////////////////////////////////
   const [stores, setStores] = useState(DATA);
 
@@ -134,124 +111,66 @@ function App() {
   };
   ////////////////////////////////////
 
-  const renderBlocks = (store) =>{
+  const renderBlocks = (store) => {
     switch (store.type) {
       case beginBlock:
-        return <BeginBlock {...store} setBlocksState={setStores}/>
-      case  forBlock:
-        return <ForBlock {...store} setBlocksState={setStores}/>
+        return <BeginBlock {...store} setBlocksState={setStores} />;
+      case forBlock:
+        return <ForBlock {...store} setBlocksState={setStores} />;
       case endBlock:
-        return <EndBlock {...store} setBlocksState={setStores}/>
+        return <EndBlock {...store} setBlocksState={setStores} />;
       default:
         break;
     }
-  }
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <Button
-          variant="text"
-          style={
-            isLanguage === "python"
-              ? hoverStyle
-              : isHoverPython
-              ? hoverStyle
-              : defaultStyle
-          }
-          onClick={() => handleLanguageClick("python")}
-          onMouseEnter={() => setIsHoverPython(true)}
-          onMouseLeave={() => setIsHoverPython(false)}
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/logo_python.png`}
-            alt="Logo Python"
-            className="App-logo"
-          />
-        </Button>
-        <Button
-          variant="text"
-          style={
-            isLanguage === "cpp"
-              ? hoverStyle
-              : isHoverCpp
-              ? hoverStyle
-              : defaultStyle
-          }
-          onClick={() => handleLanguageClick("cpp")}
-          onMouseEnter={() => setIsHoverCpp(true)}
-          onMouseLeave={() => setIsHoverCpp(false)}
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/logo_cpp.png`}
-            alt="Logo Cpp"
-            className="App-logo"
-          />
-        </Button>
-        <Button
-          variant="text"
-          style={
-            isLanguage === "javascript"
-              ? hoverStyle
-              : isHoverJavascript
-              ? hoverStyle
-              : defaultStyle
-          }
-          onClick={() => handleLanguageClick("javascript")}
-          onMouseEnter={() => setIsHoverJavascript(true)}
-          onMouseLeave={() => setIsHoverJavascript(false)}
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/logo_javascript.png`}
-            alt="Logo JavaScript"
-            className="App-logo"
-          />
-        </Button>
+        <Header></Header>
       </header>
       <main className="main-content">
-        <div className="sectionTight">
-          <Palette setBlocksState={setStores} blocksState={stores}/>
+        <div className="sectionLeft">
+          <div className="flex-row align-center justify-center m-8">
+            <MdHelp color="#1976d2" size={24} className="m-8"></MdHelp>
+            <div className="text-center text-small text-bold">
+              Kliknij na blok, aby go dodać
+            </div>
+          </div>
+          <Palette setBlocksState={setStores} blocksState={stores} />
         </div>
 
-        <div className="sectionWide">
-        <DragDropContext onDragEnd={handleDragAndDrop}>
-          <Droppable droppableId="ROOT" type="group">
-            {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                {stores.map((store, index) => (
-                  <Draggable
-                    draggableId={store.id}
-                    index={index}
-                    key={store.id}
-                  >
-                    {(provided) => (
-                      <div
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                      >
-                        {
-                          renderBlocks(store)
-                        }
-                        
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                  
+        <div className="sectionMid">
+          <DragDropContext onDragEnd={handleDragAndDrop}>
+            <Droppable droppableId="ROOT" type="group">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {stores.map((store, index) => (
+                    <Draggable
+                      draggableId={store.id}
+                      index={index}
+                      key={store.id}
+                    >
+                      {(provided) => (
+                        <div
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          {renderBlocks(store)}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
 
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
-        <div className="sectionTight">
-        
-        <div className="layout__wrapper">
-     
-    </div>
-
+        <div className="sectionRight">
+          <div className="layout__wrapper"></div>
         </div>
       </main>
       <footer className="footer">
@@ -259,9 +178,6 @@ function App() {
           <Button
             variant="text"
             onClick={handleClickOpen}
-            style={isHover ? hoverStyle : defaultStyle}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
             startIcon={<FaCog className="settings-icon" />}
           >
             <span className="text-bold">USTAWIENIA</span>
