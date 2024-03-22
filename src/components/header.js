@@ -93,7 +93,7 @@ function Header() {
           className="App-logo"
         />
       </Button>
-      <div style={{ position: "fixed", right: "0px" }}>
+      <div style={{ position: "fixed", right: "50px" }}>
         <Button
           startIcon={<MdOutlinePlaylistPlay />}
         >

@@ -1,19 +1,14 @@
 import React, { useState } from "react"; //useRef
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
-import { FaCog } from "react-icons/fa";
 import ForBlock from "./blocks/ForBlock";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 import { beginBlock, endBlock, forBlock } from "./blockTypes";
 import BeginBlock from "./blocks/BeginBlock";
 import EndBlock from "./blocks/EndBlock";
-import Palette from "./blocks/Palette";
+
 import Header from "./components/header";
-import { MdHelp } from "react-icons/md";
+import Footer from "./components/footer";
+import SectionLeft from "./components/sectionLeft";
 
 const DATA = [
   {
@@ -43,17 +38,6 @@ const DATA = [
 ];
 
 function App() {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  ////////////////////////////////////
   const [stores, setStores] = useState(DATA);
 
   const handleDragAndDrop = (results) => {
@@ -127,18 +111,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Header></Header>
+        <Header/>
       </header>
       <main className="main-content">
-        <div className="sectionLeft">
-          <div className="flex-row align-center justify-center m-8">
-            <MdHelp color="#1976d2" size={24} className="m-8"></MdHelp>
-            <div className="text-center text-small text-bold">
-              Kliknij na blok, aby go dodać
-            </div>
-          </div>
-          <Palette setBlocksState={setStores} blocksState={stores} />
-        </div>
+        <SectionLeft setStores={setStores} stores={stores} ></SectionLeft>
 
         <div className="sectionMid">
           <DragDropContext onDragEnd={handleDragAndDrop}>
@@ -173,32 +149,7 @@ function App() {
           <div className="layout__wrapper"></div>
         </div>
       </main>
-      <footer className="footer">
-        <div>
-          <Button
-            variant="text"
-            onClick={handleClickOpen}
-            startIcon={<FaCog className="settings-icon" />}
-          >
-            <span className="text-bold">USTAWIENIA</span>
-          </Button>
-        </div>
-        <div className="text-center text-bold">
-          © 2024 Gajda, Gardian i Spychalski
-        </div>
-      </footer>
-
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{"Ustawienia"}</DialogTitle>
-        <DialogContent>
-          {/* Tutaj możesz dodać różne opcje ustawień */}
-          <div>Tutaj znajdą się ustawienia...</div>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Anuluj</Button>
-          <Button onClick={handleClose}>Zapisz</Button>
-        </DialogActions>
-      </Dialog>
+      <Footer/>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  height: 100vh; /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
+  height: 100%; /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
   background-image: url('./background.png'); /* Dostosuj ścieżkę do swojej grafiki */
   background-size: cover; /* Zapewnia, że tło pokryje całą dostępną przestrzeń */
   background-position: center; /* Centruje grafikę */
@@ -12,6 +12,8 @@
 .App-header {
   min-height: 1vh;
   width: 100%;
+  position: fixed;
+  top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -49,12 +51,9 @@
 
 .sectionLeft {
   width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.4); /* Przykładowy półprzezroczysty biały tło */
+  background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
   padding: 0px 20px 20px 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 15px;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -66,12 +65,9 @@
 
 .sectionRight {
   width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.4); /* Przykładowy półprzezroczysty biały tło */
+  background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
   padding: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 15px;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -82,10 +78,10 @@
 
 .sectionMid {
   width: 50%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.4); /* Przykładowy półprzezroczysty biały tło */
+  background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
   padding: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -184,23 +180,59 @@
 .control-block {
   display: flex;
   border-radius: 10px;
-  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  -webkit-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
+  box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+.for-shadow {
+  -webkit-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
+  box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
 }
 
 .control-block-grid {
   display: grid;
   grid-template-columns: auto auto; /* Dostosuj do swoich potrzeb */
   grid-gap: 5px;
-  padding: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+.workbench {
+  border-radius: 10px;
+  background-color: red;
+  cursor: pointer;
+}
+
+.list-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: bold;
+  padding: 6px;
+  margin: 8px;
+  border-bottom: 1px solid #1976d2;
+  border-top: 1px solid #1976d2;
+    -webkit-box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
+  box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
 }
 
 
+/* #1976d2 */
 /* =============Do wielorazowego użytku (np className="text-center text-bold") ============ */
 .text-center {
   text-align: center;
@@ -250,27 +282,35 @@
   width: 100%;
 }
 
+.border-r-10 {
+  border-radius: 10px;
+}
+
 div {
   color: #1565c0
 }
 
 
-/* ============== Kolory pod bloki ================ */
-.bg-color-end { background-color: #b71c1c; }
-.bg-color-2 { background-color: #880e4f; }
-.bg-color-3 { background-color: #4a148c; }
-.bg-color-4 { background-color: #311b92; }
-.bg-color-5 { background-color: #1a237e; }
-.bg-color-6 { background-color: #0d47a1; }
-.bg-color-7 { background-color: #01579b; }
-.bg-color-8 { background-color: #006064; }
+/* ============== Kolory pod bloki ================ trzeba sobie przeobić wczesniej hex ma rgba i wrzucic do funkcji rgba() */
+.bg-color-1 { background-color: #1a237e; }
+.bg-color-3 { background-color: #0d47a1; }
+.bg-color-5 { background-color: #01579b; }
+.bg-color-7 { background-color: #006064; }
 .bg-color-9 { background-color: #004d40; }
-.bg-color-10 { background-color: #1b5e20; }
-.bg-color-start { background-color: #33691e; }
-.bg-color-12 { background-color: #827717; }
-.bg-color-13 { background-color: #f57f17; }
-.bg-color-for { background-color: #ff6f00; }
-.bg-color-16 { background-color: #bf360c; }
-.bg-color-17 { background-color: #3e2723; }
-.bg-color-18 { background-color: #212121; }
-.bg-color-19 { background-color: #263238; }
+.bg-color-start { background-color: #1b5e20; }
+.bg-color-13 { background-color: #33691e; }
+.bg-color-15 { background-color: #827717; }
+.bg-color-for { background-color: #f57f17; }
+.bg-color-end { background-color: #bf360c; }
+
+/* ======== Odcienie kolorów wyzej (nieparzysta z parzystą, np. 1 i 2 (2 to odcień 1) i anlogicznie reszta) */
+.bg-color-2 { background-color: #304ffe; }
+.bg-color-4 { background-color: #2962ff; }
+.bg-color-6 { background-color: #0091ea; }
+.bg-color-8 { background-color: #00b8d4; }
+.bg-color-10 { background-color: #00bfa5; }
+.bg-color-12 { background-color: #00c853; }
+.bg-color-14 { background-color: #64dd17; }
+.bg-color-16 { background-color: #aeea00; }
+.bg-color-18 { background-color: #ffd600; }
+.bg-color-20 { background-color: #dd2c00; }
