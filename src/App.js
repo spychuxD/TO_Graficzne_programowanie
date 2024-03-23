@@ -18,6 +18,7 @@ import SectionLeft from "./components/sectionLeft";
 import ArithmeticBlocks from "./blocks/ArithmeticBlocks/ArithmeticBlocks";
 import IfElseBlock from "./blocks/IfElseBlock";
 import { ArithmeticOperations } from "./blocks/ArithmeticBlocks/ArithmeticOperations";
+import ClassBlock from "./blocks/classBlock";
 
 const DATA = [
   {
@@ -314,7 +315,9 @@ function App() {
           </DragDropContext>
         </div>
         <div className="sectionRight">
-          <div className="layout__wrapper"></div>
+          <div className="layout__wrapper">
+            <ClassBlock/>
+          </div>
         </div>
       </main>
       <Footer />
