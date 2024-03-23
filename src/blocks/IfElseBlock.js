@@ -47,38 +47,46 @@ function IfElseBlock({
   return (
     <Fragment>
       {id !== undefined ? (
-        <div className="control-block bg-color-if">
+        <div
+          className="control-block bg-color-if"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <Droppable droppableId={id + "ifCondition"}>
             {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                <div style={{ display: "flex", gap: 5 }}>
-                  <div className="text-bold text-white">if</div>
-                  <div
-                    style={{
-                      backgroundColor: "blue",
-                      width: "100%",
-                      minHeight: 100,
-                    }}
-                  >
-                    {condition.map((item, index) => (
-                      <Draggable
-                        draggableId={item.id}
-                        index={index}
-                        key={item.id}
-                      >
-                        {(provided) => (
-                          <div
-                            {...provided.dragHandleProps}
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                          >
-                            {inCondition(item)}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  width: "100%",
+                  minHeight: 100,
+                }}
+              >
+                <div className="text-bold text-white">if</div>
+                <div
+                  style={{
+                    backgroundColor: "blue",
+                    width: "100%",
+                    minHeight: 100,
+                  }}
+                >
+                  {condition.map((item, index) => (
+                    <Draggable
+                      draggableId={item.id}
+                      index={index}
+                      key={item.id}
+                    >
+                      {(provided) => (
+                        <div
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          {inCondition(item)}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
                 </div>
               </div>
             )}
@@ -86,81 +94,67 @@ function IfElseBlock({
           <Droppable droppableId={id}>
             {(provided) => (
               <div
-                //style={forBlockStyles}
+                style={{
+                  backgroundColor: "red",
+                  width: "100%",
+                  minHeight: 100,
+                }}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                <div style={{ display: "flex", gap: 5 }}>
-                  <div
-                    //className="items-container"
-                    style={{
-                      backgroundColor: "red",
-                      width: "100%",
-                      minHeight: 100,
-                    }}
-                  >
-                    {items.map((item, index) => (
-                      <Draggable
-                        //isDragDisabled={true}
-                        draggableId={item.id}
-                        index={index}
-                        key={item.id}
+                {items.map((item, index) => (
+                  <Draggable draggableId={item.id} index={index} key={item.id}>
+                    {(provided) => (
+                      <div
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
                       >
-                        {(provided) => (
-                          <div
-                            {...provided.dragHandleProps}
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                          >
-                            {inBody(item)}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                </div>
+                        {inBody(item)}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
           <Droppable droppableId={id + "elseBody"}>
             {(provided) => (
               <div
-                //style={forBlockStyles}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
+                style={{
+                  width: "100%",
+                  minHeight: 100,
+                }}
               >
-                <div style={{ display: "flex", gap: 5 }}>
-                  <div className="text-bold text-white">else</div>
-
-                  <div
-                    //className="items-container"
-                    style={{
-                      backgroundColor: "yellow",
-                      width: "100%",
-                      minHeight: 100,
-                    }}
-                  >
-                    {elseItems.map((item, index) => (
-                      <Draggable
-                        //isDragDisabled={true}
-                        draggableId={item.id}
-                        index={index}
-                        key={item.id}
-                      >
-                        {(provided) => (
-                          <div
-                            {...provided.dragHandleProps}
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                          >
-                            {inBody(item)}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
+                <div className="text-bold text-white">else</div>
+                <div
+                  style={{
+                    backgroundColor: "yellow",
+                    width: "100%",
+                    minHeight: 100,
+                  }}
+                >
+                  {elseItems.map((item, index) => (
+                    <Draggable
+                      draggableId={item.id}
+                      index={index}
+                      key={item.id}
+                    >
+                      {(provided) => (
+                        <div
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          {inBody(item)}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
                 </div>
               </div>
             )}
@@ -169,25 +163,48 @@ function IfElseBlock({
           <DeleteBlock id={id} setBlocksState={setBlocksState} />
         </div>
       ) : (
-        <div  className="control-block bg-color-if" onClick={onAddElement}>
-          {/* <div style={{ display: "flex", gap: 5 }}>
-            <div className="text-bold text-white">for</div>
-            <select
-              disabled
-              className="block-input"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option value="">Wybierz opcję</option>
-            </select>
-            <div className="text-bold text-white">from</div>
-            <input disabled className="block-input" type="number" value={0} />
-            <div className="text-bold text-white">to</div>
-            <input disabled className="block-input" type="number" value={10} />
-            <div className="text-bold text-white">at step</div>
-            <input disabled className="block-input" type="number" value={1} />
+        <div
+          className="control-block bg-color-if"
+          style={{ display: "flex", flexDirection: "column" }}
+          onClick={onAddElement}
+        >
+          <div
+            style={{
+              width: "100%",
+              minHeight: 100,
+            }}
+          >
+            <div className="text-bold text-white">if</div>
+            <div
+              style={{
+                backgroundColor: "blue",
+                width: "100%",
+                minHeight: 100,
+              }}
+            ></div>
           </div>
-          <div className="items-container"></div> */}
+          <div
+            style={{
+              backgroundColor: "red",
+              width: "100%",
+              minHeight: 100,
+            }}
+          ></div>
+          <div
+            style={{
+              width: "100%",
+              minHeight: 100,
+            }}
+          >
+            <div className="text-bold text-white">else</div>
+            <div
+              style={{
+                backgroundColor: "yellow",
+                width: "100%",
+                minHeight: 100,
+              }}
+            ></div>
+          </div>
         </div>
       )}
     </Fragment>

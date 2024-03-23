@@ -187,39 +187,50 @@ function App() {
     )
       return;
 
-    let useItems = 0;
+    // let useItems = 1;
+    // let useItems2 = 1;
+    let SourceArraySelection = 1;
+    let DestinationArraySelection = 1;
+    let sourceItems, destinationItems;
+
     if (
-      destination.droppableId.includes("ifCondition") &&
-      source.droppableId.includes("ifCondition")
+      source.droppableId.includes("ifCondition") &&
+      destination.droppableId.includes("ifCondition")
     ) {
-      useItems = 1;
+      SourceArraySelection = 0;
+      DestinationArraySelection = 0;
       if (stores[storeDestinationIndex].condition.length === 1) {
         return;
       }
-    }
-    if (
-      destination.droppableId.includes("elseBody") &&
-      source.droppableId.includes("elseBody")
+      sourceItems = stores[storeSourceIndex].condition;
+      destinationItems = stores[storeDestinationIndex].condition;
+    } else if (
+      source.droppableId.includes("elseBody") &&
+      destination.droppableId.includes("elseBody")
     ) {
-      useItems = 2;
-    }
-    let sourceItems, destinationItems;
-
-    switch (useItems) {
-      case 0:
-        sourceItems = stores[storeSourceIndex].items;
-        destinationItems = stores[storeDestinationIndex].items;
-        break;
-      case 1:
-        sourceItems = stores[storeSourceIndex].condition;
-        destinationItems = stores[storeDestinationIndex].condition;
-        break;
-      case 2:
-        sourceItems = stores[storeSourceIndex].elseItems;
-        destinationItems = stores[storeDestinationIndex].elseItems;
-        break;
-      default:
-        break;
+      SourceArraySelection = 2;
+      DestinationArraySelection = 2;
+      sourceItems = stores[storeSourceIndex].elseItems;
+      destinationItems = stores[storeDestinationIndex].elseItems;
+    } else if (
+      source.droppableId.includes("elseBody") &&
+      !destination.droppableId.includes("elseBody")
+    ) {
+      SourceArraySelection = 2;
+      DestinationArraySelection = 1;
+      sourceItems = stores[storeSourceIndex].elseItems;
+      destinationItems = stores[storeDestinationIndex].items;
+    } else if (
+      !source.droppableId.includes("elseBody") &&
+      destination.droppableId.includes("elseBody")
+    ) {
+      SourceArraySelection = 1;
+      DestinationArraySelection = 2;
+      sourceItems = stores[storeSourceIndex].items;
+      destinationItems = stores[storeDestinationIndex].elseItems;
+    } else {
+      sourceItems = stores[storeSourceIndex].items;
+      destinationItems = stores[storeDestinationIndex].items;
     }
 
     const [deletedItem] = sourceItems.splice(itemSourceIndex, 1);
@@ -229,14 +240,20 @@ function App() {
 
     newStores[storeSourceIndex] = {
       ...stores[storeSourceIndex],
-      [useItems === 0 ? "items" : useItems === 1 ? "condition" : "elseItems"]:
-        sourceItems,
+      [SourceArraySelection === 0
+        ? "condition"
+        : SourceArraySelection === 1
+        ? "items"
+        : "elseItems"]: sourceItems,
     };
 
     newStores[storeDestinationIndex] = {
       ...stores[storeDestinationIndex],
-      [useItems === 0 ? "items" : useItems === 1 ? "condition" : "elseItems"]:
-        destinationItems,
+      [DestinationArraySelection === 0
+        ? "condition"
+        : DestinationArraySelection === 1
+        ? "items"
+        : "elseItems"]: destinationItems,
     };
 
     setStores(newStores);

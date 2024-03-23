@@ -12,6 +12,7 @@ import {
   MdOutlineControlPoint,
   MdCalculate,
 } from "react-icons/md";
+import IfElseBlock from "./IfElseBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   return (
@@ -24,6 +25,16 @@ export default function Palette({ blocksState, setBlocksState }) {
         <BeginBlock blocksState={blocksState} setBlocksState={setBlocksState} />
         <EndBlock blocksState={blocksState} setBlocksState={setBlocksState} />
         <ForBlock blocksState={blocksState} setBlocksState={setBlocksState} />
+        <IfElseBlock
+          blocksState={blocksState}
+          setBlocksState={setBlocksState}
+        />
+      </div>
+      <div className="list-header">
+        <MdCalculate size={24} className="mr-8" />
+        <div>Bloki arytmetyczne</div>
+      </div>
+      <div className="blocks-container">
         {Object.keys(ArithmeticOperations).map((arithmeticOperation, index) => (
           <ArithmeticBlocks
             key={index}
@@ -32,10 +43,6 @@ export default function Palette({ blocksState, setBlocksState }) {
             name={ArithmeticOperations[arithmeticOperation]}
           />
         ))}
-      </div>
-      <div className="list-header">
-        <MdCalculate size={24} className="mr-8" />
-        <div>Bloki arytmetyczne</div>
       </div>
       <div className="list-header flex-row align-center justify-between">
         <div className="flex-row align-center">

@@ -53,10 +53,13 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
           )}
         </Draggable>
       ) : (
-        <div className="control-block bg-color-arithmetic" onClick={() => onAddElement(name)}>
-          <input className="block-input" type="number" />
+        <div
+          className="control-block bg-color-arithmetic"
+          onClick={() => onAddElement(name)}
+        >
+          <input disabled className="block-input" type="number" />
           {arithemticType(name)}
-          <input className="block-input" type="number" />
+          <input disabled className="block-input" type="number" />
         </div>
       )}
     </Fragment>
