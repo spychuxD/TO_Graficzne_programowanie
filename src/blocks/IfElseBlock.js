@@ -71,6 +71,11 @@ function IfElseBlock({
                           {...provided.dragHandleProps}
                           {...provided.draggableProps}
                           ref={provided.innerRef}
+                          style={{
+                            ...provided.draggableProps.style,
+                            left: "auto !important",
+                            top: "auto !important",
+                          }}
                         >
                           {inCondition(item)}
                         </div>
@@ -96,6 +101,11 @@ function IfElseBlock({
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
                         ref={provided.innerRef}
+                        style={{
+                          ...provided.draggableProps.style,
+                          left: "auto !important",
+                          top: "auto !important",
+                        }}
                       >
                         {inBody(item)}
                       </div>
@@ -126,6 +136,11 @@ function IfElseBlock({
                           {...provided.dragHandleProps}
                           {...provided.draggableProps}
                           ref={provided.innerRef}
+                          style={{
+                            ...provided.draggableProps.style,
+                            left: "auto !important",
+                            top: "auto !important",
+                          }}
                         >
                           {inBody(item)}
                         </div>

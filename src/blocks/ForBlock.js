@@ -47,32 +47,44 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
                   <div className="text-bold text-white">AT STEP</div>
                   <input className="block-input" type="number" />
                 </div>
+                <div className="items-container">
+                  {items.map((item, index) => (
+                    <Draggable
+                      draggableId={item.id}
+                      index={index}
+                      key={item.id}
+                    >
+                      {(provided) => (
+                        <div
+                          className="item-container"
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            ...provided.draggableProps.style,
+                            left: "auto !important",
+                            top: "auto !important",
+                          }}
+                        >
+                          <div className="workbench mb-15">{item.name}</div>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
                 <div>
                   <DeleteBlock id={id} setBlocksState={setBlocksState} />
                 </div>
-              </div>
-              <div className="items-container">
-                {items.map((item, index) => (
-                  <Draggable draggableId={item.id} index={index} key={item.id}>
-                    {(provided) => (
-                      <div
-                        className="item-container"
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                      >
-                        <div className="workbench mb-15">{item.name}</div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
               </div>
             </div>
           )}
         </Droppable>
       ) : (
-        <div className="control-block-grid-2 bg-color-for for-shadow" onClick={onAddElement}>
+        <div
+          className="control-block-grid-2 bg-color-for for-shadow"
+          onClick={onAddElement}
+        >
           <div className="text-bold text-white">FOR</div>
           <select
             disabled

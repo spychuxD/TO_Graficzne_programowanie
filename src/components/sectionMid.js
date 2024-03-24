@@ -54,7 +54,7 @@ function a11yProps(index) {
 }
 
 function SectionMid({ stores, setStores, tabs, setTabs }) {
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -210,40 +210,53 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
             aria-label="basic tabs example"
           >
             {tabs.map((item, index) => (
-                <Tab label={`${item} ${index}`} {...a11yProps(index)} />
+              <Tab
+                key={index}
+                label={`${item} ${index}`}
+                {...a11yProps(index)}
+              />
             ))}
           </Tabs>
         </Box>
         {tabs.map((item, index) => (
-        <CustomTabPanel value={value} index={index}>
-          {item === 'Sekcja' ? <DragDropContext onDragEnd={handleDragAndDrop}>
-            <Droppable droppableId="ROOT" type="group">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {stores.map((store, index) => (
-                    <Draggable 
-                      draggableId={store.id}
-                      index={index}
-                      key={store.id}
-                    >
-                      {(provided) => (
-                        <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
+          <CustomTabPanel value={value} index={index}>
+            {item === "Sekcja" ? (
+              <DragDropContext onDragEnd={handleDragAndDrop}>
+                <Droppable droppableId="ROOT" type="group">
+                  {(provided) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                      {stores.map((store, index) => (
+                        <Draggable
+                          draggableId={store.id}
+                          index={index}
+                          key={store.id}
                         >
-                          {renderBlocks(store)}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                          {(provided) => (
+                            <div
+                              {...provided.dragHandleProps}
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                              style={{
+                                ...provided.draggableProps.style,
+                                left: "auto !important",
+                                top: "auto !important",
+                              }}
+                            >
+                              {renderBlocks(store)}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext> : <ClassBlock/>}
-        </CustomTabPanel>
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : (
+              <ClassBlock />
+            )}
+          </CustomTabPanel>
         ))}
       </Box>
     </div>
@@ -251,4 +264,3 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
 }
 
 export default SectionMid;
-
