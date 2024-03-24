@@ -1,10 +1,7 @@
-import { Droppable, Draggable, DragDropContext } from "react-beautiful-dnd";
-import "../App.css";
 
-import { beginBlock } from "../blockTypes";
-import { Fragment, useState } from "react";
+import "../App.css";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "./DeleteBlock";
 import VariableBlock from "./VariableBlock";
 import MethodBlock from "./MethodBlock";
 
