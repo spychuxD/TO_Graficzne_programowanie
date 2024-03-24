@@ -22,7 +22,7 @@ function EndBlock({ name, items, id, setBlocksState }) {
         <Droppable droppableId={id}>
           {(provided) => (
             <div
-              className="control-block bg-color-end"
+              className="control-block bg-color-end mb-15"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >

@@ -20,7 +20,7 @@ function BeginBlock({ name, items, id, blocksState, setBlocksState }) {
         <Droppable droppableId={id}>
           {(provided) => (
             <div
-              className="control-block bg-color-start"
+              className="control-block bg-color-start mb-15"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >

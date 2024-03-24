@@ -1,12 +1,12 @@
 .App {
   text-align: center;
-  height: 100%; /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
+  height: 100vh; /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
   background-image: url('./background.png'); /* Dostosuj ścieżkę do swojej grafiki */
   background-size: cover; /* Zapewnia, że tło pokryje całą dostępną przestrzeń */
   background-position: center; /* Centruje grafikę */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  background-color: rgb(0,0,0);
 }
 
 .App-header {
@@ -45,16 +45,17 @@
 }
 
 .main-content {
-  padding-top: 100px;
   display: flex;
   justify-content: space-around; /* Rozkłada trzy sekcje równomiernie */
   height: 100%; /* Zapewnia, że główna treść zajmie całą dostępną przestrzeń */
+  padding-top: 60px;
+  align-items: center;
 }
 
 .sectionLeft {
-  width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  max-width: 30%;
   background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
-  padding: 0px 20px 20px 20px;
+  padding: 10px;
   margin: 15px;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -62,13 +63,15 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
+  overflow-y: auto;
+  height: 720px;
 }
 
 
 .sectionRight {
-  width: 25%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  width: 20%; /* Przydziela każdej sekcji 30% szerokości kontenera */
   background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
-  padding: 20px;
+  padding: 10px;
   margin: 15px;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -76,14 +79,14 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
+  overflow-y: auto;
+  height: 720px;
 }
 
 .sectionMid {
-  width: 50%; /* Przydziela każdej sekcji 30% szerokości kontenera */
+  width: 40%; /* Przydziela każdej sekcji 30% szerokości kontenera */
   background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
   padding: 20px;
-  margin-top: 15px;
-  margin-bottom: 15px;
   -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
@@ -92,6 +95,8 @@
   border-radius: 10px;
   display: flex;
   justify-content: center;
+  overflow-y: auto;
+  height: 720px;
 }
 
 .App-logo {
@@ -159,24 +164,20 @@
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
 }
 
 
 .block-input {
-  width: 100%;
   box-sizing: border-box;
   border-radius: 30px;
   padding: 5px 10px 5px 10px;
-  width: 80%;
 }
 
 .block-select {
-  width: 100%;
   box-sizing: border-box;
   border-radius: 30px;
   padding: 5px 10px 5px 10px;
-  width: 80%;
 }
 
 .control-block {
@@ -194,6 +195,18 @@
   cursor: pointer;
 }
 
+.control-block-without-shadow {
+  display: flex;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
 .for-shadow {
   -webkit-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
@@ -202,7 +215,21 @@
 
 .control-block-grid {
   display: grid;
-  grid-template-columns: auto auto; /* Dostosuj do swoich potrzeb */
+  grid-template-columns: auto auto auto auto; /* Dostosuj do swoich potrzeb */
+  grid-gap: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.control-block-grid-2 {
+  display: grid;
+  grid-template-columns: auto auto ; /* Dostosuj do swoich potrzeb */
   grid-gap: 5px;
   padding-left: 30px;
   padding-right: 30px;
@@ -231,6 +258,11 @@
     -webkit-box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
   box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
+}
+
+.insideBox {
+  width: 30px;
+  min-height: 10px;
 }
 
 
@@ -276,6 +308,14 @@
   margin-right: 8px;
 }
 
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.p-8 {
+  padding: 8px;
+}
+
 .text-small {
   font-size: small;
 }
@@ -283,8 +323,21 @@
 .w-full {
   width: 100%;
 }
+.w-half {
+  width: 50%;
+}
+.w-30 {
+  width: 30%;
+}
+
+.h-50px {
+  min-height: 50px;
+}
 
 .border-r-10 {
+  border-radius: 10px;
+}
+.b-r-10 {
   border-radius: 10px;
 }
 
@@ -294,25 +347,45 @@ div {
 
 
 /* ============== Kolory pod bloki ================ trzeba sobie przeobić wczesniej hex ma rgba i wrzucic do funkcji rgba() */
-.bg-color-1 { background-color: #1a237e; }
+.bg-color-class { background-color: #1a237e; }
 .bg-color-3 { background-color: #0d47a1; }
 .bg-color-5 { background-color: #01579b; }
-.bg-color-7 { background-color: #006064; }
+.bg-color-if { background-color: #006064; }
 .bg-color-9 { background-color: #004d40; }
 .bg-color-start { background-color: #1b5e20; }
 .bg-color-13 { background-color: #33691e; }
-.bg-color-if { background-color: #827717; }
+.bg-color-15 { background-color: #827717; }
 .bg-color-for { background-color: #f57f17; }
+.bg-color-19 { background-color: #ff6f00; }
 .bg-color-end { background-color: #bf360c; }
 
 /* ======== Odcienie kolorów wyzej (nieparzysta z parzystą, np. 1 i 2 (2 to odcień 1) i anlogicznie reszta) */
-.bg-color-arithmetic { background-color: #304ffe; }
+.bg-color-classButton { background-color: #304ffe; }
 .bg-color-4 { background-color: #2962ff; }
 .bg-color-6 { background-color: #0091ea; }
-.bg-color-8 { background-color: #00b8d4; }
-.bg-color-10 { background-color: #00bfa5; }
-.bg-color-12 { background-color: #00c853; }
+.bg-color-if-condition { background-color: #00b8d4; }
+.bg-color-if-body { background-color: #00bfa5; }
+.bg-color-else { background-color: #00c853; }
 .bg-color-14 { background-color: #64dd17; }
 .bg-color-16 { background-color: #aeea00; }
 .bg-color-18 { background-color: #ffd600; }
-.bg-color-20 { background-color: #dd2c00; }
+.bg-color-arithmetic { background-color: #ffab00; }
+.bg-color-22 { background-color: #dd2c00; }
+
+
+/* ============================== Animacje ======================= */
+.slideDown {
+  animation: slideDownAnimation 0.5s ease-out forwards;
+}
+
+@keyframes slideDownAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

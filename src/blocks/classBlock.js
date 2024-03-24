@@ -68,12 +68,12 @@ function ClassBlock({ name, items, id, blocksState, setBlocksState }) {
     setData(newData);
   };
   return (
-    <div className="border-r-10 bg-color-3 blocks-container">
+    <div className="border-r-10 bg-color-class blocks-container">
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
         <div className="text-bold text-white">Klasa</div>
         <input className="block-input" type="text" placeholder="nazwa klasy" />
       </div>
-      <div className="border-r-10 blocks-container bg-color-4 w-full align-center justify-center">
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center">
         {data.attributesItems.map((item, index) => (
           <div className="item-container">
             <VariableBlock {...item} data={data} setData={setData} />
@@ -87,7 +87,7 @@ function ClassBlock({ name, items, id, blocksState, setBlocksState }) {
           Dodaj nowe pole klasy
         </button>
       </div>
-      <div className="border-r-10 blocks-container bg-color-4 w-full align-center justify-center">
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center">
         {data.methodsItems.map((item, index) => (
           <div className="item-container w-full">
             <MethodBlock {...item} data={data} setData={setData} />

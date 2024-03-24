@@ -48,7 +48,7 @@ function IfElseBlock({
     <Fragment>
       {id !== undefined ? (
         <div
-          className="control-block bg-color-if"
+          className="control-block bg-color-if mb-15"
           style={{ display: "flex", flexDirection: "column" }}
         >
           <Droppable droppableId={id + "ifCondition"}>
@@ -56,19 +56,10 @@ function IfElseBlock({
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={{
-                  width: "100%",
-                  minHeight: 100,
-                }}
+                className="w-full"
               >
                 <div className="text-bold text-white">if</div>
-                <div
-                  style={{
-                    backgroundColor: "blue",
-                    width: "100%",
-                    minHeight: 100,
-                  }}
-                >
+                <div className="w-full bg-color-if-condition p-8 h-50px b-r-10">
                   {condition.map((item, index) => (
                     <Draggable
                       draggableId={item.id}
@@ -94,11 +85,7 @@ function IfElseBlock({
           <Droppable droppableId={id}>
             {(provided) => (
               <div
-                style={{
-                  backgroundColor: "red",
-                  width: "100%",
-                  minHeight: 100,
-                }}
+                className="w-full bg-color-if-body p-8 m-8 h-50px b-r-10"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -124,19 +111,10 @@ function IfElseBlock({
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={{
-                  width: "100%",
-                  minHeight: 100,
-                }}
+                className="w-full"
               >
                 <div className="text-bold text-white">else</div>
-                <div
-                  style={{
-                    backgroundColor: "yellow",
-                    width: "100%",
-                    minHeight: 100,
-                  }}
-                >
+                <div className="w-full bg-color-else p-8 h-50px b-r-10">
                   {elseItems.map((item, index) => (
                     <Draggable
                       draggableId={item.id}
@@ -163,47 +141,29 @@ function IfElseBlock({
           <DeleteBlock id={id} setBlocksState={setBlocksState} />
         </div>
       ) : (
-        <div
-          className="control-block bg-color-if"
-          style={{ display: "flex", flexDirection: "column" }}
-          onClick={onAddElement}
-        >
-          <div
-            style={{
-              width: "100%",
-              minHeight: 100,
-            }}
-          >
-            <div className="text-bold text-white">if</div>
-            <div
-              style={{
-                backgroundColor: "blue",
-                width: "100%",
-                minHeight: 100,
-              }}
-            ></div>
+        <div className="control-block bg-color-if" onClick={onAddElement}>
+          <div>
+            <div className="flex-row">
+              <div className="text-bold text-white">if</div>
+              <div className="flex-row">
+                <div className="text-bold text-white">{"("}</div>
+                <div className="insideBox bg-color-if-condition m-8" />
+                <div className="text-bold text-white">{")"}</div>
+              </div>
+            </div>
+            <div className="flex-row">
+              <div className="text-bold text-white">{"{"}</div>
+              <div className="insideBox bg-color-if-body m-8" />
+              <div className="text-bold text-white">{"}"}</div>
+            </div>
           </div>
-          <div
-            style={{
-              backgroundColor: "red",
-              width: "100%",
-              minHeight: 100,
-            }}
-          ></div>
-          <div
-            style={{
-              width: "100%",
-              minHeight: 100,
-            }}
-          >
+          <div>
             <div className="text-bold text-white">else</div>
-            <div
-              style={{
-                backgroundColor: "yellow",
-                width: "100%",
-                minHeight: 100,
-              }}
-            ></div>
+            <div className="flex-row">
+              <div className="text-bold text-white">{"{"}</div>
+              <div className="insideBox bg-color-else m-8" />
+              <div className="text-bold text-white">{"}"}</div>
+            </div>
           </div>
         </div>
       )}

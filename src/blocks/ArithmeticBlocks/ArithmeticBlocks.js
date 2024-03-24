@@ -38,11 +38,11 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
         <Draggable draggableId={id} isDragDisabled={true} index={0}>
           {(provided) => (
             <div
-              className="control-block bg-color-arithmetic"
+              className="control-block bg-color-arithmetic mb-15"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              <div className="control-block bg-color-arithmetic">
+              <div className="control-block-without-shadow bg-color-arithmetic">
                 <input className="block-input" type="number" />
                 {arithemticType(name)}
                 <input className="block-input" type="number" />{" "}
@@ -54,12 +54,16 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
         </Draggable>
       ) : (
         <div
-          className="control-block bg-color-arithmetic"
+          className="control-block bg-color-arithmetic flex-row w-30"
           onClick={() => onAddElement(name)}
         >
-          <input disabled className="block-input" type="number" />
-          {arithemticType(name)}
-          <input disabled className="block-input" type="number" />
+          <div>
+            <input disabled className="block-input w-half"/>
+          </div>
+          <div>{arithemticType(name)}</div>
+          <div>
+            <input disabled className="block-input w-half"/>
+          </div>
         </div>
       )}
     </Fragment>

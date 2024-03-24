@@ -61,7 +61,7 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
                         {...provided.draggableProps}
                         ref={provided.innerRef}
                       >
-                        <div className="workbench">{item.name}</div>
+                        <div className="workbench mb-15">{item.name}</div>
                       </div>
                     )}
                   </Draggable>
@@ -72,22 +72,22 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
           )}
         </Droppable>
       ) : (
-        <div className="control-block-grid bg-color-for for-shadow" onClick={onAddElement}>
+        <div className="control-block-grid-2 bg-color-for for-shadow" onClick={onAddElement}>
           <div className="text-bold text-white">FOR</div>
           <select
             disabled
-            className="block-select"
+            className="block-select "
             value={selectedOption}
             onChange={handleOptionChange}
           >
             <option value="">Wybierz opcję</option>
           </select>
           <div className="text-bold text-white">FROM</div>
-          <input disabled className="block-input" type="number" value={0} />
+          <input disabled className="block-input " value={0} />
           <div className="text-bold text-white">TO</div>
-          <input disabled className="block-input" type="number" value={10} />
+          <input disabled className="block-input " value={10} />
           <div className="text-bold text-white">AT STEP</div>
-          <input disabled className="block-input" type="number" value={1} />
+          <input disabled className="block-input " value={1} />
         </div>
       )}
     </Fragment>
