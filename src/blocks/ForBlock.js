@@ -27,7 +27,7 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
         <Droppable droppableId={id}>
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              <div className="bg-color-for border-r-10 for-shadow">
+              <div className="bg-color-for border-r-10" style={{border: "1px", borderStyle: "solid", borderColor: "#e3eef2"}}>
                 <div className="control-block-grid">
                   <div className="text-bold text-white">FOR</div>
                   <select
@@ -66,7 +66,7 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
                             top: "auto !important",
                           }}
                         >
-                          <div className="workbench mb-15">{item.name}</div>
+                          <div className="workbench m-8 bg-color-workbench">{item.name}</div>
                         </div>
                       )}
                     </Draggable>
@@ -82,8 +82,9 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
         </Droppable>
       ) : (
         <div
-          className="control-block-grid-2 bg-color-for for-shadow"
+          className="control-block-grid-2 bg-color-for"
           onClick={onAddElement}
+          style={{border: "1px", borderStyle: "solid", borderColor: "#e3eef2"}}
         >
           <div className="text-bold text-white">FOR</div>
           <select
@@ -94,11 +95,11 @@ function ForBlock({ name, items, id, blocksState, setBlocksState }) {
           >
             <option value="">Wybierz opcję</option>
           </select>
-          <div className="text-bold text-white">FROM</div>
+          <span className="text-bold text-white">FROM</span>
           <input disabled className="block-input " value={0} />
-          <div className="text-bold text-white">TO</div>
+          <span className="text-bold text-white">TO</span>
           <input disabled className="block-input " value={10} />
-          <div className="text-bold text-white">AT STEP</div>
+          <span className="text-bold text-white">AT STEP</span>
           <input disabled className="block-input " value={1} />
         </div>
       )}

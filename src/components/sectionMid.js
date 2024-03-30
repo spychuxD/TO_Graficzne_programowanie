@@ -202,8 +202,8 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
   };
   return (
     <div className="sectionMid">
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <div sx={{ width: "100%"}}>
+        <div sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -217,7 +217,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
               />
             ))}
           </Tabs>
-        </Box>
+        </div>
         {tabs.map((item, index) => (
           <CustomTabPanel value={value} index={index}>
             {item === "Sekcja" ? (
@@ -258,7 +258,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
             )}
           </CustomTabPanel>
         ))}
-      </Box>
+      </div>
     </div>
   );
 }

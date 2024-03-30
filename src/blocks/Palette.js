@@ -9,12 +9,11 @@ import Button from "@mui/material/Button";
 import {
   MdForkRight,
   MdBento,
-  MdOutlineControlPoint,
   MdCalculate,
 } from "react-icons/md";
 import IfElseBlock from "./IfElseBlock";
 
-export default function Palette({ blocksState, setBlocksState, tabs, setTabs }) {
+export default function Palette({ blocksState, setBlocksState }) {
   const [category, setCategory] = useState([0]);
   const handleCateogry = (newVal) => {
     if (category.includes(newVal)) {
@@ -23,13 +22,11 @@ export default function Palette({ blocksState, setBlocksState, tabs, setTabs }) 
       setCategory((oldVal) => [...oldVal, newVal]);
     }
   };
-  const handleAddClass = () => {
-    setTabs([...tabs, 'Klasa'])
-  }
   return (
     <div>
       <div className="list-header">
         <Button
+          fullWidth
           startIcon={<MdForkRight size={24} className="mr-8" />}
           onClick={() => handleCateogry(1)}
         >
@@ -38,9 +35,9 @@ export default function Palette({ blocksState, setBlocksState, tabs, setTabs }) 
       </div>
       {category?.includes(1) ? (
         <div>
-          <div className="flex-row align-center justify-center m-8">
-            <MdHelp color="#1976d2" className="m-8"></MdHelp>
-            <div className="text-center text-small text-bold">
+          <div className="flex-row align-center justify-center">
+            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+            <div className="text-center text-xx-small">
               Kliknij na blok, aby go dodać
             </div>
           </div>
@@ -65,7 +62,8 @@ export default function Palette({ blocksState, setBlocksState, tabs, setTabs }) 
         </div>
       ) : null}
       <div className="list-header">
-        <Button
+      <Button
+      fullWidth
           startIcon={<MdCalculate size={24} className="mr-8" />}
           onClick={() => handleCateogry(2)}
         >
@@ -74,9 +72,9 @@ export default function Palette({ blocksState, setBlocksState, tabs, setTabs }) 
       </div>
       {category?.includes(2) ? (
         <div>
-          <div className="flex-row align-center justify-center m-8">
-            <MdHelp color="#1976d2" className="m-8"></MdHelp>
-            <div className="text-center text-small text-bold">
+          <div className="flex-row align-center justify-center">
+            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+            <div className="text-center text-xx-small">
               Kliknij na blok, aby go dodać
             </div>
           </div>
@@ -95,18 +93,13 @@ export default function Palette({ blocksState, setBlocksState, tabs, setTabs }) 
         </div>
       ) : null}
       <div className="list-header flex-row align-center justify-between">
-        <div className="flex-row align-center">
-          <MdBento size={24} className="mr-8" />
-          <Button
-            startIcon={<MdCalculate size={24} className="mr-8" />}
+      <Button
+      fullWidth
+            startIcon={<MdBento size={24} className="mr-8" />}
             onClick={() => handleCateogry(3)}
           >
             <span className="text-bold">Klasy</span>
           </Button>
-        </div>
-        <Button startIcon={<MdOutlineControlPoint />} onClick={handleAddClass}>
-          <span className="text-bold">DODAJ</span>
-        </Button>
       </div>
       <div></div>
     </div>

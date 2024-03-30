@@ -16,7 +16,7 @@ function Footer() {
   };
   return (
     <footer className="footer">
-      <div>
+      {/* <div>
         <Button
           variant="text"
           onClick={handleClickOpen}
@@ -24,21 +24,20 @@ function Footer() {
         >
           <span className="text-bold">USTAWIENIA</span>
         </Button>
-      </div>
-      <div className="text-center text-bold">
+      </div> */}
+      <div className="text-center">
         © 2024 Gajda, Gardian i Spychalski
       </div>
-      <Dialog open={open} onClose={handleClose}>
+      {/* <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Ustawienia"}</DialogTitle>
         <DialogContent>
-          {/* Tutaj możesz dodać różne opcje ustawień */}
           <div>Tutaj znajdą się ustawienia...</div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Anuluj</Button>
           <Button onClick={handleClose}>Zapisz</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </footer>
   );
 }

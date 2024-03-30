@@ -1,103 +1,90 @@
+* {
+  font-family: 'Poppins', sans-serif;
+}
+#root {
+  height: 100vh;
+  background: rgb(15,32,39);
+  background: linear-gradient(90deg, rgba(15,32,39,1) 0%, rgba(32,58,67,1) 50%, rgba(44,83,100,1) 100%);
+}
+
 .App {
   text-align: center;
-  height: 100vh; /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
-  background-image: url('./background.png'); /* Dostosuj ścieżkę do swojej grafiki */
-  background-size: cover; /* Zapewnia, że tło pokryje całą dostępną przestrzeń */
-  background-position: center; /* Centruje grafikę */
+  /* Ustawia wysokość całej aplikacji na 100% widoku przeglądarki */
+  /* display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  max-height: 100vh; */
   display: flex;
-  flex-direction: column;
-  background-color: rgb(0,0,0);
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
 }
 
 .App-header {
-  min-height: 1vh;
   width: 100%;
-  position: fixed;
-  top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-  background-color: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .footer {
-  background-color: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
   justify-content: center;
   font-size: calc(10px + 0.2vmin);
-  color: white;
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
 }
 
 .main-content {
   display: flex;
-  justify-content: space-around; /* Rozkłada trzy sekcje równomiernie */
-  height: 100%; /* Zapewnia, że główna treść zajmie całą dostępną przestrzeń */
-  padding-top: 60px;
-  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  height: 92%;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.lang {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 600px) {
+  .lang {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .sectionLeft {
-  max-width: 30%;
-  background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
-  padding: 10px;
-  margin: 15px;
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
   overflow-y: auto;
-  height: 720px;
+  height: 100%;
+  width: 100%;
 }
 
 
 .sectionRight {
-  width: 20%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
-  padding: 10px;
-  margin: 15px;
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
+  padding: 20px;
+  width: 30%;
   border-radius: 10px;
+  display: flex;
   overflow-y: auto;
-  height: 720px;
 }
 
 .sectionMid {
-  width: 40%; /* Przydziela każdej sekcji 30% szerokości kontenera */
-  background-color: rgba(255, 255, 255, 0.6); /* Przykładowy półprzezroczysty biały tło */
+  background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
   padding: 20px;
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  width: 60%;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
   overflow-y: auto;
-  height: 720px;
 }
+
 
 .App-logo {
   height: 3vmin;
@@ -127,7 +114,6 @@
 
 .button:hover {
   background-color: rgba(255, 255, 255, 0.5);
-  color: white;
 }
 
 .button {
@@ -135,7 +121,6 @@
   color: black; 
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  color: white;
   padding: 16px 32px;
   text-align: center;
   text-decoration: none;
@@ -169,14 +154,12 @@
 
 
 .block-input {
-  box-sizing: border-box;
-  border-radius: 30px;
+  border-radius: 10px;
   padding: 5px 10px 5px 10px;
 }
 
 .block-select {
-  box-sizing: border-box;
-  border-radius: 30px;
+  border-radius: 10px;
   padding: 5px 10px 5px 10px;
 }
 
@@ -188,10 +171,8 @@
   padding-top: 10px;
   padding-bottom: 10px;
   align-items: center;
-  justify-content: space-between;
-  -webkit-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
-  box-shadow: 0px 2px 30px -10px rgba(0, 0, 0, 1);
+  justify-content: space-between; 
+  border: 1px solid #e3eef2;
   cursor: pointer;
 }
 
@@ -204,6 +185,7 @@
   padding-bottom: 10px;
   align-items: center;
   justify-content: space-between;
+  
   cursor: pointer;
 }
 
@@ -215,7 +197,7 @@
 
 .control-block-grid {
   display: grid;
-  grid-template-columns: auto auto auto auto; /* Dostosuj do swoich potrzeb */
+  grid-template-columns: 20% 30% 20% 30%; /* Dostosuj do swoich potrzeb */
   grid-gap: 5px;
   padding-left: 30px;
   padding-right: 30px;
@@ -229,12 +211,9 @@
 
 .control-block-grid-2 {
   display: grid;
-  grid-template-columns: auto auto ; /* Dostosuj do swoich potrzeb */
+  grid-template-columns: 30% 50% ; /* Dostosuj do swoich potrzeb */
   grid-gap: 5px;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
@@ -242,7 +221,6 @@
 }
 .workbench {
   border-radius: 10px;
-  background-color: red;
   cursor: pointer;
 }
 
@@ -253,8 +231,8 @@
   font-weight: bold;
   padding: 6px;
   margin: 8px;
-  border-bottom: 1px solid #1976d2;
-  border-top: 1px solid #1976d2;
+  border-bottom: 1px solid #e3eef2;
+  border-top: 1px solid #e3eef2;
     -webkit-box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
   box-shadow: 0px 2px 15px -10px rgba(0, 0, 0, 1);
@@ -272,6 +250,10 @@
   text-align: center;
 }
 
+.max-h-vh {
+  max-height: 100vh;
+}
+
 .text-white {
   color: #fff;
 }
@@ -281,6 +263,7 @@
 }
 
 .flex-col {
+  display: flex;
   flex-direction: column;
 }
 
@@ -307,9 +290,15 @@
 .mr-8 {
   margin-right: 8px;
 }
+.mr-16 {
+  margin-right: 16px;
+}
 
 .mb-15 {
   margin-bottom: 15px;
+}
+.mb-8 {
+  margin-bottom: 8px;
 }
 
 .p-8 {
@@ -320,14 +309,25 @@
   font-size: small;
 }
 
+.text-xx-small {
+  font-size: xx-small;
+}
+
 .w-full {
   width: 100%;
 }
+.h-full {
+  height: 100%;
+}
+
 .w-half {
   width: 50%;
 }
 .w-30 {
   width: 30%;
+}
+.w-20 {
+  width: 20%;
 }
 
 .h-50px {
@@ -342,37 +342,26 @@
 }
 
 div {
-  color: #1565c0
+  color: #e3eef2
 }
 
 
 /* ============== Kolory pod bloki ================ trzeba sobie przeobić wczesniej hex ma rgba i wrzucic do funkcji rgba() */
-.bg-color-class { background-color: #1a237e; }
-.bg-color-3 { background-color: #0d47a1; }
-.bg-color-5 { background-color: #01579b; }
-.bg-color-if { background-color: #006064; }
-.bg-color-9 { background-color: #004d40; }
+.bg-color-arithmetic { background-color: #65a2b8; }
+.bg-color-class { background-color: #579ab2; }
+.bg-color-3 { background-color: #4d90a8; }
+.bg-color-4 { background-color: #47849a; }
+.bg-color-5 { background-color: #40788c; }
+.bg-color-if { background-color: #3a6c7e; }
+.bg-color-7 { background-color: #336070; }
+.bg-color-workbench { background-color: #2d5462; }
+.bg-color-9 { background-color: #274854; }
+.bg-color-for { background-color: #203c46; }
+.bg-color-if-condition { background-color: #1A3038; }
+.bg-color-if-body { background-color: #13242a; }
+.bg-color-else { background-color: #0d181c; }
 .bg-color-start { background-color: #1b5e20; }
-.bg-color-13 { background-color: #33691e; }
-.bg-color-15 { background-color: #827717; }
-.bg-color-for { background-color: #f57f17; }
-.bg-color-19 { background-color: #ff6f00; }
 .bg-color-end { background-color: #bf360c; }
-
-/* ======== Odcienie kolorów wyzej (nieparzysta z parzystą, np. 1 i 2 (2 to odcień 1) i anlogicznie reszta) */
-.bg-color-classButton { background-color: #304ffe; }
-.bg-color-4 { background-color: #2962ff; }
-.bg-color-6 { background-color: #0091ea; }
-.bg-color-if-condition { background-color: #00b8d4; }
-.bg-color-if-body { background-color: #00bfa5; }
-.bg-color-else { background-color: #00c853; }
-.bg-color-14 { background-color: #64dd17; }
-.bg-color-16 { background-color: #aeea00; }
-.bg-color-18 { background-color: #ffd600; }
-.bg-color-arithmetic { background-color: #ffab00; }
-.bg-color-22 { background-color: #dd2c00; }
-
-
 /* ============================== Animacje ======================= */
 .slideDown {
   animation: slideDownAnimation 0.5s ease-out forwards;

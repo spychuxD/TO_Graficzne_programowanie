@@ -48,7 +48,7 @@ function IfElseBlock({
     <Fragment>
       {id !== undefined ? (
         <div
-          className="control-block bg-color-if mb-15"
+          className="control-block bg-color-if"
           style={{ display: "flex", flexDirection: "column" }}
         >
           <Droppable droppableId={id + "ifCondition"}>
