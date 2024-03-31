@@ -1,4 +1,3 @@
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import "../App.css";
 import { Fragment, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -6,154 +5,64 @@ import DeleteBlock from "./DeleteBlock";
 import ArithmeticBlocks from "./ArithmeticBlocks/ArithmeticBlocks";
 import { arithmeticBlocks, forBlock, ifElseBlock } from "../blockTypes";
 import ForBlock from "./ForBlock";
-function IfElseBlock({
-  name,
-  items,
-  elseItems,
-  id,
-  condition,
-  blocksState,
-  setBlocksState,
-}) {
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import MainDroppable from "../components/MainDroppable";
+import { useDispatch } from "react-redux";
+import { addElement } from "../redux/slices/CodeStructure";
+import blockRenderer from "../blockRenderer";
+
+function IfElseBlock(props) {
+  const dispatch = useDispatch();
+
   const onAddElement = () => {
     const newElement = {
       id: uuidv4(),
       name: "ifElseBlock",
       type: ifElseBlock,
-      condition: [],
-      items: [],
-      elseItems: [],
+      children:[
+        [],
+        [],
+        []
+      ],
     };
-    setBlocksState((prev) => [...prev, newElement]);
+    
+    dispatch(addElement(newElement));
   };
-  const [stores, setStores] = useState([]);
 
-  const inCondition = (store) => {
-    switch (store.type) {
-      case arithmeticBlocks:
-        return <ArithmeticBlocks {...store} setBlocksState={setStores} />;
-      default:
-        break;
-    }
-  };
-  const inBody = (store) => {
-    switch (store.type) {
-      case forBlock:
-        return <ForBlock {...store} setBlocksState={setStores} />;
-      default:
-        break;
-    }
-  };
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: props.id,
+  });
+  const style = transform
+    ? {
+        transform: CSS.Translate.toString(transform),
+      }
+    : undefined;
   return (
     <Fragment>
-      {id !== undefined ? (
+      {props.id !== undefined ? (
         <div
           className="control-block bg-color-if"
           style={{ display: "flex", flexDirection: "column" }}
         >
-          <Droppable droppableId={id + "ifCondition"}>
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="w-full"
-              >
-                <div className="text-bold text-white">if</div>
-                <div className="w-full bg-color-if-condition p-8 h-50px b-r-10">
-                  {condition.map((item, index) => (
-                    <Draggable
-                      draggableId={item.id}
-                      index={index}
-                      key={item.id}
-                    >
-                      {(provided) => (
-                        <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          style={{
-                            ...provided.draggableProps.style,
-                            left: "auto !important",
-                            top: "auto !important",
-                          }}
-                        >
-                          {inCondition(item)}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId={id}>
-            {(provided) => (
-              <div
-                className="w-full bg-color-if-body p-8 m-8 h-50px b-r-10"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {items.map((item, index) => (
-                  <Draggable draggableId={item.id} index={index} key={item.id}>
-                    {(provided) => (
-                      <div
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                        style={{
-                          ...provided.draggableProps.style,
-                          left: "auto !important",
-                          top: "auto !important",
-                        }}
-                      >
-                        {inBody(item)}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId={id + "elseBody"}>
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="w-full"
-              >
-                <div className="text-bold text-white">else</div>
-                <div className="w-full bg-color-else p-8 h-50px b-r-10">
-                  {elseItems.map((item, index) => (
-                    <Draggable
-                      draggableId={item.id}
-                      index={index}
-                      key={item.id}
-                    >
-                      {(provided) => (
-                        <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          style={{
-                            ...provided.draggableProps.style,
-                            left: "auto !important",
-                            top: "auto !important",
-                          }}
-                        >
-                          {inBody(item)}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
+          <div className="text-bold text-white">if</div>
+          <MainDroppable dropId={props.id+"|0"}>
+            <div className="w-full bg-color-if-condition  h-50px b-r-10">
+              {props.children[0].map((item, index) => blockRenderer(item))}
+            </div>
+          </MainDroppable>
+          <MainDroppable dropId={props.id+"|1"}>
+            <div className="w-full bg-color-if-body h-50px b-r-10">
+              {props.children[1].map((item, index) => blockRenderer(item))}
+            </div>
+          </MainDroppable>
+          <MainDroppable dropId={props.id+"|2"}>
+            <div className="w-full bg-color-else h-50px b-r-10">
+              {props.children[2].map((item, index) => blockRenderer(item))}
+            </div>
+          </MainDroppable>
 
-          <DeleteBlock id={id} setBlocksState={setBlocksState} />
+          <DeleteBlock id={props.id} setBlocksState={props.setBlocksState} />
         </div>
       ) : (
         <div className="control-block bg-color-if" onClick={onAddElement}>

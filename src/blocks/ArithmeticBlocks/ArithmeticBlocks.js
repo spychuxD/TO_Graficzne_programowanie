@@ -5,16 +5,23 @@ import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteBlock from "../DeleteBlock";
 import { ArithmeticOperations } from "./ArithmeticOperations";
+import {useDraggable} from '@dnd-kit/core';
+import {CSS} from '@dnd-kit/utilities';
+import { useDispatch } from "react-redux";
+import { addElement } from "../../redux/slices/CodeStructure";
 
-function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
+function ArithmeticBlocks(props) {
+  const dispatch = useDispatch();
+
   const onAddElement = (name) => {
     const newElement = {
       id: uuidv4(),
       name: name,
       type: arithmeticBlocks,
-      //items: [],
+      items: [],
     };
-    setBlocksState((prev) => [...prev, newElement]);
+    
+    dispatch(addElement(newElement));
   };
   const arithemticType = (name) => {
     switch (name) {
@@ -32,35 +39,38 @@ function ArithmeticBlocks({ name, items, id, blocksState, setBlocksState }) {
         break;
     }
   };
+
+  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+    id: props.id,
+  });
+  const style = transform ? {
+    transform: CSS.Translate.toString(transform),
+  } : undefined;
+
   return (
     <Fragment>
-      {id !== undefined ? (
-        <Draggable draggableId={id} isDragDisabled={true} index={0}>
-          {(provided) => (
+      {props.id !== undefined ? (
+        
             <div
               className="control-block bg-color-arithmetic "
-              {...provided.droppableProps}
-              ref={provided.innerRef}
+              ref={setNodeRef} style={style} {...listeners} {...attributes}
             >
               <div className="control-block-without-shadow bg-color-arithmetic">
                 <input className="block-input" type="number" />
-                <span className="m-8">{arithemticType(name)}</span>
+                <span className="m-8">{arithemticType(props.name)}</span>
                 <input className="block-input" type="number" />{" "}
-                {provided.placeholder}
               </div>
-              <DeleteBlock setBlocksState={setBlocksState} id={id} />
+              <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
             </div>
-          )}
-        </Draggable>
       ) : (
         <div
           className="control-block bg-color-arithmetic flex-row w-30 justify-center align-center"
-          onClick={() => onAddElement(name)}
+          onClick={() => onAddElement(props.name)}
         >
           <div>
             <input disabled className="block-input w-half"/>
           </div>
-          <div className="m-8">{arithemticType(name)}</div>
+          <div className="m-8">{arithemticType(props.name)}</div>
           <div>
             <input disabled className="block-input w-half"/>
           </div>
