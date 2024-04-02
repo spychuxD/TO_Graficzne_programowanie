@@ -2,21 +2,30 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ifElseBlock } from "../../blockTypes";
 
 const getValueByPath = (obj, path) => {
+  
   let newObj = obj;
-  let i=0;
+  let tmp = [];
+  let nextIsSplitArray;
   path.map((v,i)=>{
-    if(i%2 === 0)
+    
+    const splitTarget = v.split("|")
+    if(splitTarget.length == 2)
     {
+      newObj = newObj.find(el => el.id === splitTarget[0]).children;
+      newObj = newObj[splitTarget[1]]
+      nextIsSplitArray = JSON.stringify(newObj)
 
     }
     else
     {
-
+      tmp = [splitTarget[0]];
+      newObj = tmp.reduce((acc, key) => acc[key], newObj)
+      nextIsSplitArray = JSON.stringify(newObj)
     }
-    i++;
-    console.log(v)
   })
-  //return path.reduce((acc, key) => acc[key], obj);
+  
+  
+  return newObj;
 };
 const getObjectByPath = (obj, path) => {
   return path.reduce((acc, key) => acc[key], obj);
@@ -26,7 +35,14 @@ const codeStructureSlice = createSlice({
   name: "codeStructure",
   initialState: {
     elements: [],
-    paths: [],
+    paths: [
+      {
+        id: 'mainId',
+        path: [
+          'elements'
+        ]
+      },
+    ],
   },
   reducers: {
     addElement(state, action) {
@@ -34,16 +50,6 @@ const codeStructureSlice = createSlice({
         id: action.payload.id,
         path: ["elements"],
       });
-      if(action.payload.type === ifElseBlock)
-      {
-        action.payload.children.map((v,i)=>{
-          state.paths.push({
-            id: action.payload.id+"|"+i,
-            path: ["elements",action.payload.id,"children|array",action.payload.id+"|"+i],
-          });
-        })
-        
-      }
       state.elements.push(action.payload);
     },
     changeElementOrder(state, action) {
@@ -85,35 +91,40 @@ const codeStructureSlice = createSlice({
       }
     },
     inserElement(state, action) {
+      
       const { object, to } = action.payload;
-      debugger
+      //debugger
       //uzyskanie sciezku obiektu
       const elementPathIndex = state.paths.find((el) => el.id === object).path;
       //uzyskanie sziezki miejsca docelowego
-      const destinationPathIndex = state.paths.find((el) => el.id === to).path;
-      const cba = JSON.parse(
-        JSON.stringify(
-          destinationPathIndex
-        )
+      const splitTarget = to.split("|");
+      const destinationPathIndex = state.paths.find((el) => el.id === splitTarget[0]).path;
+      //pobranie obiektu z pod "object"      
+      const objectValue = JSON.parse(JSON.stringify(getValueByPath(state, elementPathIndex))).find(el => el.id===object)
+      //wyznaczenie miejsca docelowego "to"
+      let destinationValue = getValueByPath(state, destinationPathIndex);
+      if(splitTarget.length == 2)
+      {
+        destinationValue = destinationValue.find(el => el.id === splitTarget[0]);
+        destinationValue = getObjectByPath(destinationValue,["children"])
+        destinationValue = destinationValue[splitTarget[1]];
+      }
+      //wyznaczenie starej lokalizacja "object"
+      const oldObjectLoaction = getValueByPath(state,elementPathIndex)
+      //wyznaczenie indeksu "object" w starej lokalizacja 
+      const oldObjectLoactionIndex = getValueByPath(state,elementPathIndex).findIndex(
+        (el) => el.id === object
       );
-      
-
-      /*const objectValue = JSON.parse(
-        JSON.stringify(
-          getValueByPath(state, elementPathIndex).find((el) => el.id === object)
-        )
-      );*/
-      const objectValue = getValueByPath(state, elementPathIndex)
-  
-
-      const destinationValue = getValueByPath(state, destinationPathIndex);
-      return
-      const abc = JSON.parse(
-        JSON.stringify(
-          destinationValue
-        )
-      );
+      //usuniecie object z starej lokalizacji
+      oldObjectLoaction.splice(oldObjectLoactionIndex, 1);
+      //dodanie "object" do "to"
       destinationValue.push(objectValue);
+      //aktualizacja path object
+      state.paths.find(el => el.id===object).path = JSON.parse(JSON.stringify(destinationPathIndex));
+      if(splitTarget.length == 2)
+        state.paths.find(el => el.id===object).path.push(to);
+
+
     },
   },
 });

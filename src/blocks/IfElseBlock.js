@@ -20,19 +20,16 @@ function IfElseBlock(props) {
       id: uuidv4(),
       name: "ifElseBlock",
       type: ifElseBlock,
-      children:[
-        [],
-        [],
-        []
-      ],
+      children: [[], [], []],
     };
-    
+
     dispatch(addElement(newElement));
   };
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),
@@ -41,28 +38,45 @@ function IfElseBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div
-          className="control-block bg-color-if"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <div className="text-bold text-white">if</div>
-          <MainDroppable dropId={props.id+"|0"}>
-            <div className="w-full bg-color-if-condition  h-50px b-r-10">
-              {props.children[0].map((item, index) => blockRenderer(item))}
-            </div>
-          </MainDroppable>
-          <MainDroppable dropId={props.id+"|1"}>
-            <div className="w-full bg-color-if-body h-50px b-r-10">
-              {props.children[1].map((item, index) => blockRenderer(item))}
-            </div>
-          </MainDroppable>
-          <MainDroppable dropId={props.id+"|2"}>
-            <div className="w-full bg-color-else h-50px b-r-10">
-              {props.children[2].map((item, index) => blockRenderer(item))}
-            </div>
-          </MainDroppable>
+        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+          <div
+            className="control-block bg-color-if"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            {!isDragging ? (
+              <Fragment>
+                <div className="text-bold text-white">if</div>
+                <MainDroppable dropId={props.id + "|0"}>
+                  <div className="w-full bg-color-if-condition  h-50px b-r-10">
+                    {props.children[0].map((item, index) =>
+                      blockRenderer(item)
+                    )}
+                  </div>
+                </MainDroppable>
+                <MainDroppable dropId={props.id + "|1"}>
+                  <div className="w-full bg-color-if-body h-50px b-r-10">
+                    {props.children[1].map((item, index) =>
+                      blockRenderer(item)
+                    )}
+                  </div>
+                </MainDroppable>
+                <MainDroppable dropId={props.id + "|2"}>
+                  <div className="w-full bg-color-else h-50px b-r-10">
+                    {props.children[2].map((item, index) =>
+                      blockRenderer(item)
+                    )}
+                  </div>
+                </MainDroppable>
 
-          <DeleteBlock id={props.id} setBlocksState={props.setBlocksState} />
+                <DeleteBlock
+                  id={props.id}
+                  setBlocksState={props.setBlocksState}
+                />
+              </Fragment>
+            ) : (
+              <div className="text-bold text-white">if</div>
+            )}
+          </div>
         </div>
       ) : (
         <div className="control-block bg-color-if" onClick={onAddElement}>

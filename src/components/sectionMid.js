@@ -59,7 +59,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
     if (event.over) {
       const { active, over } = event;
       const idAndType = over.id.split("|");
-debugger
+      
       if(idAndType.length === 2)
       {
         switch(idAndType[1])
@@ -71,6 +71,10 @@ debugger
             dispatch(inserElement({object:active.id,to:over.id}))
           break;
         }
+      }
+      else
+      {
+        dispatch(inserElement({object:active.id,to:over.id}))
       }
     }
   }
