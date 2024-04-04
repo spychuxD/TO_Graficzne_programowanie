@@ -92,7 +92,7 @@ function ForBlock(props) {
               </div>
             </div>
           ) : (
-            <div className="text-bold text-white">for</div>
+            <div className="control-block w-20 bg-color-for text-bold text-white">for</div>
           )}
         </div>
       ) : (

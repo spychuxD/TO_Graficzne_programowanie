@@ -6,7 +6,7 @@ export default function DeleteBlock({setBlocksState, id }){
         setBlocksState((prev) => prev.filter((item) => item.id !== id));
     }
     return( <div >
-<Button style={{marginLeft:"auto",marginRight:0, color: '#FFF'}} onClick={onDeleteElement} startIcon={<MdRestoreFromTrash></MdRestoreFromTrash>}>Usuń</Button>
+<Button style={{marginLeft:"auto",marginRight:0, color: '#FFF', fontSize: 'small'}} onClick={onDeleteElement} startIcon={<MdRestoreFromTrash></MdRestoreFromTrash>}>Usuń</Button>
     </div>
         
     )
