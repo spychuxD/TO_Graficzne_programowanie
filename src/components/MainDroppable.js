@@ -13,7 +13,7 @@ function MainDroppable(props) {
     padding: isOver? 15 :undefined,
     height: props.placeholder?20 : undefined,
     borderRadius: 20,
-    backgroundColor:"red"
+    //backgroundColor:"red"
   };
   
   
