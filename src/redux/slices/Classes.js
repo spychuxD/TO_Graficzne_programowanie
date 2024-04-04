@@ -9,7 +9,7 @@ const classesSlice = createSlice({
   reducers: {
     addClass(state, action) {
       state.classes.push({
-        id: uuidv4(),
+        id: action.payload.id,
         name: "Nienazwana klasa",
         fields: [],
         methods: []

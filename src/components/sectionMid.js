@@ -57,6 +57,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
 
   function handleDragEnd(event) { 
     if (event.over) {
+      debugger
       const { active, over } = event;
       const idAndType = over.id.split("|");
       
@@ -92,7 +93,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
             {tabs.map((item, index) => (
               <Tab
                 key={index}
-                label={`${item} ${index}`}
+                label={`${item.name} ${index}`}
                 {...a11yProps(index)}
               />
             ))}
@@ -100,7 +101,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
         </div>
         {tabs.map((item, index) => (
           <CustomTabPanel value={value} index={index}>
-            {item === "Sekcja" ? (
+            {item.name === "Sekcja" ? (
               <DndContext onDragEnd={handleDragEnd}>
                 <MainDroppable dropId={"mainId"}>
                   {codeStructureElements.map((store, index) => (
@@ -113,7 +114,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                 </MainDroppable>
               </DndContext>
             ) : (
-              <ClassBlock />
+              <ClassBlock reduxClassId={item.id}/>
             )}
           </CustomTabPanel>
         ))}

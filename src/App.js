@@ -5,7 +5,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import SectionLeft from "./components/sectionLeft";
 import SectionMid from "./components/sectionMid";
-
+import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addClass } from "./redux/slices/Classes";
 
@@ -28,10 +28,12 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
-  const [tabs, setTabs] = useState(["Sekcja"]);
+  const [tabs, setTabs] = useState([{name: "Sekcja",id:null}]);
   const handleAddClass = () => {
-    dispatch(addClass());
-    setTabs((currentTabs) => [...currentTabs, "Klasa"]);
+    const newId = uuidv4();
+    console.log(newId)
+    dispatch(addClass({id:newId}));
+    setTabs((currentTabs) => [...currentTabs, {name: "Klasa",id:newId}]);
   };
   return (
     <ThemeProvider theme={theme}>

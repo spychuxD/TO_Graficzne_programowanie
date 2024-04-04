@@ -4,46 +4,19 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import VariableBlock from "./VariableBlock";
 import MethodBlock from "./MethodBlock";
+import { useDispatch } from "react-redux";
+import { createField } from "../redux/slices/Classes";
+import { createMethod } from "../redux/slices/Classes";
 
-function ClassBlock({ name, items, id, blocksState, setBlocksState }) {
+function ClassBlock({reduxClassId}) {
+  const dispatch = useDispatch(); 
   const [data, setData] = useState({
     methodsItems: [],
     attributesItems: [],
   });
-  /*const handleDragAndDrop = (results) => {
-    if (results?.destination?.droppableId === "methodsItems") {
-      const foundItem = data.methodsItems.find(
-        (item) => item.id === results.draggableId
-      );
-      setData((prevData) => ({
-        ...prevData,
-        methodsItems: prevData.methodsItems.filter(
-          (item) => item.id !== results.draggableId
-        ),
-      }));
-      setData((prevData) => ({
-        ...prevData,
-        attributesItems: [...prevData.attributesItems, foundItem],
-      }));
-    } else if (results?.destination?.droppableId === "attributesItems") {
-      const foundItem = data.attributesItems.find(
-        (item) => item.id === results.draggableId
-      );
-      setData((prevData) => ({
-        ...prevData,
-        attributesItems: prevData.attributesItems.filter(
-          (item) => item.id !== results.draggableId
-        ),
-      }));
-      setData((prevData) => ({
-        ...prevData,
-        methodsItems: [...prevData.methodsItems, foundItem],
-      }));
-    }
-  };*/
 
   const onAddField = () => {
-    const newData = { ...data };
+   /* const newData = { ...data };
     const newElement = {
       id: uuidv4(),
       type: "type",
@@ -51,18 +24,20 @@ function ClassBlock({ name, items, id, blocksState, setBlocksState }) {
       availability: "type",
       initVal: "",
     };
-    newData.attributesItems.push(newElement);
-    setData(newData);
+    newData.attributesItems.push(newElement);*/
+    dispatch(createField({id:reduxClassId}));
+   // setData(newData);
   };
   const onAddMethods = () => {
-    const newData = { ...data };
+    /*const newData = { ...data };
     const newElement = {
       id: uuidv4(),
       name: "",
       items: []
     };
-    newData.methodsItems.push(newElement);
-    setData(newData);
+    newData.methodsItems.push(newElement);*/
+    dispatch(createMethod({id:reduxClassId}));
+    //setData(newData);
   };
   return (
     <div className="border-r-10 bg-color-class blocks-container">
