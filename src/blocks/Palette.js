@@ -9,6 +9,7 @@ import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
 import IfElseBlock from "./IfElseBlock";
+import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
 
 export default function Palette({ blocksState, setBlocksState }) {
@@ -55,7 +56,11 @@ export default function Palette({ blocksState, setBlocksState }) {
             <ForBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}
-            />
+            />{" "}
+            <ConsoleLogBlock
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+            />{" "}
             <VariableBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}

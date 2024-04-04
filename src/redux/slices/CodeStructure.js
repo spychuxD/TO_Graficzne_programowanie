@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ifElseBlock } from "../../blockTypes";
 
 const getValueByPath = (obj, path) => {
   
@@ -59,16 +58,12 @@ const codeStructureSlice = createSlice({
         (el) => el.id === over
       ).path;
 
-      // Funkcja pomocnicza do pobierania wartości na podstawie ścieżki
-      
-
       // Odczytanie wartości na podstawie ścieżki dla elementu
       const objectValue = JSON.parse(
         JSON.stringify(
           getObjectByPath(state, elementPathIndex).find((el) => el.id === object)
         )
       );
-
       // Odczytanie wartości na podstawie ścieżki dla miejsca docelowego
       const destinationValue = getObjectByPath(state, destinationPathIndex);
 
@@ -91,9 +86,7 @@ const codeStructureSlice = createSlice({
       }
     },
     inserElement(state, action) {
-      
       const { object, to } = action.payload;
-      //debugger
       //uzyskanie sciezku obiektu
       const elementPathIndex = state.paths.find((el) => el.id === object).path;
       //uzyskanie sziezki miejsca docelowego
@@ -119,12 +112,22 @@ const codeStructureSlice = createSlice({
       oldObjectLoaction.splice(oldObjectLoactionIndex, 1);
       //dodanie "object" do "to"
       destinationValue.push(objectValue);
-      //aktualizacja path object
+      //aktualizacja path "object"
       state.paths.find(el => el.id===object).path = JSON.parse(JSON.stringify(destinationPathIndex));
       if(splitTarget.length == 2)
         state.paths.find(el => el.id===object).path.push(to);
-
-
+      //wyszukiwanie ścieżek powiązanych z "object"
+      const filteredPaths = state.paths.filter(pathItem => {
+        // Sprawdzenie, czy identyfikator występuje w ścieżce
+        return pathItem.path.some(segment => segment.startsWith(object));
+      });
+      //aktualizacja ścieżek powiązanych z "object"
+      filteredPaths.map((v,i)=>{
+        const elementIndex = v.path.findIndex(path => path.startsWith(object));
+        const pathToConcat = JSON.parse(JSON.stringify(destinationPathIndex));
+        v.path.splice(0, elementIndex);
+        v.path = pathToConcat.concat(v.path);
+      })
     },
   },
 });

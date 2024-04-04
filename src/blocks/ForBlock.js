@@ -25,9 +25,10 @@ function ForBlock(props) {
     dispatch(addElement(newElement));
   };
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),
@@ -38,57 +39,61 @@ function ForBlock(props) {
     <Fragment>
       {props.id !== undefined ? (
         <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-          <div
-            className="bg-color-for border-r-10"
-            style={{
-              border: "1px",
-              borderStyle: "solid",
-              borderColor: "#e3eef2",
-            }}
-          >
-            <div className="control-block-grid">
-              <div className="text-bold text-white">FOR</div>
-              <select
-                className="block-select"
-                value={selectedOption}
-                onChange={handleOptionChange}
-              >
-                <option value="">Wybierz opcję</option>
-                <option value="option1">Opcja 1</option>
-                <option value="option2">Opcja 2</option>
-                <option value="option3">Opcja 3</option>
-              </select>
-              <div className="text-bold text-white">FROM</div>
-              <input className="block-input" type="number" />
-              <div className="text-bold text-white">TO</div>
-              <input className="block-input" type="number" />
-              <div className="text-bold text-white">AT STEP</div>
-              <input className="block-input" type="number" />
-            </div>
-            <div className="items-container">
-              <MainDroppable dropId={"for"}>
-              {props.items.map((item, index) => (
-                <div
-                  className="item-container"
-                  style={{
-                    left: "auto !important",
-                    top: "auto !important",
-                  }}
+          {!isDragging ? (
+            <div
+              className="bg-color-for border-r-10"
+              style={{
+                border: "1px",
+                borderStyle: "solid",
+                borderColor: "#e3eef2",
+              }}
+            >
+              <div className="control-block-grid">
+                <div className="text-bold text-white">FOR</div>
+                <select
+                  className="block-select"
+                  value={selectedOption}
+                  onChange={handleOptionChange}
                 >
-                  <div className="workbench m-8 bg-color-workbench">
-                    {item.name}
-                  </div>
-                </div>
-              ))}
-              </MainDroppable>
+                  <option value="">Wybierz opcję</option>
+                  <option value="option1">Opcja 1</option>
+                  <option value="option2">Opcja 2</option>
+                  <option value="option3">Opcja 3</option>
+                </select>
+                <div className="text-bold text-white">FROM</div>
+                <input className="block-input" type="number" />
+                <div className="text-bold text-white">TO</div>
+                <input className="block-input" type="number" />
+                <div className="text-bold text-white">AT STEP</div>
+                <input className="block-input" type="number" />
+              </div>
+              <div className="items-container">
+                <MainDroppable dropId={"for"}>
+                  {props.items.map((item, index) => (
+                    <div
+                      className="item-container"
+                      style={{
+                        left: "auto !important",
+                        top: "auto !important",
+                      }}
+                    >
+                      <div className="workbench m-8 bg-color-workbench">
+                        {item.name}
+                      </div>
+                    </div>
+                  ))}
+                </MainDroppable>
+              </div>
+              <div>
+                <DeleteBlock
+                  id={props.id}
+                  setBlocksState={props.setBlocksState}
+                />
+              </div>
             </div>
-            <div>
-              <DeleteBlock
-                id={props.id}
-                setBlocksState={props.setBlocksState}
-              />
-            </div>
-          </div>
+          ) : (
+            <div className="text-bold text-white">for</div>
+          )}
         </div>
       ) : (
         <div

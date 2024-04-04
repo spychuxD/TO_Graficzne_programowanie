@@ -118,7 +118,7 @@
 
 .button {
   background-color: rgba(255, 255, 255, 0.1); 
-  color: black; 
+  color: white; 
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 16px 32px;
@@ -346,22 +346,42 @@ div {
 }
 
 
-/* ============== Kolory pod bloki ================ trzeba sobie przeobić wczesniej hex ma rgba i wrzucic do funkcji rgba() */
-.bg-color-arithmetic { background-color: #65a2b8; }
-.bg-color-class { background-color: #579ab2; }
+/* ============== Kolory pod bloki ================ */
+.bg-color-2 { background-color: #579ab2; }
 .bg-color-3 { background-color: #4d90a8; }
 .bg-color-4 { background-color: #47849a; }
 .bg-color-5 { background-color: #40788c; }
-.bg-color-if { background-color: #3a6c7e; }
 .bg-color-7 { background-color: #336070; }
-.bg-color-workbench { background-color: #2d5462; }
 .bg-color-9 { background-color: #274854; }
-.bg-color-for { background-color: #203c46; }
-.bg-color-if-condition { background-color: #1A3038; }
-.bg-color-if-body { background-color: #13242a; }
-.bg-color-else { background-color: #0d181c; }
-.bg-color-start { background-color: #1b5e20; }
-.bg-color-end { background-color: #bf360c; }
+
+.bg-color-01 { background-color: #29b6f6; }
+.bg-color-02 { background-color: #03a9f4; }
+
+/* KLASA */
+.bg-color-class { background-color: #3c6c7c; }
+.bg-color-classButton { background-color: #34606e; }
+
+/* IFELSE */
+.bg-color-if { background-color: #203A43; }
+.bg-color-if-condition { background-color: #b0bec5; border: 1px solid #fff;}
+.bg-color-if-body { background-color: #b0bec5; border: 1px solid #fff}
+.bg-color-else { background-color: #b0bec5; border: 1px solid #fff}
+
+/* FOR */
+.bg-color-for { background-color: #142429; }
+.bg-color-workbench { background-color: #b0bec5; border: 1px solid #fff;}
+
+/* ARITHMETIC */
+.bg-color-arithmetic { background-color: #2e5460; }
+
+/* WYSWIETLANIE */
+.bg-color-console-text { background-color: #b0bec5; border: 1px solid #fff;}
+.bg-color-console { background-color: #3c6c7c; }
+
+/* START/STOP  */
+.bg-color-start { background-color: #2e7d32; }
+.bg-color-end { background-color: #c62828; }
+
 /* ============================== Animacje ======================= */
 .slideDown {
   animation: slideDownAnimation 0.5s ease-out forwards;

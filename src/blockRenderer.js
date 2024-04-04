@@ -4,6 +4,7 @@ import {
   endBlock,
   forBlock,
   ifElseBlock,
+  consoleLogBlock,
   variableBlock,
   setOn,
 } from "./blockTypes";
@@ -14,6 +15,7 @@ import ForBlock from "./blocks/ForBlock";
 import ArithmeticBlocks from "./blocks/ArithmeticBlocks/ArithmeticBlocks";
 import VariableBlock from "./blocks/VariableBlock";
 import SetOn from "./blocks/SetOn";
+import ConsoleLogBlock from "./blocks/ConsoleLogBlock";
 
 export default function blockRenderer(store) {
   switch (store.type) {
@@ -27,6 +29,8 @@ export default function blockRenderer(store) {
       return <ArithmeticBlocks {...store} />;
     case ifElseBlock:
       return <IfElseBlock {...store} />;
+    case consoleLogBlock:
+      return <ConsoleLogBlock {...store} />;
     case variableBlock:
       return <VariableBlock {...store} />;
     case setOn:
