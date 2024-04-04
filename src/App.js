@@ -6,14 +6,8 @@ import Footer from "./components/footer";
 import SectionLeft from "./components/sectionLeft";
 import SectionMid from "./components/sectionMid";
 
-import { ArithmeticOperations } from "./blocks/ArithmeticBlocks/ArithmeticOperations";
-import {
-  arithmeticBlocks,
-  beginBlock,
-  endBlock,
-  forBlock,
-  ifElseBlock,
-} from "./blockTypes";
+import { useDispatch } from "react-redux";
+import { addClass } from "./redux/slices/Classes";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -33,8 +27,10 @@ const theme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch();
   const [tabs, setTabs] = useState(["Sekcja"]);
   const handleAddClass = () => {
+    dispatch(addClass());
     setTabs((currentTabs) => [...currentTabs, "Klasa"]);
   };
   return (
