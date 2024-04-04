@@ -4,12 +4,14 @@ import {
     endBlock,
     forBlock,
     ifElseBlock,
+    consoleLogBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import BeginBlock from "./blocks/BeginBlock";
 import EndBlock from "./blocks/EndBlock";
 import ForBlock from "./blocks/ForBlock";
 import ArithmeticBlocks from "./blocks/ArithmeticBlocks/ArithmeticBlocks";
+import ConsoleLogBlock from "./blocks/ConsoleLogBlock";
 
 
 export default  function blockRenderer(store) {
@@ -24,6 +26,8 @@ export default  function blockRenderer(store) {
         return <ArithmeticBlocks {...store} />;
       case ifElseBlock:
         return <IfElseBlock {...store} />;
+      case consoleLogBlock:
+        return <ConsoleLogBlock {...store} />;
       default:
         break;
     }

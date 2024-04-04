@@ -12,6 +12,7 @@ import {
   MdCalculate,
 } from "react-icons/md";
 import IfElseBlock from "./IfElseBlock";
+import ConsoleLogBlock from "./ConsoleLogBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const [category, setCategory] = useState([0]);
@@ -55,6 +56,10 @@ export default function Palette({ blocksState, setBlocksState }) {
               setBlocksState={setBlocksState}
             />
             <ForBlock
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+            />
+            <ConsoleLogBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
