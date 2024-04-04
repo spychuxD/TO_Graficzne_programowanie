@@ -22,8 +22,10 @@ function VariableBlock(props) {
     };
     dispatch(addElement(newElement));
   };
-  const onChangeElement = (name, e) => {
-    //dispatch(changeElement(props.id, name, e.target.value));
+  const onChangeElement = (fieldToModify, e) => {
+    dispatch(
+      changeElement({ id: props.id, fieldToModify, value: e.target.value })
+    );
   };
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -58,12 +60,14 @@ function VariableBlock(props) {
             <option value="char">char</option>
           </select>
           <input
+            onChange={(e) => onChangeElement("variableName", e)}
             placeholder="Nazwa Zmiennej"
             className="block-input"
             type="text"
             defaultValue={props.variableName}
           />
           <select
+            onChange={(e) => onChangeElement("availability", e)}
             name="availability"
             className="block-select"
             defaultValue={props.availability}
