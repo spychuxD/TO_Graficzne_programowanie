@@ -3,8 +3,8 @@ import { beginBlock } from "../blockTypes";
 import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteBlock from "./DeleteBlock";
-import {useDraggable,useIsDragging} from '@dnd-kit/core';
-import {CSS} from '@dnd-kit/utilities';
+import { useDraggable, useIsDragging } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
 function BeginBlock(props) {
@@ -18,43 +18,40 @@ function BeginBlock(props) {
       items: [],
     };
 
-
     dispatch(addElement(newElement));
   };
 
-  const {attributes, listeners, setNodeRef, transform,isDragging} = useDraggable({
-    id: props.id,
-    
-  });
-  const style = transform ? {
-    transform: CSS.Translate.toString(transform),
-  } : undefined;
-
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
+  const style = transform
+    ? {
+        transform: CSS.Translate.toString(transform),
+      }
+    : undefined;
 
   return (
     <Fragment>
       {props.id !== undefined ? (
-          <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-
-            <div
-              className="control-block bg-color-start"
-            >
-              {
-                !isDragging?
-                  <Fragment>
-                    <div className="text-bold text-white">START</div>
-                    <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
-                  </Fragment>
-                :
-                <div className="text-bold text-white">START</div>
-              }
-              
+        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+          {!isDragging ? (
+            <div className="control-block bg-color-start">
+              <Fragment>
+                <div className="text-bold text-small text-white">START</div>
+                <DeleteBlock
+                  setBlocksState={props.setBlocksState}
+                  id={props.id}
+                />
+              </Fragment>
             </div>
-            
-          </div>
+          ) : (
+            <div className="control-block w-20 bg-color-start text-bold text-white">START</div>
+          )}
+        </div>
       ) : (
         <div className="control-block bg-color-start" onClick={onAddElement}>
-          <div className="text-bold text-white">START</div>
+          <div className="text-bold text-small text-white">START</div>
         </div>
       )}
     </Fragment>

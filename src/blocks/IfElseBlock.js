@@ -39,68 +39,71 @@ function IfElseBlock(props) {
     <Fragment>
       {props.id !== undefined ? (
         <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-          <div
-            className="control-block bg-color-if"
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            {!isDragging ? (
-              <Fragment>
-                <div className="text-bold text-white">if</div>
-                <MainDroppable dropId={props.id + "|0"}>
-                  <div className="w-full bg-color-if-condition  h-50px b-r-10">
-                    {props.children[0].map((item, index) =>
-                      blockRenderer(item)
-                    )}
+          {!isDragging ? (
+            <div className="control-block bg-color-if">
+              <div className="flex-col gap-10 center w-full">
+                <div className="flex-row center w-full">
+                  <div className="text-bold text-small text-white mr-8">
+                    Jeżeli
                   </div>
-                </MainDroppable>
-                <MainDroppable dropId={props.id + "|1"}>
-                  <div className="w-full bg-color-if-body h-50px b-r-10">
-                    {props.children[1].map((item, index) =>
-                      blockRenderer(item)
-                    )}
+                  <MainDroppable dropId={props.id + "|0"}>
+                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                      {props.children[0].map((item, index) =>
+                        blockRenderer(item)
+                      )}
+                    </div>
+                  </MainDroppable>
+                </div>
+                <div className="flex-row center w-full">
+                  <div className="text-bold text-small text-white mr-8">to</div>
+                  <MainDroppable dropId={props.id + "|1"}>
+                    <div className="w-min-50px w-full bg-color-if-body h-20px b-r-10">
+                      {props.children[1].map((item, index) =>
+                        blockRenderer(item)
+                      )}
+                    </div>
+                  </MainDroppable>
+                </div>
+                <div className="flex-row center w-full">
+                  <div className="text-bold text-small text-white mr-8 text-nowrap">
+                    jeśli nie
                   </div>
-                </MainDroppable>
-                <MainDroppable dropId={props.id + "|2"}>
-                  <div className="w-full bg-color-else h-50px b-r-10">
-                    {props.children[2].map((item, index) =>
-                      blockRenderer(item)
-                    )}
-                  </div>
-                </MainDroppable>
-
+                  <MainDroppable dropId={props.id + "|2"}>
+                    <div className="w-min-50px w-full bg-color-else h-20px b-r-10">
+                      {props.children[2].map((item, index) =>
+                        blockRenderer(item)
+                      )}
+                    </div>
+                  </MainDroppable>
+                </div>
                 <DeleteBlock
                   id={props.id}
                   setBlocksState={props.setBlocksState}
                 />
-              </Fragment>
-            ) : (
-              <div className="text-bold text-white">if</div>
-            )}
-          </div>
+              </div>
+            </div>
+          ) : (
+            <div className="control-block bg-color-if w-20 text-bold text-white">
+              if else
+            </div>
+          )}
         </div>
       ) : (
         <div className="control-block bg-color-if" onClick={onAddElement}>
-          <div>
-            <div className="flex-row">
-              <div className="text-bold text-white">if</div>
-              <div className="flex-row">
-                <div className="text-bold text-white">{"("}</div>
-                <div className="insideBox bg-color-if-condition m-8" />
-                <div className="text-bold text-white">{")"}</div>
+          <div className="flex-col gap-10 center w-full">
+            <div className="flex-row center w-full">
+              <div className="text-bold text-small text-white mr-8">Jeżeli</div>
+              <div className="w-min-50px bg-color-if-condition h-20px b-r-10"></div>
+            </div>
+            <div className="flex-row center w-full">
+              <div className="text-bold text-small text-white mr-8">to</div>
+              <div className="w-min-50px bg-color-if-body h-20px b-r-10"></div>
+            </div>
+            <div className="flex-row center w-full">
+              <div className="text-bold text-small text-white mr-8 text-nowrap">
+                jeśli nie
               </div>
-            </div>
-            <div className="flex-row">
-              <div className="text-bold text-white">{"{"}</div>
-              <div className="insideBox bg-color-if-body m-8" />
-              <div className="text-bold text-white">{"}"}</div>
-            </div>
-          </div>
-          <div>
-            <div className="text-bold text-white">else</div>
-            <div className="flex-row">
-              <div className="text-bold text-white">{"{"}</div>
-              <div className="insideBox bg-color-else m-8" />
-              <div className="text-bold text-white">{"}"}</div>
+              <div className="w-min-50px bg-color-else h-20px b-r-10"></div>
             </div>
           </div>
         </div>

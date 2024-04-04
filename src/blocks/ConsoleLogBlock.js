@@ -23,40 +23,53 @@ function ConsoleLogBlock(props) {
     dispatch(addElement(newElement));
   };
 
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id: props.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
 
-  const style = transform ? { transform: CSS.Translate.toString(transform) } : undefined;
+  const style = transform
+    ? { transform: CSS.Translate.toString(transform) }
+    : undefined;
 
   return (
     <Fragment>
       {props.id !== undefined ? (
         <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-          <div className="control-block bg-color-console" style={{ display: "flex", flexDirection: "column" }}>
-            {!isDragging ? (
+          {!isDragging ? (
+            <div
+              className="control-block bg-color-console"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
               <Fragment>
-                <div className="text-bold text-white">Wyświetl</div>
-                <MainDroppable dropId={props.id + "|0"}>
-                <div className="w-full bg-color-console-text h-50px b-r-10">
-                  {props.children[0].map((item, index) => blockRenderer(item))}
+                <div className="flex-row center w-full">
+                  <div className="text-bold text-small text-white mr-8">
+                    Wyświetl
+                  </div>
+                  <MainDroppable dropId={props.id + "|0"}>
+                    <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
+                      {props.children[0].map((item, index) =>
+                        blockRenderer(item)
+                      )}
+                    </div>
+                  </MainDroppable>
                 </div>
-                </MainDroppable>
-                <DeleteBlock id={props.id} setBlocksState={props.setBlocksState} />
+                <DeleteBlock
+                  id={props.id}
+                  setBlocksState={props.setBlocksState}
+                />
               </Fragment>
-            ) : (
-              <div className="text-bold text-white">Wyświetl</div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="control-block w-50 bg-color-console text-bold text-white">
+              Wyświetl
+            </div>
+          )}
         </div>
       ) : (
         <div className="control-block bg-color-console" onClick={onAddElement}>
-          <div className="text-bold text-white mr-8">Wyświetl</div>
-          <div className="flex-row">
-            <div className="text-bold text-white">{"("}</div>
-            <div className="insideBox bg-color-console-text m-8" />
-            <div className="text-bold text-white">{")"}</div>
-          </div>
+          <div className="text-bold text-small text-white mr-8">Wyświetl</div>
+          <div className="w-min-50px h-20px b-r-10 bg-color-console-text" />
         </div>
       )}
     </Fragment>

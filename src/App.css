@@ -185,7 +185,6 @@
   padding-bottom: 10px;
   align-items: center;
   justify-content: space-between;
-  
   cursor: pointer;
 }
 
@@ -254,6 +253,14 @@
   max-height: 100vh;
 }
 
+.gap-10 {
+  gap: 10px;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
 .text-white {
   color: #fff;
 }
@@ -277,6 +284,11 @@
 }
 
 .justify-center {
+  justify-content: center;
+}
+
+.center {
+  align-items: center;
   justify-content: center;
 }
 
@@ -330,8 +342,19 @@
   width: 20%;
 }
 
+.w-100px {
+  width: 100px;
+}
+.w-min-50px {
+  min-width: 50px;
+}
+
 .h-50px {
   min-height: 50px;
+}
+
+.h-20px {
+  min-height: 20px;
 }
 
 .border-r-10 {
