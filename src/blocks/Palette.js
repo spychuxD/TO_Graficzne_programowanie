@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import ForBlock from "./ForBlock";
 import BeginBlock from "./BeginBlock";
+import VariableBlock from "./VariableBlock";
 import EndBlock from "./EndBlock";
 import { ArithmeticOperations } from "./ArithmeticBlocks/ArithmeticOperations";
 import ArithmeticBlocks from "./ArithmeticBlocks/ArithmeticBlocks";
 import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
-import {
-  MdForkRight,
-  MdBento,
-  MdCalculate,
-} from "react-icons/md";
+import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
 import IfElseBlock from "./IfElseBlock";
+import SetOn from "./SetOn";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const [category, setCategory] = useState([0]);
@@ -58,12 +56,17 @@ export default function Palette({ blocksState, setBlocksState }) {
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
+            <VariableBlock
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+            />
+            <SetOn blocksState={blocksState} setBlocksState={setBlocksState} />
           </div>
         </div>
       ) : null}
       <div className="list-header">
-      <Button
-      fullWidth
+        <Button
+          fullWidth
           startIcon={<MdCalculate size={24} className="mr-8" />}
           onClick={() => handleCateogry(2)}
         >
@@ -93,13 +96,13 @@ export default function Palette({ blocksState, setBlocksState }) {
         </div>
       ) : null}
       <div className="list-header flex-row align-center justify-between">
-      <Button
-      fullWidth
-            startIcon={<MdBento size={24} className="mr-8" />}
-            onClick={() => handleCateogry(3)}
-          >
-            <span className="text-bold">Klasy</span>
-          </Button>
+        <Button
+          fullWidth
+          startIcon={<MdBento size={24} className="mr-8" />}
+          onClick={() => handleCateogry(3)}
+        >
+          <span className="text-bold">Klasy</span>
+        </Button>
       </div>
       <div></div>
     </div>
