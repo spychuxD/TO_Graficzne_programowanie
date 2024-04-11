@@ -11,8 +11,11 @@ import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
 import IfElseBlock from "./IfElseBlock";
 import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
+import { useSelector } from "react-redux";
+import ClassDefinitionBlock from "./ClassDefinitionBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
+  const classes = useSelector((state) => state.classes);
   const [category, setCategory] = useState([0]);
   const handleCateogry = (newVal) => {
     if (category.includes(newVal)) {
@@ -109,7 +112,21 @@ export default function Palette({ blocksState, setBlocksState }) {
           <span className="text-bold">Klasy</span>
         </Button>
       </div>
-      <div></div>
+      {category?.includes(3) ? (
+        <div>
+          <div className="flex-row align-center justify-center">
+            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+            <div className="text-center text-xx-small">
+              Kliknij na blok, aby go dodać
+            </div>
+          </div>
+          <div className="blocks-container slideDown">
+            {classes.map((v, k) => (
+              <ClassDefinitionBlock name={v.name} classId={v.id}/>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

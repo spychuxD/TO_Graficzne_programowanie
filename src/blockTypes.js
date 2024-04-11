@@ -6,3 +6,4 @@ export const ifElseBlock = "ifElseBlock";
 export const consoleLogBlock = "consoleLogBlock";
 export const variableBlock = "variableBlock";
 export const setOn = "setOn";
+export const classDefinitionBlock = "classDefinitionBlock";

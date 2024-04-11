@@ -5,10 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import VariableBlock from "./VariableBlock";
 import MethodBlock from "./MethodBlock";
 import { useDispatch } from "react-redux";
-import { createField } from "../redux/slices/Classes";
-import { createMethod } from "../redux/slices/Classes";
+import { createField, editClassName, createMethod } from "../redux/slices/Classes";
+import { useSelector } from "react-redux";
 
 function ClassBlock({reduxClassId}) {
+  const classObjest = useSelector(
+    (state) => state.classes.find(c => c.id===reduxClassId)
+  )
   const dispatch = useDispatch(); 
   const [data, setData] = useState({
     methodsItems: [],
@@ -16,37 +19,19 @@ function ClassBlock({reduxClassId}) {
   });
 
   const onAddField = () => {
-   /* const newData = { ...data };
-    const newElement = {
-      id: uuidv4(),
-      type: "type",
-      name: "",
-      availability: "type",
-      initVal: "",
-    };
-    newData.attributesItems.push(newElement);*/
     dispatch(createField({id:reduxClassId}));
-   // setData(newData);
   };
   const onAddMethods = () => {
-    /*const newData = { ...data };
-    const newElement = {
-      id: uuidv4(),
-      name: "",
-      items: []
-    };
-    newData.methodsItems.push(newElement);*/
     dispatch(createMethod({id:reduxClassId}));
-    //setData(newData);
   };
   return (
     <div className="border-r-10 bg-color-class blocks-container">
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
         <div className="text-bold text-white">Klasa</div>
-        <input className="block-input" type="text" placeholder="nazwa klasy" />
+        <input className="block-input" type="text" placeholder="Nazwa Klasy" value={classObjest.name} onChange={(e)=>dispatch(editClassName({id: reduxClassId,name: e.target.value}))}/>
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center">
-        {data.attributesItems.map((item, index) => (
+        {classObjest.fields.map((item, index) => (
           <div className="item-container">
             <VariableBlock {...item} data={data} setData={setData} />
           </div>
@@ -60,7 +45,7 @@ function ClassBlock({reduxClassId}) {
         </button>
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center">
-        {data.methodsItems.map((item, index) => (
+        {classObjest.methods.map((item, index) => (
           <div className="item-container w-full">
             <MethodBlock {...item} data={data} setData={setData} />
           </div>

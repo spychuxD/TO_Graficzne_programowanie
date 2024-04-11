@@ -3,12 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 
 const classesSlice = createSlice({
   name: "classes",
-  initialState: {
-    classes:[]
-  },
+  initialState: []
+  ,
   reducers: {
     addClass(state, action) {
-      state.classes.push({
+      state.push({
         id: action.payload.id,
         name: "Nienazwana klasa",
         fields: [],
@@ -16,7 +15,7 @@ const classesSlice = createSlice({
       });
     },
     createMethod(state,action){
-        const findedClass = state.classes.find(cl => cl.id === action.payload.id);
+        const findedClass = state.find(cl => cl.id === action.payload.id);
         if(findedClass!==undefined)
         {
             findedClass.methods.push({
@@ -25,7 +24,7 @@ const classesSlice = createSlice({
         }
     },
     createField(state,action){
-        const findedClass = state.classes.find(cl => cl.id === action.payload.id);
+        const findedClass = state.find(cl => cl.id === action.payload.id);
         if(findedClass!==undefined)
         {
             findedClass.fields.push({
@@ -33,8 +32,12 @@ const classesSlice = createSlice({
             })
         }
     },
+    editClassName(state,action){
+      const findedClass = state.find(cl => cl.id === action.payload.id);
+      findedClass.name = action.payload.name
+    }
   },
 });
 
-export const { addClass , createMethod , createField} = classesSlice.actions;
+export const { addClass , createMethod , createField , editClassName} = classesSlice.actions;
 export default classesSlice.reducer;
