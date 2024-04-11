@@ -6,11 +6,10 @@ function MainDroppable(props) {
     id: props.dropId,
   });
   const style = {
-
     width:"100%",
     transition: "0.1s",
     borderStyle: isOver? "solid" :undefined,
-    padding: isOver? 15 :undefined,
+    padding: isOver? 15 :10,
     height: props.placeholder?20 : undefined,
     borderRadius: 20,
   };

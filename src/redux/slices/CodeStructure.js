@@ -80,6 +80,8 @@ const codeStructureSlice = createSlice({
     },
     changeElementOrder(state, action) {
       const { object, over } = action.payload;
+      if(object === over)
+        return;
       const elementPathIndex = state.paths.find((el) => el.id === object).path;
       const destinationPathIndex = state.paths.find(
         (el) => el.id === over
@@ -163,8 +165,10 @@ const codeStructureSlice = createSlice({
         const elementIndex = v.path.findIndex((path) =>
           path.startsWith(object)
         );
-        const pathToConcat = JSON.parse(JSON.stringify(destinationPathIndex));
+        let pathToConcat = JSON.parse(JSON.stringify(destinationPathIndex));
         v.path.splice(0, elementIndex);
+        if(to!=="mainId")
+          pathToConcat = pathToConcat.concat(to);
         v.path = pathToConcat.concat(v.path);
       });
     },
