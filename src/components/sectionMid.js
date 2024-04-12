@@ -9,12 +9,15 @@ import MainDroppable from "./MainDroppable";
 import { useSelector } from "react-redux";
 import OrderDroppable from "./OrderDroppable";
 import { useDispatch } from "react-redux";
-import { changeElementOrder, inserElement } from "../redux/slices/CodeStructure";
+import {
+  changeElementOrder,
+  inserElement,
+} from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
 import ClassBlock from "../blocks/classBlock";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-  
+
   return (
     <div
       role="tabpanel"
@@ -25,7 +28,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component={"span"}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -55,31 +58,28 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
     setValue(newValue);
   };
 
-  function handleDragEnd(event) { 
+  function handleDragEnd(event) {
     if (event.over) {
-      debugger
+      //debugger
       const { active, over } = event;
       const idAndType = over.id.split("|");
-      
-      if(idAndType.length === 2)
-      {
-        switch(idAndType[1])
-        {
+
+      if (idAndType.length === 2) {
+        switch (idAndType[1]) {
           case "order":
-            dispatch(changeElementOrder({object:active.id,over:idAndType[0]}));
-          break;
+            dispatch(
+              changeElementOrder({ object: active.id, over: idAndType[0] })
+            );
+            break;
           default:
-            dispatch(inserElement({object:active.id,to:over.id}))
-          break;
+            dispatch(inserElement({ object: active.id, to: over.id }));
+            break;
         }
-      }
-      else
-      {
-        dispatch(inserElement({object:active.id,to:over.id}))
+      } else {
+        dispatch(inserElement({ object: active.id, to: over.id }));
       }
     }
   }
-
 
   return (
     <div className="sectionMid">
@@ -100,21 +100,19 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
           </Tabs>
         </div>
         {tabs.map((item, index) => (
-          <CustomTabPanel value={value} index={index}>
+          <CustomTabPanel value={value} index={index} key={index}>
             {item.name === "Sekcja" ? (
               <DndContext onDragEnd={handleDragEnd}>
                 <MainDroppable dropId={"mainId"}>
                   {codeStructureElements.map((store, index) => (
-                    <OrderDroppable dropId={store.id}>
-                     
+                    <OrderDroppable dropId={store.id} key={index}>
                       {blockRenderer(store)}
-                      
                     </OrderDroppable>
                   ))}
                 </MainDroppable>
               </DndContext>
             ) : (
-              <ClassBlock reduxClassId={item.id}/>
+              <ClassBlock reduxClassId={item.id} />
             )}
           </CustomTabPanel>
         ))}

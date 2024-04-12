@@ -5,10 +5,12 @@ import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteBlock from "../DeleteBlock";
 import { ArithmeticOperations } from "./ArithmeticOperations";
-import {useDraggable} from '@dnd-kit/core';
-import {CSS} from '@dnd-kit/utilities';
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
 import { addElement } from "../../redux/slices/CodeStructure";
+import MainDroppable from "../../components/MainDroppable";
+import blockRenderer from "../../blockRenderer";
 
 function ArithmeticBlocks(props) {
   const dispatch = useDispatch();
@@ -18,9 +20,9 @@ function ArithmeticBlocks(props) {
       id: uuidv4(),
       name: name,
       type: arithmeticBlocks,
-      items: [],
+      children: [[], []],
     };
-    
+
     dispatch(addElement(newElement));
   };
   const arithemticType = (name) => {
@@ -40,40 +42,52 @@ function ArithmeticBlocks(props) {
     }
   };
 
-  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
   });
-  const style = transform ? {
-    transform: CSS.Translate.toString(transform),
-  } : undefined;
+  const style = transform
+    ? {
+        transform: CSS.Translate.toString(transform),
+      }
+    : undefined;
 
   return (
     <Fragment>
       {props.id !== undefined ? (
-        
-            <div
-              className="control-block bg-color-arithmetic "
-              ref={setNodeRef} style={style} {...listeners} {...attributes}
-            >
-              <div className="control-block-without-shadow bg-color-arithmetic">
-                <input className="block-input" type="number" />
-                <span className="m-8">{arithemticType(props.name)}</span>
-                <input className="block-input" type="number" />{" "}
+        <div
+          className="control-block bg-color-arithmetic "
+          ref={setNodeRef}
+          style={style}
+          {...listeners}
+          {...attributes}
+        >
+          <div className="control-block-without-shadow bg-color-arithmetic">
+            <MainDroppable dropId={props.id + "|0"}>
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                {props.children[0].map((item, index) =>
+                  blockRenderer(item, index)
+                )}
               </div>
-              <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
-            </div>
+            </MainDroppable>
+            <span className="m-8">{arithemticType(props.name)}</span>
+            <MainDroppable dropId={props.id + "|1"}>
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                {props.children[1].map((item, index) =>
+                  blockRenderer(item, index)
+                )}
+              </div>
+            </MainDroppable>
+          </div>
+          <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
+        </div>
       ) : (
         <div
           className="control-block bg-color-arithmetic flex-row w-30 justify-center align-center"
           onClick={() => onAddElement(props.name)}
         >
-          <div>
-            <input disabled className="block-input w-half"/>
-          </div>
+          <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"></div>
           <div className="m-8">{arithemticType(props.name)}</div>
-          <div>
-            <input disabled className="block-input w-half"/>
-          </div>
+          <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"></div>
         </div>
       )}
     </Fragment>

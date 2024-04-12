@@ -49,7 +49,7 @@ function IfElseBlock(props) {
                   <MainDroppable dropId={props.id + "|0"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                       {props.children[0].map((item, index) =>
-                        blockRenderer(item)
+                        blockRenderer(item, index)
                       )}
                     </div>
                   </MainDroppable>
@@ -59,7 +59,7 @@ function IfElseBlock(props) {
                   <MainDroppable dropId={props.id + "|1"}>
                     <div className="w-min-50px w-full bg-color-if-body h-20px b-r-10">
                       {props.children[1].map((item, index) =>
-                        blockRenderer(item)
+                        blockRenderer(item, index)
                       )}
                     </div>
                   </MainDroppable>
@@ -71,7 +71,7 @@ function IfElseBlock(props) {
                   <MainDroppable dropId={props.id + "|2"}>
                     <div className="w-min-50px w-full bg-color-else h-20px b-r-10">
                       {props.children[2].map((item, index) =>
-                        blockRenderer(item)
+                        blockRenderer(item, index)
                       )}
                     </div>
                   </MainDroppable>

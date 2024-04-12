@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { variableBlock, variableDeclarationBlock } from "../../blockTypes";
 
 const getValueByPath = (obj, path) => {
   let newObj = obj;
@@ -23,25 +24,30 @@ const getValueByPath = (obj, path) => {
 const getObjectByPath = (obj, path) => {
   return path.reduce((acc, key) => acc[key], obj);
 };
-function updateElementByIdRecursive(id, elements, newObj) {
+function updateElementByIdRecursive(id, elements, fieldToModify, value) {
   for (let i = 0; i < elements.length; i++) {
     if (Array.isArray(elements[i])) {
       // Jeśli element jest tablicą, wywołaj funkcję rekurencyjnie
-      updateElementByIdRecursive(id.split(" | ")[0], elements[i], newObj);
+      updateElementByIdRecursive(
+        id.split("|")[0],
+        elements[i],
+        fieldToModify,
+        value
+      );
     } else if (typeof elements[i] === "object" && elements[i] !== null) {
       // Jeśli element jest obiektem, sprawdź jego id
-      if (elements[i].id.split(" | ")[0] === id) {
-        elements[0] = newObj;
-        return true;
+      if (elements[i].id.split("|")[0] === id) {
+        elements[i][fieldToModify] = value;
       } else {
         // Jeśli nie jest to żądany element, sprawdź jego dzieci
         for (const key in elements[i]) {
           if (Array.isArray(elements[i][key])) {
             // Jeśli element jest tablicą, wywołaj funkcję rekurencyjnie
             updateElementByIdRecursive(
-              id.split(" | ")[0],
+              id.split("|")[0],
               elements[i][key],
-              newObj
+              fieldToModify,
+              value
             );
           }
         }
@@ -60,6 +66,7 @@ const codeStructureSlice = createSlice({
         path: ["elements"],
       },
     ],
+    variables: [],
   },
   reducers: {
     addElement(state, action) {
@@ -68,20 +75,29 @@ const codeStructureSlice = createSlice({
         path: ["elements"],
       });
       state.elements.push(action.payload);
+      if (action.payload.name === "variableDeclaration")
+        state.variables.push(action.payload);
     },
     changeElement(state, action) {
       const { id, fieldToModify, value } = action.payload;
       const PathIndex = state.paths.find((el) => el.id === id).path;
-      const objectValue = JSON.parse(
+
+      let objectValue = JSON.parse(
         JSON.stringify(getValueByPath(state, PathIndex))
       );
-      objectValue[0][fieldToModify] = value;
-      updateElementByIdRecursive(id, state.elements, objectValue[0]);
+
+      objectValue = objectValue.find((obj) => obj.id.split("|")[0] === id);
+      objectValue[fieldToModify] = value;
+      updateElementByIdRecursive(id, state.elements, fieldToModify, value);
+
+      const variableToUpdate = state.variables.find(
+        (obj) => obj.id.split("|")[0] === id
+      );
+      variableToUpdate[fieldToModify] = value;
     },
     changeElementOrder(state, action) {
       const { object, over } = action.payload;
-      if(object === over)
-        return;
+      if (object === over) return;
       const elementPathIndex = state.paths.find((el) => el.id === object).path;
       const destinationPathIndex = state.paths.find(
         (el) => el.id === over
@@ -167,8 +183,7 @@ const codeStructureSlice = createSlice({
         );
         let pathToConcat = JSON.parse(JSON.stringify(destinationPathIndex));
         v.path.splice(0, elementIndex);
-        if(to!=="mainId")
-          pathToConcat = pathToConcat.concat(to);
+        if (to !== "mainId") pathToConcat = pathToConcat.concat(to);
         v.path = pathToConcat.concat(v.path);
       });
     },

@@ -1,24 +1,25 @@
-import "../App.css";
+import "../../App.css";
 import { Fragment } from "react";
-import { variableBlock } from "../blockTypes";
+import { variableDeclarationBlock } from "../../blockTypes";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "./DeleteBlock";
+import DeleteBlock from "../DeleteBlock";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
-import { addElement, changeElement } from "../redux/slices/CodeStructure";
-
-function VariableBlock(props) {
+import { addElement, changeElement } from "../../redux/slices/CodeStructure";
+import MainDroppable from "../../components/MainDroppable";
+import blockRenderer from "../../blockRenderer";
+function VariableDeclarationBlock(props) {
   const dispatch = useDispatch();
 
   const onAddElement = () => {
     const newElement = {
       id: uuidv4(),
-      name: "variable",
-      type: variableBlock,
-      dataType: "int",
+      name: "variableDeclaration",
+      type: variableDeclarationBlock,
       variableName: "test",
       availability: "public",
+      children: [[]],
     };
     dispatch(addElement(newElement));
   };
@@ -47,18 +48,13 @@ function VariableBlock(props) {
           {...listeners}
           {...attributes}
         >
-          <select
-            name="dataType"
-            className="block-select"
-            defaultValue={props.dataType}
-            onChange={(e) => onChangeElement("dataType", e)}
-          >
-            <option value="int">int</option>
-            <option value="string">string</option>
-            <option value="float">float</option>
-            <option value="double">double</option>
-            <option value="char">char</option>
-          </select>
+          <MainDroppable dropId={props.id + "|0"}>
+            <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+              {props.children[0]?.map((item, index) =>
+                blockRenderer(item, index)
+              )}
+            </div>
+          </MainDroppable>
           <input
             onChange={(e) => onChangeElement("variableName", e)}
             placeholder="Nazwa Zmiennej"
@@ -90,9 +86,7 @@ function VariableBlock(props) {
             borderColor: "#e3eef2",
           }}
         >
-          <select disabled name="dataType" className="block-select">
-            <option value="type">Typ Zmiennej</option>
-          </select>
+          <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"></div>
           <input
             placeholder="Nazwa Zmiennej"
             className="block-input"
@@ -112,4 +106,4 @@ function VariableBlock(props) {
     </Fragment>
   );
 }
-export default VariableBlock;
+export default VariableDeclarationBlock;
