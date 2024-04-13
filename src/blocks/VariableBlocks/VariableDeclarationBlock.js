@@ -29,9 +29,10 @@ function VariableDeclarationBlock(props) {
     );
   };
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),
@@ -44,37 +45,46 @@ function VariableDeclarationBlock(props) {
         <div
           className="blocks-container control-block bg-color-7"
           ref={setNodeRef}
-          style={style}
+          style={{ width: "min-content",...style}}
           {...listeners}
           {...attributes}
         >
-          <MainDroppable dropId={props.id + "|0"}>
-            <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-              {props.children[0]?.map((item, index) =>
-                blockRenderer(item, index)
-              )}
-            </div>
-          </MainDroppable>
-          <input
-            onChange={(e) => onChangeElement("variableName", e)}
-            placeholder="Nazwa Zmiennej"
-            className="block-input"
-            type="text"
-            defaultValue={props.variableName}
-          />
-          <select
-            onChange={(e) => onChangeElement("availability", e)}
-            name="availability"
-            className="block-select"
-            defaultValue={props.availability}
-          >
-            <option value="public">public</option>
-            <option value="private">private</option>
-            <option value="protected">protected</option>
-          </select>
-          <div>
-            <DeleteBlock id={props.id} setBlocksState={props.setBlocksState} />
-          </div>
+          {!isDragging ? (
+            <Fragment>
+              <MainDroppable dropId={props.id + "|0"}>
+                <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                  {props.children[0]?.map((item, index) =>
+                    blockRenderer(item, index)
+                  )}
+                </div>
+              </MainDroppable>
+              <input
+                onChange={(e) => onChangeElement("variableName", e)}
+                placeholder="Nazwa Zmiennej"
+                className="block-input"
+                type="text"
+                defaultValue={props.variableName}
+              />
+              <select
+                onChange={(e) => onChangeElement("availability", e)}
+                name="availability"
+                className="block-select"
+                defaultValue={props.availability}
+              >
+                <option value="public">public</option>
+                <option value="private">private</option>
+                <option value="protected">protected</option>
+              </select>
+              <div>
+                <DeleteBlock
+                  id={props.id}
+                  setBlocksState={props.setBlocksState}
+                />
+              </div>
+            </Fragment>
+          ) : (
+            <div className=" text-nowrap">Deklaracja zmiennej</div>
+          )}
         </div>
       ) : (
         <div

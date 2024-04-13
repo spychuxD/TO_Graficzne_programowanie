@@ -8,6 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
 import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
+import blockRenderer from "../blockRenderer";
 function ForBlock(props) {
   const [selectedOption, setSelectedOption] = useState("");
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function ForBlock(props) {
       id: uuidv4(),
       name: "for",
       type: forBlock,
-      items: [],
+      children: [[], [], [], []],
     };
     dispatch(addElement(newElement));
   };
@@ -38,52 +39,61 @@ function ForBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div
+          ref={setNodeRef}
+          className="control-block bg-color-for"
+          style={{ width: "min-content", ...style }}
+          {...listeners}
+          {...attributes}
+        >
           {!isDragging ? (
-            <div
-              className="bg-color-for border-r-10"
-              style={{
-                border: "1px",
-                borderStyle: "solid",
-                borderColor: "#e3eef2",
-              }}
-            >
-              <div className="control-block-grid">
-                <div className="text-bold text-white">FOR</div>
-                <select
-                  className="block-select"
-                  value={selectedOption}
-                  onChange={handleOptionChange}
-                >
-                  <option value="">Wybierz opcję</option>
-                  <option value="option1">Opcja 1</option>
-                  <option value="option2">Opcja 2</option>
-                  <option value="option3">Opcja 3</option>
-                </select>
-                <div className="text-bold text-white">FROM</div>
-                <input className="block-input" type="number" />
-                <div className="text-bold text-white">TO</div>
-                <input className="block-input" type="number" />
-                <div className="text-bold text-white">AT STEP</div>
-                <input className="block-input" type="number" />
-              </div>
-              <div className="items-container">
-                <MainDroppable dropId={"for"}>
-                  {props.items.map((item, index) => (
-                    <div
-                      className="item-container"
-                      style={{
-                        left: "auto !important",
-                        top: "auto !important",
-                      }}
-                    >
-                      <div className="workbench m-8 bg-color-workbench">
-                        {item.name}
-                      </div>
+            <div className="">
+              <div className="">
+                <div style={{ border: "none" }} className="control-block">
+                  <div className="text-bold text-white text-nowrap">
+                    Powtarzaj dla
+                  </div>
+                  <MainDroppable dropId={props.id + "|0"}>
+                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                      {props.children[0].map((item, index) =>
+                        blockRenderer(item, index)
+                      )}
                     </div>
-                  ))}
-                </MainDroppable>
+                  </MainDroppable>
+                  <div className="text-bold text-white text-nowrap">dopuki</div>
+                  <MainDroppable dropId={props.id + "|1"}>
+                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                      {props.children[1].map((item, index) =>
+                        blockRenderer(item, index)
+                      )}
+                    </div>
+                  </MainDroppable>
+                  <div className="text-bold text-white text-nowrap">
+                    a potem
+                  </div>
+                  <MainDroppable dropId={props.id + "|2"}>
+                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                      {props.children[2].map((item, index) =>
+                        blockRenderer(item, index)
+                      )}
+                    </div>
+                  </MainDroppable>
+                </div>
+                <div
+                  style={{ border: "none" }}
+                  className="control-block flex-col"
+                >
+                  <div className="text-bold text-white ">wykonaj</div>
+                  <MainDroppable dropId={props.id + "|3"}>
+                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                      {props.children[3].map((item, index) =>
+                        blockRenderer(item, index)
+                      )}
+                    </div>
+                  </MainDroppable>
+                </div>
               </div>
+              <div className="items-container"></div>
               <div>
                 <DeleteBlock
                   id={props.id}
@@ -92,34 +102,32 @@ function ForBlock(props) {
               </div>
             </div>
           ) : (
-            <div className="control-block w-20 bg-color-for text-bold text-white">for</div>
+            <div className="">Pętla for</div>
           )}
         </div>
       ) : (
-        <div
-          className="control-block-grid-2 bg-color-for"
-          onClick={onAddElement}
-          style={{
-            border: "1px",
-            borderStyle: "solid",
-            borderColor: "#e3eef2",
-          }}
-        >
-          <div className="text-bold text-white">FOR</div>
-          <select
-            disabled
-            className="block-select "
-            value={selectedOption}
-            onChange={handleOptionChange}
-          >
-            <option value="">Wybierz opcję</option>
-          </select>
-          <span className="text-bold text-white">FROM</span>
-          <input disabled className="block-input " value={0} />
-          <span className="text-bold text-white">TO</span>
-          <input disabled className="block-input " value={10} />
-          <span className="text-bold text-white">AT STEP</span>
-          <input disabled className="block-input " value={1} />
+        <div onClick={onAddElement} className="control-block bg-color-for">
+          <div>
+          <div style={{ border: "none" }} className="control-block">
+            <div className="text-bold text-small text-white text-nowrap m-4">
+              Powtarzaj dla
+            </div>
+            <input
+              disabled
+              style={{ width: 20 }}
+              className="block-input-blocked "
+              value={""}
+            />
+            <span className="text-bold text-small text-white text-nowrap m-4">dupuki</span>
+            <input disabled className="block-input-blocked" value={""} />
+            <span className="text-bold text-small text-white text-nowrap m-4">a potem</span>
+            <input disabled className="block-input-blocked " value={""} />
+          </div>
+          <div style={{ border: "none" }} className="control-block flex-col">
+            <span className="text-bold text-small text-white text-nowrap mr-4">wykonaj</span>
+            <input disabled className="block-input " value={""} />
+          </div>
+        </div>
         </div>
       )}
     </Fragment>

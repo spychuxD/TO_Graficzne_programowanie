@@ -47,7 +47,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               Kliknij na blok, aby go dodać
             </div>
           </div>
-          <div className="blocks-container slideDown">
+          <div className="palette-blocks-container slideDown">
             <BeginBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}
@@ -93,7 +93,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               Kliknij na blok, aby go dodać
             </div>
           </div>
-          <div className="blocks-container slideDown">
+          <div className="palette-blocks-container slideDown">
             {variables?.map((v, k) => (
               <VariableBlock
                 key={k}
@@ -124,7 +124,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               Kliknij na blok, aby go dodać
             </div>
           </div>
-          <div className="blocks-container slideDown">
+          <div className="palette-blocks-container slideDown">
             {Object.keys(ArithmeticOperations).map(
               (arithmeticOperation, index) => (
                 <ArithmeticBlocks
@@ -155,7 +155,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               Kliknij na blok, aby go dodać
             </div>
           </div>
-          <div className="blocks-container slideDown">
+          <div className="palette-blocks-container slideDown">
             {Object.keys(VariableTypes).map((variableType, index) => (
               <VariableTypesBlock
                 key={index}
@@ -184,7 +184,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               Kliknij na blok, aby go dodać
             </div>
           </div>
-          <div className="blocks-container slideDown">
+          <div className="palette-blocks-container slideDown">
             {classes.map((v, k) => (
               <ClassDefinitionBlock name={v.name} classId={v.id} />
             ))}

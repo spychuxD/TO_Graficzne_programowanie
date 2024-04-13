@@ -34,23 +34,23 @@ function EndBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div ref={setNodeRef}  className="control-block bg-color-end" style={{ width: "min-content",...style}} {...listeners} {...attributes}>
           {!isDragging ? (
             <Fragment>
-              <div className="control-block bg-color-end">
+              
                 <div className="text-bold text-small text-white">STOP</div>
                 <DeleteBlock
                   id={props.id}
                   setBlocksState={props.setBlocksState}
                 />
-              </div>
+             
             </Fragment>
           ) : (
-            <div className="control-block bg-color-end w-20 text-bold text-white">STOP</div>
+            <div className="bg-color-end text-bold text-white">STOP</div>
           )}
         </div>
       ) : (
-        <div className="control-block bg-color-end" onClick={onAddElement}>
+        <div style={{height:20}} className="control-block bg-color-end" onClick={onAddElement}>
           <div className="text-bold text-small text-white">STOP</div>
         </div>
       )}

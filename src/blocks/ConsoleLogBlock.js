@@ -35,39 +35,40 @@ function ConsoleLogBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div
+          ref={setNodeRef}
+          className="blocks-container control-block bg-color-console"
+          style={{ width: "min-content", ...style }}
+          {...listeners}
+          {...attributes}
+        >
           {!isDragging ? (
-            <div
-              className="control-block bg-color-console"
-              style={{ display: "flex", flexDirection: "column" }}
-            >
-              <Fragment>
-                <div className="flex-row center w-full">
-                  <div className="text-bold text-small text-white mr-8">
-                    Wyświetl
-                  </div>
-                  <MainDroppable dropId={props.id + "|0"}>
-                    <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
-                      {props.children[0].map((item, index) =>
-                        blockRenderer(item)
-                      )}
-                    </div>
-                  </MainDroppable>
+            <Fragment>
+              <div className="flex-row center w-full">
+                <div className="text-bold text-small text-white mr-8">
+                  Wyświetl
                 </div>
-                <DeleteBlock
-                  id={props.id}
-                  setBlocksState={props.setBlocksState}
-                />
-              </Fragment>
-            </div>
+                <MainDroppable dropId={props.id + "|0"}>
+                  <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
+                    {props.children[0].map((item, index) =>
+                      blockRenderer(item)
+                    )}
+                  </div>
+                </MainDroppable>
+              </div>
+              <DeleteBlock
+                id={props.id}
+                setBlocksState={props.setBlocksState}
+              />
+            </Fragment>
           ) : (
-            <div className="control-block w-50 bg-color-console text-bold text-white">
+            <div>
               Wyświetl
             </div>
           )}
         </div>
       ) : (
-        <div className="control-block bg-color-console" onClick={onAddElement}>
+        <div className="blocks-container control-block bg-color-console" onClick={onAddElement}>
           <div className="text-bold text-small text-white mr-8">Wyświetl</div>
           <div className="w-min-50px h-20px b-r-10 bg-color-console-text" />
         </div>

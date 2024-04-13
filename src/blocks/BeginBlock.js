@@ -34,9 +34,9 @@ function BeginBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div ref={setNodeRef} className="control-block bg-color-start" style={{ width: "min-content",...style}} {...listeners} {...attributes}>
           {!isDragging ? (
-            <div className="control-block bg-color-start">
+            
               <Fragment>
                 <div className="text-bold text-small text-white">START</div>
                 <DeleteBlock
@@ -44,13 +44,13 @@ function BeginBlock(props) {
                   id={props.id}
                 />
               </Fragment>
-            </div>
+          
           ) : (
-            <div className="control-block w-20 bg-color-start text-bold text-white">START</div>
+            <div className=" bg-color-start text-bold text-white">START</div>
           )}
         </div>
       ) : (
-        <div className="control-block bg-color-start" onClick={onAddElement}>
+        <div style={{height:20}} className="control-block bg-color-start" onClick={onAddElement}>
           <div className="text-bold text-small text-white">START</div>
         </div>
       )}

@@ -18,7 +18,7 @@ function SetOn(props) {
       id: uuidv4(),
       name: "setOn",
       type: setOn,
-      children: [[]],
+      children: [[], []],
       variableValue: "",
     };
 
@@ -37,37 +37,39 @@ function SetOn(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-          <div
-            className="control-block bg-color-if"
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            {!isDragging ? (
-              <Fragment>
-                <div className="text-bold text-white">Ustaw zmienną</div>
-                <MainDroppable dropId={props.id + "|0"}>
-                  <div className="w-full bg-color-else h-50px b-r-10">
-                    {props.children[0].map((item, index) =>
-                      blockRenderer(item)
-                    )}
-                  </div>
-                </MainDroppable>
-                <div className="text-bold text-white">na</div>
-                <input
-                  placeholder="Wartosc startowa"
-                  className="block-input"
-                  type="text"
-                  defaultValue={props.variableValue}
-                />
-                <DeleteBlock
-                  id={props.id}
-                  setBlocksState={props.setBlocksState}
-                />
-              </Fragment>
-            ) : (
-              <div className="text-bold text-white">Ustaw zmienną</div>
-            )}
-          </div>
+        <div
+          ref={setNodeRef}
+          className="control-block bg-color-if"
+          style={{ width: "min-content", ...style }}
+          {...listeners}
+          {...attributes}
+        >
+          {!isDragging ? (
+            <Fragment>
+              <div className="text-bold text-white">Ustaw </div>
+              <MainDroppable dropId={props.id + "|0"}>
+                <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                  {props.children[0]?.map((item, index) =>
+                    blockRenderer(item, index)
+                  )}
+                </div>
+              </MainDroppable>
+              <div className="text-bold text-white">na</div>
+              <MainDroppable dropId={props.id + "|1"}>
+                <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                  {props.children[1]?.map((item, index) =>
+                    blockRenderer(item, index)
+                  )}
+                </div>
+              </MainDroppable>
+              <DeleteBlock
+                id={props.id}
+                setBlocksState={props.setBlocksState}
+              />
+            </Fragment>
+          ) : (
+            <div className="text-bold text-white">Ustaw zmienną</div>
+          )}
         </div>
       ) : (
         <div className="control-block bg-color-if" onClick={onAddElement}>

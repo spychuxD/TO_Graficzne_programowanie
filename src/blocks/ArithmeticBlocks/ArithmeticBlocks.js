@@ -42,7 +42,7 @@ function ArithmeticBlocks(props) {
     }
   };
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform,isDragging } = useDraggable({
     id: props.id,
   });
   const style = transform
@@ -57,32 +57,42 @@ function ArithmeticBlocks(props) {
         <div
           className="control-block bg-color-arithmetic "
           ref={setNodeRef}
-          style={style}
+          style={{ width: "min-content",...style}}
           {...listeners}
           {...attributes}
         >
-          <div className="control-block-without-shadow bg-color-arithmetic">
-            <MainDroppable dropId={props.id + "|0"}>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                {props.children[0].map((item, index) =>
-                  blockRenderer(item, index)
-                )}
+           {!isDragging ? (
+            <Fragment>
+              <div className="control-block-without-shadow bg-color-arithmetic">
+              <MainDroppable dropId={props.id + "|0"}>
+                <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                  {props.children[0].map((item, index) =>
+                    blockRenderer(item, index)
+                  )}
+                </div>
+              </MainDroppable>
+              <span className="m-8">{arithemticType(props.name)}</span>
+              <MainDroppable dropId={props.id + "|1"}>
+                <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                  {props.children[1].map((item, index) =>
+                    blockRenderer(item, index)
+                  )}
+                </div>
+              </MainDroppable>
+            </div>
+            <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
+            </Fragment>
+           ):(
+            <div className="control-block-without-shadow bg-color-arithmetic">
+              <span className="m-8">{arithemticType(props.name)}</span>
               </div>
-            </MainDroppable>
-            <span className="m-8">{arithemticType(props.name)}</span>
-            <MainDroppable dropId={props.id + "|1"}>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                {props.children[1].map((item, index) =>
-                  blockRenderer(item, index)
-                )}
-              </div>
-            </MainDroppable>
-          </div>
-          <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
+           )
+          }
+        
         </div>
       ) : (
         <div
-          className="control-block bg-color-arithmetic flex-row w-30 justify-center align-center"
+          className="control-block bg-color-arithmetic flex-row justify-center align-center"
           onClick={() => onAddElement(props.name)}
         >
           <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"></div>

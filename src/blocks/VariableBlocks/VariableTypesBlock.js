@@ -47,7 +47,7 @@ function VariableTypesBlock(props) {
         </div>
       ) : (
         <div
-          className="control-block bg-color-arithmetic flex-row w-30 justify-center align-center"
+          className="control-block bg-color-arithmetic flex-row justify-center align-center"
           onClick={() => onAddElement(props.name)}
         >
           <div className="m-8">{props.name}</div>

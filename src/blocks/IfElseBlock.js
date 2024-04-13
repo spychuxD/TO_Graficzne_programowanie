@@ -38,24 +38,29 @@ function IfElseBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div
+          ref={setNodeRef}
+          style={{ width: "min-content", ...style }}
+          {...listeners}
+          {...attributes}
+        >
           {!isDragging ? (
             <div className="control-block bg-color-if">
               <div className="flex-col gap-10 center w-full">
                 <div className="flex-row center w-full">
-                  <div className="text-bold text-small text-white mr-8">
+                  <div className="text-bold text-small text-white mr-8 flex-row align-center">
                     Jeżeli
+                    <MainDroppable dropId={props.id + "|0"}>
+                      <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                        {props.children[0].map((item, index) =>
+                          blockRenderer(item, index)
+                        )}
+                      </div>
+                    </MainDroppable>
+                    to
                   </div>
-                  <MainDroppable dropId={props.id + "|0"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[0].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
                 </div>
                 <div className="flex-row center w-full">
-                  <div className="text-bold text-small text-white mr-8">to</div>
                   <MainDroppable dropId={props.id + "|1"}>
                     <div className="w-min-50px w-full bg-color-if-body h-20px b-r-10">
                       {props.children[1].map((item, index) =>
@@ -68,6 +73,8 @@ function IfElseBlock(props) {
                   <div className="text-bold text-small text-white mr-8 text-nowrap">
                     jeśli nie
                   </div>
+                </div>
+                <div className="flex-row center w-full">
                   <MainDroppable dropId={props.id + "|2"}>
                     <div className="w-min-50px w-full bg-color-else h-20px b-r-10">
                       {props.children[2].map((item, index) =>
@@ -76,6 +83,7 @@ function IfElseBlock(props) {
                     </div>
                   </MainDroppable>
                 </div>
+
                 <DeleteBlock
                   id={props.id}
                   setBlocksState={props.setBlocksState}
@@ -83,8 +91,8 @@ function IfElseBlock(props) {
               </div>
             </div>
           ) : (
-            <div className="control-block bg-color-if w-20 text-bold text-white">
-              if else
+            <div className="blocks-container control-block bg-color-if text-bold text-white">
+              if-else
             </div>
           )}
         </div>

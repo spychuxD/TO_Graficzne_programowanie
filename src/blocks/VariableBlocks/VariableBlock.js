@@ -37,14 +37,17 @@ function VariableBlock(props) {
         <div
           className="blocks-container control-block bg-color-7"
           ref={setNodeRef}
-          style={style}
+          style={{ width: "min-content",...style}}
           {...listeners}
           {...attributes}
         >
+     
           {props.variableName}
           <div>
             <DeleteBlock id={props.id} setBlocksState={props.setBlocksState} />
           </div>
+ 
+         
         </div>
       ) : (
         <div
@@ -54,6 +57,7 @@ function VariableBlock(props) {
             border: "1px",
             borderStyle: "solid",
             borderColor: "#e3eef2",
+            width: "min-content",
           }}
         >
           {props.variableName}

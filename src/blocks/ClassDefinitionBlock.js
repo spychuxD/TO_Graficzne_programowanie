@@ -43,7 +43,10 @@ export default function ClassDefinitionBlock(props) {
         </div>
       ) : (
         <div onClick={onAddElement} className="control-block bg-color-01">
+          <div className="m-8">
           {props.name}
+          </div>
+          
         </div>
       )}
     </Fragment>
