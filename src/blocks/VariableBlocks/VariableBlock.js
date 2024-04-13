@@ -2,11 +2,10 @@ import "../../App.css";
 import { Fragment } from "react";
 import { variableBlock } from "../../blockTypes";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "../DeleteBlock";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
-import { addElement, changeElement } from "../../redux/slices/CodeStructure";
+import { addElement } from "../../redux/slices/CodeStructure";
 
 function VariableBlock(props) {
   const dispatch = useDispatch();
@@ -37,17 +36,11 @@ function VariableBlock(props) {
         <div
           className="blocks-container control-block bg-color-7"
           ref={setNodeRef}
-          style={{ width: "min-content",...style}}
+          style={{ width: "min-content", ...style }}
           {...listeners}
           {...attributes}
         >
-     
           {props.variableName}
-          <div>
-            <DeleteBlock id={props.id} setBlocksState={props.setBlocksState} />
-          </div>
- 
-         
         </div>
       ) : (
         <div

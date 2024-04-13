@@ -2,8 +2,7 @@ import "../App.css";
 import { beginBlock } from "../blockTypes";
 import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "./DeleteBlock";
-import { useDraggable, useIsDragging } from "@dnd-kit/core";
+import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
@@ -34,23 +33,25 @@ function BeginBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} className="control-block bg-color-start" style={{ width: "min-content",...style}} {...listeners} {...attributes}>
+        <div
+          ref={setNodeRef}
+          className="control-block bg-color-start"
+          style={{ width: "min-content", ...style }}
+          {...listeners}
+          {...attributes}
+        >
           {!isDragging ? (
-            
-              <Fragment>
-                <div className="text-bold text-small text-white">START</div>
-                <DeleteBlock
-                  setBlocksState={props.setBlocksState}
-                  id={props.id}
-                />
-              </Fragment>
-          
+            <div className="text-bold text-small text-white">START</div>
           ) : (
             <div className=" bg-color-start text-bold text-white">START</div>
           )}
         </div>
       ) : (
-        <div style={{height:20}} className="control-block bg-color-start" onClick={onAddElement}>
+        <div
+          style={{ height: 20 }}
+          className="control-block bg-color-start"
+          onClick={onAddElement}
+        >
           <div className="text-bold text-small text-white">START</div>
         </div>
       )}

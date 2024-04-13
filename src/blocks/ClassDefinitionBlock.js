@@ -5,7 +5,6 @@ import { useDraggable } from "@dnd-kit/core";
 import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
 import { CSS } from "@dnd-kit/utilities";
-import DeleteBlock from "./DeleteBlock";
 import { useSelector } from "react-redux";
 export default function ClassDefinitionBlock(props) {
   const dispatch = useDispatch();
@@ -38,15 +37,11 @@ export default function ClassDefinitionBlock(props) {
         <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
           <div className="control-block bg-color-01">
             {classObject.name}
-            <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
           </div>
         </div>
       ) : (
         <div onClick={onAddElement} className="control-block bg-color-01">
-          <div className="m-8">
-          {props.name}
-          </div>
-          
+          <div className="m-8">{props.name}</div>
         </div>
       )}
     </Fragment>

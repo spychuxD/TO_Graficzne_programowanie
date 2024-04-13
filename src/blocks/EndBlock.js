@@ -1,6 +1,5 @@
 import "../App.css";
 import { Fragment } from "react";
-import DeleteBlock from "./DeleteBlock";
 import { endBlock } from "../blockTypes";
 import { v4 as uuidv4 } from "uuid";
 import { useDraggable } from "@dnd-kit/core";
@@ -34,23 +33,25 @@ function EndBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef}  className="control-block bg-color-end" style={{ width: "min-content",...style}} {...listeners} {...attributes}>
+        <div
+          ref={setNodeRef}
+          className="control-block bg-color-end"
+          style={{ width: "min-content", ...style }}
+          {...listeners}
+          {...attributes}
+        >
           {!isDragging ? (
-            <Fragment>
-              
-                <div className="text-bold text-small text-white">STOP</div>
-                <DeleteBlock
-                  id={props.id}
-                  setBlocksState={props.setBlocksState}
-                />
-             
-            </Fragment>
+            <div className="text-bold text-small text-white">STOP</div>
           ) : (
             <div className="bg-color-end text-bold text-white">STOP</div>
           )}
         </div>
       ) : (
-        <div style={{height:20}} className="control-block bg-color-end" onClick={onAddElement}>
+        <div
+          style={{ height: 20 }}
+          className="control-block bg-color-end"
+          onClick={onAddElement}
+        >
           <div className="text-bold text-small text-white">STOP</div>
         </div>
       )}

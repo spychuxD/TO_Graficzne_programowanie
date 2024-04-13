@@ -11,6 +11,7 @@ import OrderDroppable from "./OrderDroppable";
 import { useDispatch } from "react-redux";
 import {
   changeElementOrder,
+  deleteElement,
   inserElement,
 } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
@@ -59,9 +60,15 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
   };
 
   function handleDragEnd(event) {
+    //debugger
     if (event.over) {
       //debugger
       const { active, over } = event;
+      if(over.id === "deleteId")
+      {
+        dispatch(deleteElement({id:active.id}));
+        return;
+      }
       const idAndType = over.id.split("|");
 
       if (idAndType.length === 2) {
@@ -79,6 +86,9 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
         dispatch(inserElement({ object: active.id, to: over.id }));
       }
     }
+  }
+  function handleDelete(event){
+    console.log("dziala")
   }
 
   return (
@@ -110,10 +120,21 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                     </OrderDroppable>
                   ))}
                 </MainDroppable>
+                <div style={{position:"absolute",right:30,top:30}}>
+                <MainDroppable dropId={"deleteId"}>
+                  <div className="blocks-container" style={{width:90,height:70,backgroundColor:"red",borderRadius:10}}>
+                    Przenieś aby usunąć
+                  </div>
+                </MainDroppable>
+                </div>
+                
               </DndContext>
             ) : (
               <ClassBlock reduxClassId={item.id} />
             )}
+            <DndContext onDragEnd={handleDelete}>
+                
+              </DndContext>
           </CustomTabPanel>
         ))}
       </div>

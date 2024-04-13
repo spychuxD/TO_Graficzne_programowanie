@@ -2,7 +2,6 @@ import "../../App.css";
 import { variableTypesBlock } from "../../blockTypes";
 import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "../DeleteBlock";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
@@ -21,9 +20,10 @@ function VariableTypesBlock(props) {
     dispatch(addElement(newElement));
   };
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),
@@ -36,14 +36,17 @@ function VariableTypesBlock(props) {
         <div
           className="control-block bg-color-arithmetic "
           ref={setNodeRef}
-          style={style}
+          style={{ width: "min-content", ...style }}
           {...listeners}
           {...attributes}
         >
-          <div className="control-block-without-shadow bg-color-arithmetic">
-            {props.name}
-          </div>
-          <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
+          {!isDragging ? (
+            <div className="control-block-without-shadow bg-color-arithmetic">
+              {props.name}
+            </div>
+          ) : (
+            <div>{props.name}</div>
+          )}
         </div>
       ) : (
         <div

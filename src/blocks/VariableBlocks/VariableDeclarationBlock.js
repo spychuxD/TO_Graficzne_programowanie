@@ -2,7 +2,6 @@ import "../../App.css";
 import { Fragment } from "react";
 import { variableDeclarationBlock } from "../../blockTypes";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "../DeleteBlock";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
@@ -75,12 +74,6 @@ function VariableDeclarationBlock(props) {
                 <option value="private">private</option>
                 <option value="protected">protected</option>
               </select>
-              <div>
-                <DeleteBlock
-                  id={props.id}
-                  setBlocksState={props.setBlocksState}
-                />
-              </div>
             </Fragment>
           ) : (
             <div className=" text-nowrap">Deklaracja zmiennej</div>

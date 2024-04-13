@@ -1,10 +1,7 @@
 import "../App.css";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "./DeleteBlock";
-import ArithmeticBlocks from "./ArithmeticBlocks/ArithmeticBlocks";
-import { arithmeticBlocks, forBlock, ifElseBlock } from "../blockTypes";
-import ForBlock from "./ForBlock";
+import { ifElseBlock } from "../blockTypes";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
@@ -84,10 +81,6 @@ function IfElseBlock(props) {
                   </MainDroppable>
                 </div>
 
-                <DeleteBlock
-                  id={props.id}
-                  setBlocksState={props.setBlocksState}
-                />
               </div>
             </div>
           ) : (

@@ -1,7 +1,6 @@
 import "../App.css";
 import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "./DeleteBlock";
 import { setOn } from "../blockTypes";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
@@ -62,10 +61,6 @@ function SetOn(props) {
                   )}
                 </div>
               </MainDroppable>
-              <DeleteBlock
-                id={props.id}
-                setBlocksState={props.setBlocksState}
-              />
             </Fragment>
           ) : (
             <div className="text-bold text-white">Ustaw zmienną</div>

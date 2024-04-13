@@ -1,8 +1,7 @@
 import "../App.css";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { forBlock } from "../blockTypes";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "./DeleteBlock";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
@@ -10,11 +9,7 @@ import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
 function ForBlock(props) {
-  const [selectedOption, setSelectedOption] = useState("");
   const dispatch = useDispatch();
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
 
   const onAddElement = () => {
     const newElement = {
@@ -94,12 +89,6 @@ function ForBlock(props) {
                 </div>
               </div>
               <div className="items-container"></div>
-              <div>
-                <DeleteBlock
-                  id={props.id}
-                  setBlocksState={props.setBlocksState}
-                />
-              </div>
             </div>
           ) : (
             <div className="">Pętla for</div>
@@ -108,26 +97,32 @@ function ForBlock(props) {
       ) : (
         <div onClick={onAddElement} className="control-block bg-color-for">
           <div>
-          <div style={{ border: "none" }} className="control-block">
-            <div className="text-bold text-small text-white text-nowrap m-4">
-              Powtarzaj dla
+            <div style={{ border: "none" }} className="control-block">
+              <div className="text-bold text-small text-white text-nowrap m-4">
+                Powtarzaj dla
+              </div>
+              <input
+                disabled
+                style={{ width: 20 }}
+                className="block-input-blocked "
+                value={""}
+              />
+              <span className="text-bold text-small text-white text-nowrap m-4">
+                dupuki
+              </span>
+              <input disabled className="block-input-blocked" value={""} />
+              <span className="text-bold text-small text-white text-nowrap m-4">
+                a potem
+              </span>
+              <input disabled className="block-input-blocked " value={""} />
             </div>
-            <input
-              disabled
-              style={{ width: 20 }}
-              className="block-input-blocked "
-              value={""}
-            />
-            <span className="text-bold text-small text-white text-nowrap m-4">dupuki</span>
-            <input disabled className="block-input-blocked" value={""} />
-            <span className="text-bold text-small text-white text-nowrap m-4">a potem</span>
-            <input disabled className="block-input-blocked " value={""} />
+            <div style={{ border: "none" }} className="control-block flex-col">
+              <span className="text-bold text-small text-white text-nowrap mr-4">
+                wykonaj
+              </span>
+              <input disabled className="block-input " value={""} />
+            </div>
           </div>
-          <div style={{ border: "none" }} className="control-block flex-col">
-            <span className="text-bold text-small text-white text-nowrap mr-4">wykonaj</span>
-            <input disabled className="block-input " value={""} />
-          </div>
-        </div>
         </div>
       )}
     </Fragment>

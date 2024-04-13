@@ -187,9 +187,39 @@ const codeStructureSlice = createSlice({
         v.path = pathToConcat.concat(v.path);
       });
     },
+    deleteElement(state, action) {
+      debugger;
+      //uzyskanie sziezki miejsca docelowego elementu
+      const elementPath = state.paths.find(
+        (el) => el.id === action.payload.id
+      ).path;
+      let elementLocalization = getValueByPath(state, elementPath);
+
+      // Uzyskanie indeksu elementu do usunięcia
+      const indexToRemove = elementLocalization.findIndex(
+        (el) => el.id === action.payload.id
+      );
+      //usuwanie elementu
+      if (indexToRemove != -1) {
+        elementLocalization.splice(indexToRemove, 1);
+      }
+      //usuniece sniezek(do poprawy)
+      state.paths
+      .map((pathItem, index) => {
+          // Sprawdzenie, czy identyfikator występuje w ścieżce
+          if (pathItem.path.some((segment) => segment.startsWith(action.payload.id))) {
+            state.paths.splice(index, 1);
+          }
+      })
+    },
   },
 });
 
-export const { addElement, changeElement, changeElementOrder, inserElement } =
-  codeStructureSlice.actions;
+export const {
+  addElement,
+  changeElement,
+  changeElementOrder,
+  inserElement,
+  deleteElement,
+} = codeStructureSlice.actions;
 export default codeStructureSlice.reducer;

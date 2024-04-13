@@ -1,9 +1,7 @@
-import { Draggable } from "react-beautiful-dnd";
 import "../../App.css";
 import { arithmeticBlocks } from "../../blockTypes";
 import { Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteBlock from "../DeleteBlock";
 import { ArithmeticOperations } from "./ArithmeticOperations";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
@@ -42,9 +40,10 @@ function ArithmeticBlocks(props) {
     }
   };
 
-  const { attributes, listeners, setNodeRef, transform,isDragging } = useDraggable({
-    id: props.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: props.id,
+    });
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),
@@ -57,13 +56,12 @@ function ArithmeticBlocks(props) {
         <div
           className="control-block bg-color-arithmetic "
           ref={setNodeRef}
-          style={{ width: "min-content",...style}}
+          style={{ width: "min-content", ...style }}
           {...listeners}
           {...attributes}
         >
-           {!isDragging ? (
-            <Fragment>
-              <div className="control-block-without-shadow bg-color-arithmetic">
+          {!isDragging ? (
+            <div className="control-block-without-shadow bg-color-arithmetic">
               <MainDroppable dropId={props.id + "|0"}>
                 <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                   {props.children[0].map((item, index) =>
@@ -80,15 +78,11 @@ function ArithmeticBlocks(props) {
                 </div>
               </MainDroppable>
             </div>
-            <DeleteBlock setBlocksState={props.setBlocksState} id={props.id} />
-            </Fragment>
-           ):(
+          ) : (
             <div className="control-block-without-shadow bg-color-arithmetic">
               <span className="m-8">{arithemticType(props.name)}</span>
-              </div>
-           )
-          }
-        
+            </div>
+          )}
         </div>
       ) : (
         <div
