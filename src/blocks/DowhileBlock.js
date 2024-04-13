@@ -1,6 +1,5 @@
 import "../App.css";
 import { Fragment } from "react";
-import { forBlock } from "../blockTypes";
 import { v4 as uuidv4 } from "uuid";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
@@ -8,15 +7,16 @@ import MainDroppable from "../components/MainDroppable";
 import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
-function ForBlock(props) {
+import { dowhileBlock } from "../blockTypes";
+function WhileBlock(props) {
   const dispatch = useDispatch();
 
   const onAddElement = () => {
     const newElement = {
       id: uuidv4(),
-      name: "for",
-      type: forBlock,
-      children: [[], [], [], []],
+      name: "dowhile",
+      type: dowhileBlock,
+      children: [[], []],
     };
     dispatch(addElement(newElement));
   };
@@ -45,30 +45,10 @@ function ForBlock(props) {
             <div className="">
               <div className="">
                 <div style={{ border: "none" }} className="control-block">
-                  <div className="text-bold text-white text-nowrap">
-                    Powtarzaj dla
-                  </div>
+                  <div className="text-bold text-white text-nowrap">Do</div>
                   <MainDroppable dropId={props.id + "|0"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                       {props.children[0].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
-                  <div className="text-bold text-white text-nowrap">dopóki</div>
-                  <MainDroppable dropId={props.id + "|1"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[1].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
-                  <div className="text-bold text-white text-nowrap">
-                    a potem
-                  </div>
-                  <MainDroppable dropId={props.id + "|2"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[2].map((item, index) =>
                         blockRenderer(item, index)
                       )}
                     </div>
@@ -78,10 +58,10 @@ function ForBlock(props) {
                   style={{ border: "none" }}
                   className="control-block flex-col"
                 >
-                  <div className="text-bold text-white ">wykonaj</div>
-                  <MainDroppable dropId={props.id + "|3"}>
+                  <div className="text-bold text-white ">while</div>
+                  <MainDroppable dropId={props.id + "|1"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[3].map((item, index) =>
+                      {props.children[1].map((item, index) =>
                         blockRenderer(item, index)
                       )}
                     </div>
@@ -91,7 +71,7 @@ function ForBlock(props) {
               <div className="items-container"></div>
             </div>
           ) : (
-            <div className="">Pętla for</div>
+            <div className="">Pętla while</div>
           )}
         </div>
       ) : (
@@ -99,28 +79,15 @@ function ForBlock(props) {
           <div>
             <div style={{ border: "none" }} className="control-block">
               <div className="text-bold text-small text-white text-nowrap m-4">
-                Powtarzaj dla
+                Do
               </div>
-              <input
-                disabled
-                style={{ width: 20 }}
-                className="block-input-blocked "
-                value={""}
-              />
-              <span className="text-bold text-small text-white text-nowrap m-4">
-                dopóki
-              </span>
-              <input disabled className="block-input-blocked" value={""} />
-              <span className="text-bold text-small text-white text-nowrap m-4">
-                a potem
-              </span>
-              <input disabled className="block-input-blocked " value={""} />
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10" />
             </div>
             <div style={{ border: "none" }} className="control-block flex-col">
               <span className="text-bold text-small text-white text-nowrap mr-4">
-                wykonaj
+                While
               </span>
-              <input disabled className="block-input " value={""} />
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10" />
             </div>
           </div>
         </div>
@@ -128,4 +95,4 @@ function ForBlock(props) {
     </Fragment>
   );
 }
-export default ForBlock;
+export default WhileBlock;

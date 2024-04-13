@@ -1,5 +1,5 @@
 import "../../App.css";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { variableDeclarationBlock } from "../../blockTypes";
 import { v4 as uuidv4 } from "uuid";
 import { useDraggable } from "@dnd-kit/core";
@@ -10,6 +10,7 @@ import MainDroppable from "../../components/MainDroppable";
 import blockRenderer from "../../blockRenderer";
 function VariableDeclarationBlock(props) {
   const dispatch = useDispatch();
+  const [isHovered, setIsHovered] = useState(false);
 
   const onAddElement = () => {
     const newElement = {
@@ -31,6 +32,7 @@ function VariableDeclarationBlock(props) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
+      disabled: isHovered,
     });
   const style = transform
     ? {
@@ -44,7 +46,7 @@ function VariableDeclarationBlock(props) {
         <div
           className="blocks-container control-block bg-color-7"
           ref={setNodeRef}
-          style={{ width: "min-content",...style}}
+          style={{ width: "min-content", ...style }}
           {...listeners}
           {...attributes}
         >
@@ -63,12 +65,16 @@ function VariableDeclarationBlock(props) {
                 className="block-input"
                 type="text"
                 defaultValue={props.variableName}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
               />
               <select
                 onChange={(e) => onChangeElement("availability", e)}
                 name="availability"
                 className="block-select"
                 defaultValue={props.availability}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
               >
                 <option value="public">public</option>
                 <option value="private">private</option>

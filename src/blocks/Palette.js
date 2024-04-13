@@ -5,9 +5,9 @@ import VariableDeclarationBlock from "./VariableBlocks/VariableDeclarationBlock"
 import VariableBlock from "./VariableBlocks/VariableBlock";
 import VariableTypesBlock from "./VariableBlocks/VariableTypesBlock";
 import EndBlock from "./EndBlock";
-import { ArithmeticOperations } from "./ArithmeticBlocks/ArithmeticOperations";
+import { Operators } from "./OperatorsBlocks/Operators";
 import { VariableTypes } from "./VariableBlocks/VariableTypes";
-import ArithmeticBlocks from "./ArithmeticBlocks/ArithmeticBlocks";
+import OperatorsBlocks from "./OperatorsBlocks/OperatorsBlocks";
 import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
@@ -16,16 +16,26 @@ import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
 import { useSelector } from "react-redux";
 import ClassDefinitionBlock from "./ClassDefinitionBlock";
+import WhileBlock from "./WhileBlock";
+import DowhileBlock from "./DowhileBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes);
   const variables = useSelector((state) => state.codeStructure.variables);
   const [category, setCategory] = useState([0]);
-  const handleCateogry = (newVal) => {
+  const [operatorsCategory, setOperatorsCategory] = useState([0]);
+  const handleCategory = (newVal) => {
     if (category.includes(newVal)) {
       setCategory((oldVal) => oldVal.filter((val) => val !== newVal));
     } else {
       setCategory((oldVal) => [...oldVal, newVal]);
+    }
+  };
+  const handleOperatorsCategory = (newVal) => {
+    if (operatorsCategory.includes(newVal)) {
+      setOperatorsCategory((oldVal) => oldVal.filter((val) => val !== newVal));
+    } else {
+      setOperatorsCategory((oldVal) => [...oldVal, newVal]);
     }
   };
   return (
@@ -34,7 +44,7 @@ export default function Palette({ blocksState, setBlocksState }) {
         <Button
           fullWidth
           startIcon={<MdForkRight size={24} className="mr-8" />}
-          onClick={() => handleCateogry(1)}
+          onClick={() => handleCategory(1)}
         >
           <span className="text-bold">Bloki sterujące</span>
         </Button>
@@ -63,11 +73,19 @@ export default function Palette({ blocksState, setBlocksState }) {
             <ForBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}
-            />{" "}
+            />
+            <WhileBlock
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+            />
+            <DowhileBlock
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+            />
             <ConsoleLogBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}
-            />{" "}
+            />
             <VariableDeclarationBlock
               blocksState={blocksState}
               setBlocksState={setBlocksState}
@@ -80,7 +98,7 @@ export default function Palette({ blocksState, setBlocksState }) {
         <Button
           fullWidth
           startIcon={<MdForkRight size={24} className="mr-8" />}
-          onClick={() => handleCateogry(2)}
+          onClick={() => handleCategory(2)}
         >
           <span className="text-bold">zmienne</span>
         </Button>
@@ -111,30 +129,53 @@ export default function Palette({ blocksState, setBlocksState }) {
         <Button
           fullWidth
           startIcon={<MdCalculate size={24} className="mr-8" />}
-          onClick={() => handleCateogry(3)}
+          onClick={() => handleCategory(3)}
         >
-          <span className="text-bold">Bloki arytmetyczne</span>
+          <span className="text-bold">Operatory</span>
         </Button>
       </div>
       {category?.includes(3) ? (
         <div>
-          <div className="flex-row align-center justify-center">
-            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
-            <div className="text-center text-xx-small">
-              Kliknij na blok, aby go dodać
-            </div>
-          </div>
           <div className="palette-blocks-container slideDown">
-            {Object.keys(ArithmeticOperations).map(
-              (arithmeticOperation, index) => (
-                <ArithmeticBlocks
-                  key={index}
-                  blocksState={blocksState}
-                  setBlocksState={setBlocksState}
-                  name={ArithmeticOperations[arithmeticOperation]}
-                />
-              )
-            )}
+            {Object.keys(Operators).map((operatorGroup, index) => (
+              <div
+                key={index}
+                style={{
+                  width: "100%",
+                }}
+              >
+                <div className="list-header">
+                  <Button
+                    fullWidth
+                    startIcon={<MdCalculate size={24} className="mr-8" />}
+                    onClick={() => handleOperatorsCategory(operatorGroup)}
+                  >
+                    <span className="text-bold">{operatorGroup}</span>
+                  </Button>
+                </div>
+
+                {operatorsCategory?.includes(operatorGroup) ? (
+                  <>
+                    <div className="flex-row align-center justify-center">
+                      <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+                      <div className="text-center text-xx-small">
+                        Kliknij na blok, aby go dodać
+                      </div>
+                    </div>
+                    {Object.keys(Operators[operatorGroup]).map(
+                      (operatorType, index) => (
+                        <OperatorsBlocks
+                          key={index}
+                          blocksState={blocksState}
+                          setBlocksState={setBlocksState}
+                          name={Operators[operatorGroup][operatorType]}
+                        />
+                      )
+                    )}
+                  </>
+                ) : null}
+              </div>
+            ))}
           </div>
         </div>
       ) : null}
@@ -142,7 +183,7 @@ export default function Palette({ blocksState, setBlocksState }) {
         <Button
           fullWidth
           startIcon={<MdCalculate size={24} className="mr-8" />}
-          onClick={() => handleCateogry(4)}
+          onClick={() => handleCategory(4)}
         >
           <span className="text-bold">Typy zmiennych</span>
         </Button>
@@ -171,7 +212,7 @@ export default function Palette({ blocksState, setBlocksState }) {
         <Button
           fullWidth
           startIcon={<MdBento size={24} className="mr-8" />}
-          onClick={() => handleCateogry(5)}
+          onClick={() => handleCategory(5)}
         >
           <span className="text-bold">Klasy</span>
         </Button>

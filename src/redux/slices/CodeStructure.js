@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { variableBlock, variableDeclarationBlock } from "../../blockTypes";
 
 const getValueByPath = (obj, path) => {
   let newObj = obj;
@@ -22,7 +21,8 @@ const getValueByPath = (obj, path) => {
 };
 
 const getObjectByPath = (obj, path) => {
-  return path.reduce((acc, key) => acc[key], obj);
+  const result = path.reduce((acc, key) => acc[key], obj);
+  return result === undefined ? [] : result;
 };
 function updateElementByIdRecursive(id, elements, fieldToModify, value) {
   for (let i = 0; i < elements.length; i++) {
@@ -107,8 +107,8 @@ const codeStructureSlice = createSlice({
       const objectValue = JSON.parse(
         JSON.stringify(
           getObjectByPath(state, elementPathIndex).find(
-            (el) => el.id === object
-          )
+            (el) => el && el.id === object
+          ) || []
         )
       );
       // Odczytanie wartości na podstawie ścieżki dla miejsca docelowego
@@ -200,17 +200,18 @@ const codeStructureSlice = createSlice({
         (el) => el.id === action.payload.id
       );
       //usuwanie elementu
-      if (indexToRemove != -1) {
+      if (indexToRemove !== -1) {
         elementLocalization.splice(indexToRemove, 1);
       }
       //usuniece sniezek(do poprawy)
-      state.paths
-      .map((pathItem, index) => {
-          // Sprawdzenie, czy identyfikator występuje w ścieżce
-          if (pathItem.path.some((segment) => segment.startsWith(action.payload.id))) {
-            state.paths.splice(index, 1);
-          }
-      })
+      state.paths.forEach((pathItem, index) => {
+        // Sprawdzenie, czy identyfikator występuje w ścieżce
+        if (
+          pathItem.path.some((segment) => segment.startsWith(action.payload.id))
+        ) {
+          state.paths.splice(index, 1);
+        }
+      });
     },
   },
 });

@@ -1,7 +1,9 @@
 export const forBlock = "forBlock";
+export const whileBlock = "whileBlock";
+export const dowhileBlock = "dowhileBlock";
 export const beginBlock = "begineBlock";
 export const endBlock = "endBlock";
-export const arithmeticBlocks = "arithmeticBlocks";
+export const operatorsBlocks = "operatorsBlocks";
 export const ifElseBlock = "ifElseBlock";
 export const consoleLogBlock = "consoleLogBlock";
 export const variableBlock = "variableBlock";
