@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import ClassDefinitionBlock from "./ClassDefinitionBlock";
 import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
+import ClassMethodBlock from "./ClassMethodBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes);
@@ -227,7 +228,12 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
           <div className="palette-blocks-container slideDown">
             {classes.map((v, k) => (
-              <ClassDefinitionBlock name={v.name} classId={v.id} />
+              <div key={k}>
+                <ClassDefinitionBlock name={v.name} classId={v.id} />
+                {v.methods.map((method, index) => (
+                  <ClassMethodBlock {...method} key={index} classId={v.id}/>
+                ))}
+              </div>
             ))}
           </div>
         </div>

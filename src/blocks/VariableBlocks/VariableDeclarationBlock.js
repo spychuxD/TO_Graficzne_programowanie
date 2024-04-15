@@ -68,18 +68,6 @@ function VariableDeclarationBlock(props) {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               />
-              <select
-                onChange={(e) => onChangeElement("availability", e)}
-                name="availability"
-                className="block-select"
-                defaultValue={props.availability}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <option value="public">public</option>
-                <option value="private">private</option>
-                <option value="protected">protected</option>
-              </select>
             </Fragment>
           ) : (
             <div className=" text-nowrap">Deklaracja zmiennej</div>
@@ -98,15 +86,6 @@ function VariableDeclarationBlock(props) {
           <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"></div>
           <input
             placeholder="Nazwa Zmiennej"
-            className="block-input"
-            type="text"
-          />
-          <select disabled name="availability" className="block-select">
-            <option value="public">Dostępność</option>
-          </select>
-          <input
-            disabled
-            placeholder="Wartosc startowa"
             className="block-input"
             type="text"
           />

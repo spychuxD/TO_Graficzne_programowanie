@@ -259,6 +259,11 @@
 
 /* #1976d2 */
 /* =============Do wielorazowego użytku (np className="text-center text-bold") ============ */
+
+.border-none{
+  border: none;
+}
+
 .text-center {
   text-align: center;
 }

@@ -64,9 +64,8 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
     if (event.over) {
       //debugger
       const { active, over } = event;
-      if(over.id === "deleteId")
-      {
-        dispatch(deleteElement({id:active.id}));
+      if (over.id === "deleteId") {
+        dispatch(deleteElement({ id: active.id }));
         return;
       }
       const idAndType = over.id.split("|");
@@ -87,8 +86,8 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
       }
     }
   }
-  function handleDelete(event){
-    console.log("dziala")
+  function handleDelete(event) {
+    console.log("dziala");
   }
 
   return (
@@ -120,21 +119,28 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                     </OrderDroppable>
                   ))}
                 </MainDroppable>
-                <div style={{position:"absolute",right:30,top:30}}>
-                <MainDroppable dropId={"deleteId"}>
-                  <div className="blocks-container" style={{width:90,height:70,backgroundColor:"red",borderRadius:10}}>
-                    Przenieś aby usunąć
-                  </div>
-                </MainDroppable>
+                <div style={{ position: "absolute", right: 30, top: 30 }}>
+                  <MainDroppable dropId={"deleteId"}>
+                    <div
+                      className="blocks-container"
+                      style={{
+                        width: 90,
+                        height: 70,
+                        backgroundColor: "red",
+                        borderRadius: 10,
+                      }}
+                    >
+                      Przenieś aby usunąć
+                    </div>
+                  </MainDroppable>
                 </div>
-                
               </DndContext>
             ) : (
-              <ClassBlock reduxClassId={item.id} />
+              <MainDroppable dropId={"mainClassId"}>
+                <ClassBlock reduxClassId={item.id} />
+              </MainDroppable>
             )}
-            <DndContext onDragEnd={handleDelete}>
-                
-              </DndContext>
+            <DndContext onDragEnd={handleDelete}></DndContext>
           </CustomTabPanel>
         ))}
       </div>

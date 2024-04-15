@@ -20,6 +20,8 @@ const classesSlice = createSlice({
         {
             findedClass.methods.push({
                 id: uuidv4(),
+                name:"Metoda bez nazwy",
+                children: [[],[]]
             })
         }
     },
@@ -29,15 +31,27 @@ const classesSlice = createSlice({
         {
             findedClass.fields.push({
                 id: uuidv4(),
+                name:"Pole bez nazwy",
+                children: [[]]
             })
         }
     },
     editClassName(state,action){
       const findedClass = state.find(cl => cl.id === action.payload.id);
       findedClass.name = action.payload.name
+    },
+    editFieldName(state,action){
+      const findedClass = state.find(cl => cl.id === action.payload.classId);
+      const findedField = findedClass.fields.find(fi => fi.id === action.payload.fieldId);
+      findedField.name = action.payload.name
+    },
+    editMethodName(state,action){
+      const findedClass = state.find(cl => cl.id === action.payload.classId);
+      const findedMethod = findedClass.methods.find(me => me.id === action.payload.methodId);
+      findedMethod.name = action.payload.name
     }
   },
 });
 
-export const { addClass , createMethod , createField , editClassName} = classesSlice.actions;
+export const { addClass , createMethod , createField , editClassName, editFieldName,editMethodName} = classesSlice.actions;
 export default classesSlice.reducer;

@@ -60,6 +60,7 @@ const codeStructureSlice = createSlice({
   name: "codeStructure",
   initialState: {
     elements: [],
+    classElements: [],
     paths: [
       {
         id: "mainId",

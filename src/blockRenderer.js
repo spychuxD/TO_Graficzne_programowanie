@@ -12,6 +12,7 @@ import {
   variableTypesBlock,
   whileBlock,
   dowhileBlock,
+  classMethodBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import BeginBlock from "./blocks/BeginBlock";
@@ -26,6 +27,7 @@ import ConsoleLogBlock from "./blocks/ConsoleLogBlock";
 import ClassDefinitionBlock from "./blocks/ClassDefinitionBlock";
 import WhileBlock from "./blocks/WhileBlock";
 import DowhileBlock from "./blocks/DowhileBlock";
+import ClassMethodBlock from "./blocks/ClassMethodBlock";
 
 export default function blockRenderer(store, index) {
   switch (store.type) {
@@ -55,7 +57,9 @@ export default function blockRenderer(store, index) {
       return <ClassDefinitionBlock {...store} key={index} />;
     case variableTypesBlock:
       return <VariableTypesBlock {...store} key={index} />;
-    default:
+    case classMethodBlock:
+      return <ClassMethodBlock {...store} key={index}/>
+      default:
       break;
   }
 }

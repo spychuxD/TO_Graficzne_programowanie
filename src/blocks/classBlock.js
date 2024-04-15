@@ -16,10 +16,6 @@ function ClassBlock({ reduxClassId }) {
     state.classes.find((c) => c.id === reduxClassId)
   );
   const dispatch = useDispatch();
-  const [data, setData] = useState({
-    methodsItems: [],
-    attributesItems: [],
-  });
 
   const onAddField = () => {
     dispatch(createField({ id: reduxClassId }));
@@ -28,7 +24,7 @@ function ClassBlock({ reduxClassId }) {
     dispatch(createMethod({ id: reduxClassId }));
   };
   return (
-    <div className="border-r-10 bg-color-class blocks-container">
+    <div className="border-r-10 bg-color-class blocks-container flex-col p-8">
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
         <div className="text-bold text-white">Klasa</div>
         <input
@@ -41,10 +37,10 @@ function ClassBlock({ reduxClassId }) {
           }
         />
       </div>
-      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center">
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col">
         {classObjest.fields.map((item, index) => (
-          <div className="item-container" key={index}>
-            <VariableBlock {...item} data={data} setData={setData} />
+          <div className="item-container  p-8" key={index}>
+            <VariableBlock {...item}/>
           </div>
         ))}
         <button
@@ -55,10 +51,10 @@ function ClassBlock({ reduxClassId }) {
           Dodaj nowe pole klasy
         </button>
       </div>
-      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center">
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col">
         {classObjest.methods.map((item, index) => (
-          <div className="item-container w-full">
-            <MethodBlock {...item} data={data} setData={setData} />
+          <div className="item-container w-full p-8">
+            <MethodBlock {...item} classObject={classObjest}/>
           </div>
         ))}
         <button

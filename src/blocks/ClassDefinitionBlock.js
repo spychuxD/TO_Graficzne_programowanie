@@ -34,7 +34,7 @@ export default function ClassDefinitionBlock(props) {
   return (
     <Fragment>
       {props.id !== undefined ? (
-        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <div ref={setNodeRef} style={{ width: "min-content", ...style }} {...listeners} {...attributes}>
           <div className="control-block bg-color-01">
             {classObject.name}
           </div>
