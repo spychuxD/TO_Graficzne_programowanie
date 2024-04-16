@@ -1,6 +1,6 @@
 import React, { useState } from "react"; //useRef
 import "./App.css";
-
+import { DndContext } from "@dnd-kit/core";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import SectionLeft from "./components/sectionLeft";
@@ -8,7 +8,11 @@ import SectionMid from "./components/sectionMid";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addClass } from "./redux/slices/Classes";
-
+import {
+  changeElementOrder,
+  deleteElement,
+  inserElement,
+} from "./redux/slices/CodeStructure";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -28,31 +32,61 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
-  const [tabs, setTabs] = useState([{name: "Sekcja",id:null}]);
+  const [tabs, setTabs] = useState([{ name: "Sekcja", id: null }]);
   const handleAddClass = () => {
     const newId = uuidv4();
-    console.log(newId)
-    dispatch(addClass({id:newId}));
-    setTabs((currentTabs) => [...currentTabs, {name: "Klasa",id:newId}]);
+    console.log(newId);
+    dispatch(addClass({ id: newId }));
+    setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
   };
+  function handleDragEnd(event) {
+    debugger
+    if (event.over) {
+      //debugger
+      const { active, over } = event;
+      if (over.id === "deleteId") {
+        dispatch(deleteElement({ id: active.id }));
+        return;
+      }
+      const idAndType = over.id.split("|");
+
+      if (idAndType.length === 2) {
+        switch (idAndType[1]) {
+          case "order":
+            dispatch(
+              changeElementOrder({ object: active.id, over: idAndType[0] })
+            );
+            break;
+          default:
+            dispatch(inserElement({ object: active.id, to: over.id }));
+            break;
+        }
+      } else {
+        dispatch(inserElement({ object: active.id, to: over.id }));
+      }
+    }
+  }
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <div className="max-h-vh w-20">
-          <SectionLeft ></SectionLeft>
-        </div>
-        <div className="max-h-vh w-full">
-          <header className="App-header">
-            <Header tabs={tabs} setTabs={setTabs} onAddClass={handleAddClass} />
-          </header>
-          <main className="main-content">
-            <SectionMid
-              tabs={tabs}
-              setTabs={setTabs}
-            ></SectionMid>
-            <div className="sectionRight"></div>
-          </main>
-        </div>
+        <DndContext onDragEnd={handleDragEnd}>
+          <div className="max-h-vh w-20">
+            <SectionLeft></SectionLeft>
+          </div>
+          <div className="max-h-vh w-full">
+            <header className="App-header">
+              <Header
+                tabs={tabs}
+                setTabs={setTabs}
+                onAddClass={handleAddClass}
+              />
+            </header>
+            <main className="main-content">
+              <SectionMid tabs={tabs} setTabs={setTabs}></SectionMid>
+              <div className="sectionRight"></div>
+            </main>
+          </div>
+        </DndContext>
       </div>
       {/* <Footer/> */}
     </ThemeProvider>
@@ -60,4 +94,3 @@ function App() {
 }
 
 export default App;
-

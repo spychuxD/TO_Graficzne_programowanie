@@ -9,11 +9,7 @@ import MainDroppable from "./MainDroppable";
 import { useSelector } from "react-redux";
 import OrderDroppable from "./OrderDroppable";
 import { useDispatch } from "react-redux";
-import {
-  changeElementOrder,
-  deleteElement,
-  inserElement,
-} from "../redux/slices/CodeStructure";
+
 import blockRenderer from "../blockRenderer";
 import ClassBlock from "../blocks/classBlock";
 function CustomTabPanel(props) {
@@ -50,7 +46,6 @@ function a11yProps(index) {
 }
 
 function SectionMid({ stores, setStores, tabs, setTabs }) {
-  const dispatch = useDispatch();
   const codeStructureElements = useSelector(
     (state) => state.codeStructure.elements
   );
@@ -58,37 +53,6 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  function handleDragEnd(event) {
-    //debugger
-    if (event.over) {
-      //debugger
-      const { active, over } = event;
-      if (over.id === "deleteId") {
-        dispatch(deleteElement({ id: active.id }));
-        return;
-      }
-      const idAndType = over.id.split("|");
-
-      if (idAndType.length === 2) {
-        switch (idAndType[1]) {
-          case "order":
-            dispatch(
-              changeElementOrder({ object: active.id, over: idAndType[0] })
-            );
-            break;
-          default:
-            dispatch(inserElement({ object: active.id, to: over.id }));
-            break;
-        }
-      } else {
-        dispatch(inserElement({ object: active.id, to: over.id }));
-      }
-    }
-  }
-  function handleDelete(event) {
-    console.log("dziala");
-  }
 
   return (
     <div className="sectionMid">
@@ -111,7 +75,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
         {tabs.map((item, index) => (
           <CustomTabPanel value={value} index={index} key={index}>
             {item.name === "Sekcja" ? (
-              <DndContext onDragEnd={handleDragEnd}>
+              <Fragment>
                 <MainDroppable dropId={"mainId"}>
                   {codeStructureElements.map((store, index) => (
                     <OrderDroppable dropId={store.id} key={index}>
@@ -134,13 +98,12 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                     </div>
                   </MainDroppable>
                 </div>
-              </DndContext>
+              </Fragment>
             ) : (
               <MainDroppable dropId={"mainClassId"}>
                 <ClassBlock reduxClassId={item.id} />
               </MainDroppable>
             )}
-            <DndContext onDragEnd={handleDelete}></DndContext>
           </CustomTabPanel>
         ))}
       </div>

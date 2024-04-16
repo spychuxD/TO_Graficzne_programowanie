@@ -61,7 +61,7 @@
 
 .sectionLeft {
   background-color: rgba(255, 255, 255, 0.1); /* Przykładowy półprzezroczysty biały tło */
-  overflow-y: auto;
+
   height: 100%;
   width: 100%;
 }

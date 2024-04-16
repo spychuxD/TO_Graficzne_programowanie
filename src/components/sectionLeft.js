@@ -1,7 +1,7 @@
 import React from "react";
 import { MdHelp } from "react-icons/md";
 import Palette from "../blocks/Palette";
-
+import MainDroppable from "./MainDroppable";
 function SectionLeft({ stores, setStores}) {
   return (
     <div className="sectionLeft">
@@ -11,7 +11,10 @@ function SectionLeft({ stores, setStores}) {
           Kliknij na interesującą Cię kategorię
         </div>
       </div>
+      <MainDroppable dropId={"mainId"} hide>
       <Palette setBlocksState={setStores} blocksState={stores}/>
+      </MainDroppable>
+      
     </div>
   );
 }

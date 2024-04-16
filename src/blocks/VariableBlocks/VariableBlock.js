@@ -6,20 +6,12 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
 import { addElement } from "../../redux/slices/CodeStructure";
+import { useSelector } from "react-redux";
 
 function VariableBlock(props) {
-  const dispatch = useDispatch();
-
-  const onAddElement = () => {
-    const newElement = {
-      id: props.blockId + "|" + uuidv4(),
-      name: "variable",
-      type: variableBlock,
-      dataType: props.dataType,
-      variableName: props.variableName,
-    };
-    dispatch(addElement(newElement));
-  };
+  const variableObject = useSelector(
+    state => state.codeStructure.variables.find(va=>va.id==props.id.split("|")[0])
+  )
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
@@ -32,7 +24,7 @@ function VariableBlock(props) {
 
   return (
     <Fragment>
-      {props.id !== undefined ? (
+     
         <div
           className="blocks-container control-block bg-color-7"
           ref={setNodeRef}
@@ -40,22 +32,9 @@ function VariableBlock(props) {
           {...listeners}
           {...attributes}
         >
-          {props.variableName}
+          {variableObject?variableObject.variableName:props.variableName}
         </div>
-      ) : (
-        <div
-          className="control-block-grid-2 bg-color-for"
-          onClick={onAddElement}
-          style={{
-            border: "1px",
-            borderStyle: "solid",
-            borderColor: "#e3eef2",
-            width: "min-content",
-          }}
-        >
-          {props.variableName}
-        </div>
-      )}
+
     </Fragment>
   );
 }

@@ -19,6 +19,22 @@ import ClassDefinitionBlock from "./ClassDefinitionBlock";
 import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
 import ClassMethodBlock from "./ClassMethodBlock";
+import {
+  beginBlock,
+  classDefinitionBlock,
+  classMethodBlock,
+  consoleLogBlock,
+  dowhileBlock,
+  endBlock,
+  forBlock,
+  ifElseBlock,
+  operatorsBlocks,
+  setOn,
+  variableBlock,
+  variableDeclarationBlock,
+  variableTypesBlock,
+  whileBlock,
+} from "../blockTypes";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes);
@@ -58,40 +74,51 @@ export default function Palette({ blocksState, setBlocksState }) {
               Kliknij na blok, aby go dodać
             </div>
           </div>
-          <div className="palette-blocks-container slideDown">
+          <div
+            className="palette-blocks-container slideDown"
+            style={{ zIndex: 1000 }}
+          >
             <BeginBlock
+              id={beginBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <EndBlock
+              id={endBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <IfElseBlock
+              id={ifElseBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <ForBlock
+              id={forBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <WhileBlock
+              id={whileBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <DowhileBlock
+              id={dowhileBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <ConsoleLogBlock
+              id={consoleLogBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
             <VariableDeclarationBlock
+              id={variableDeclarationBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
             />
-            <SetOn blocksState={blocksState} setBlocksState={setBlocksState} />
+            <SetOn id={setOn} blocksState={blocksState} setBlocksState={setBlocksState} />
           </div>
         </div>
       ) : null}
@@ -115,6 +142,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {variables?.map((v, k) => (
               <VariableBlock
+                id={variableBlock+"|"+v.id}
                 key={k}
                 blockId={v.id}
                 dataType={v.dataType}
@@ -166,6 +194,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                     {Object.keys(Operators[operatorGroup]).map(
                       (operatorType, index) => (
                         <OperatorsBlocks
+                          id={operatorsBlocks+"|"+Operators[operatorGroup][operatorType]}
                           key={index}
                           blocksState={blocksState}
                           setBlocksState={setBlocksState}
@@ -200,6 +229,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {Object.keys(VariableTypes).map((variableType, index) => (
               <VariableTypesBlock
+                id={variableTypesBlock+"|"+VariableTypes[variableType]}
                 key={index}
                 blocksState={blocksState}
                 setBlocksState={setBlocksState}
@@ -229,9 +259,9 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {classes.map((v, k) => (
               <div key={k}>
-                <ClassDefinitionBlock name={v.name} classId={v.id} />
+                <ClassDefinitionBlock id={classDefinitionBlock+"|"+v.id} name={v.name} classId={v.id} />
                 {v.methods.map((method, index) => (
-                  <ClassMethodBlock {...method} key={index} classId={v.id}/>
+                  <ClassMethodBlock name={method.name} id={classMethodBlock+"|"+v.id+"|"+method.id} key={index}/>
                 ))}
               </div>
             ))}

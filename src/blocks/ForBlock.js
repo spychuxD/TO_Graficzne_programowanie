@@ -1,26 +1,10 @@
 import "../App.css";
 import { Fragment } from "react";
-import { forBlock } from "../blockTypes";
-import { v4 as uuidv4 } from "uuid";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
-import { useDispatch } from "react-redux";
-import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
 function ForBlock(props) {
-  const dispatch = useDispatch();
-
-  const onAddElement = () => {
-    const newElement = {
-      id: uuidv4(),
-      name: "for",
-      type: forBlock,
-      children: [[], [], [], []],
-    };
-    dispatch(addElement(newElement));
-  };
-
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
@@ -33,98 +17,78 @@ function ForBlock(props) {
 
   return (
     <Fragment>
-      {props.id !== undefined ? (
-        <div
-          ref={setNodeRef}
-          className="control-block bg-color-for"
-          style={{ width: "min-content", ...style }}
-          {...listeners}
-          {...attributes}
-        >
-          {!isDragging ? (
-            <div className="">
-              <div className="">
-                <div style={{ border: "none" }} className="control-block">
-                  <div className="text-bold text-white text-nowrap">
-                    Powtarzaj dla
-                  </div>
-                  <MainDroppable dropId={props.id + "|0"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[0].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
-                  <div className="text-bold text-white text-nowrap">dopóki</div>
-                  <MainDroppable dropId={props.id + "|1"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[1].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
-                  <div className="text-bold text-white text-nowrap">
-                    a potem
-                  </div>
-                  <MainDroppable dropId={props.id + "|2"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[2].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
+      <div
+        ref={setNodeRef}
+        className="control-block bg-color-for"
+        style={{ width: "min-content", ...style, height: isDragging?50:"auto" }}
+        {...listeners}
+        {...attributes}
+      >
+        {!isDragging ? (
+          <div className="">
+            <div className="" style={{padding:10}}>
+              <div style={{ border: "none",gap:10 }} className="control-block">
+                <div>
+                <div className="text-bold text-white text-nowrap">
+                  Powtarzaj dla
                 </div>
-                <div
-                  style={{ border: "none" }}
-                  className="control-block flex-col"
-                >
-                  <div className="text-bold text-white ">wykonaj</div>
-                  <MainDroppable dropId={props.id + "|3"}>
-                    <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[3].map((item, index) =>
-                        blockRenderer(item, index)
-                      )}
-                    </div>
-                  </MainDroppable>
+                <MainDroppable dropId={props.id + "|0"}>
+                  <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                    {props.children
+                      ? props.children[0].map((item, index) =>
+                          blockRenderer(item, index)
+                        )
+                      : null}
+                  </div>
+                </MainDroppable>
+                </div>
+                <div>
+                <div className="text-bold text-white text-nowrap">dopóki</div>
+                <MainDroppable dropId={props.id + "|1"}>
+                  <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                    {props.children
+                      ? props.children[1].map((item, index) =>
+                          blockRenderer(item, index)
+                        )
+                      : null}
+                  </div>
+                </MainDroppable>
+                </div>
+                <div>
+                <div className="text-bold text-white text-nowrap">a potem</div>
+                <MainDroppable dropId={props.id + "|2"}>
+                  <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                    {props.children
+                      ? props.children[2].map((item, index) =>
+                          blockRenderer(item, index)
+                        )
+                      : null}
+                  </div>
+                </MainDroppable>
                 </div>
               </div>
-              <div className="items-container"></div>
-            </div>
-          ) : (
-            <div className="">Pętla for</div>
-          )}
-        </div>
-      ) : (
-        <div onClick={onAddElement} className="control-block bg-color-for">
-          <div>
-            <div style={{ border: "none" }} className="control-block">
-              <div className="text-bold text-small text-white text-nowrap m-4">
-                Powtarzaj dla
+              <div
+                style={{ border: "none" }}
+                className="control-block flex-col"
+              >
+                <div className="text-bold text-white ">wykonaj</div>
+                <MainDroppable dropId={props.id + "|3"}>
+                  <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                    {props.children
+                      ? props.children[3].map((item, index) =>
+                          blockRenderer(item, index)
+                        )
+                      : null}
+                  </div>
+                </MainDroppable>
               </div>
-              <input
-                disabled
-                style={{ width: 20 }}
-                className="block-input-blocked "
-                value={""}
-              />
-              <span className="text-bold text-small text-white text-nowrap m-4">
-                dopóki
-              </span>
-              <input disabled className="block-input-blocked" value={""} />
-              <span className="text-bold text-small text-white text-nowrap m-4">
-                a potem
-              </span>
-              <input disabled className="block-input-blocked " value={""} />
             </div>
-            <div style={{ border: "none" }} className="control-block flex-col">
-              <span className="text-bold text-small text-white text-nowrap mr-4">
-                wykonaj
-              </span>
-              <input disabled className="block-input " value={""} />
-            </div>
+            <div className="items-container"></div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="text-nowrap" style={{maxHeight:50}}>Pętla for</div>
+        )}
+      </div>
     </Fragment>
   );
 }

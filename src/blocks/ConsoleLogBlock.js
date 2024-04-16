@@ -9,18 +9,6 @@ import blockRenderer from "../blockRenderer";
 import { consoleLogBlock } from "../blockTypes";
 import MainDroppable from "../components/MainDroppable";
 function ConsoleLogBlock(props) {
-  const dispatch = useDispatch();
-
-  const onAddElement = () => {
-    const newElement = {
-      id: uuidv4(),
-      name: "consoleLogBlock",
-      type: consoleLogBlock,
-      children: [[]],
-    };
-
-    dispatch(addElement(newElement));
-  };
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -33,7 +21,6 @@ function ConsoleLogBlock(props) {
 
   return (
     <Fragment>
-      {props.id !== undefined ? (
         <div
           ref={setNodeRef}
           className="blocks-container control-block bg-color-console"
@@ -48,7 +35,7 @@ function ConsoleLogBlock(props) {
               </div>
               <MainDroppable dropId={props.id + "|0"}>
                 <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
-                  {props.children[0].map((item, index) => blockRenderer(item))}
+                  {props.children?props.children[0].map((item, index) => blockRenderer(item)):null}
                 </div>
               </MainDroppable>
             </div>
@@ -56,15 +43,6 @@ function ConsoleLogBlock(props) {
             <div>Wyświetl</div>
           )}
         </div>
-      ) : (
-        <div
-          className="blocks-container control-block bg-color-console"
-          onClick={onAddElement}
-        >
-          <div className="text-bold text-small text-white mr-8">Wyświetl</div>
-          <div className="w-min-50px h-20px b-r-10 bg-color-console-text" />
-        </div>
-      )}
     </Fragment>
   );
 }

@@ -33,17 +33,14 @@ export default function ClassDefinitionBlock(props) {
     : undefined;
   return (
     <Fragment>
-      {props.id !== undefined ? (
-        <div ref={setNodeRef} style={{ width: "min-content", ...style }} {...listeners} {...attributes}>
-          <div className="control-block bg-color-01">
-            {classObject.name}
-          </div>
-        </div>
-      ) : (
-        <div onClick={onAddElement} className="control-block bg-color-01">
-          <div className="m-8">{props.name}</div>
-        </div>
-      )}
+      <div
+        ref={setNodeRef}
+        style={{ width: "min-content", ...style }}
+        {...listeners}
+        {...attributes}
+      >
+        <div className="control-block bg-color-01">{classObject.name}</div>
+      </div>
     </Fragment>
   );
 }

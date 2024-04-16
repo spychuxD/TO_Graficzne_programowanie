@@ -48,9 +48,9 @@ function WhileBlock(props) {
                   <div className="text-bold text-white text-nowrap">While</div>
                   <MainDroppable dropId={props.id + "|0"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[0].map((item, index) =>
+                      {props.children?props.children[0].map((item, index) =>
                         blockRenderer(item, index)
-                      )}
+                      ):null}
                     </div>
                   </MainDroppable>
                 </div>
@@ -61,9 +61,9 @@ function WhileBlock(props) {
                   <div className="text-bold text-white ">wykonaj</div>
                   <MainDroppable dropId={props.id + "|1"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children[1].map((item, index) =>
+                      {props.children?props.children[1].map((item, index) =>
                         blockRenderer(item, index)
-                      )}
+                      ):null}
                     </div>
                   </MainDroppable>
                 </div>

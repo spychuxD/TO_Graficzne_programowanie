@@ -10,19 +10,7 @@ import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
 
 function SetOn(props) {
-  const dispatch = useDispatch();
-
-  const onAddElement = () => {
-    const newElement = {
-      id: uuidv4(),
-      name: "setOn",
-      type: setOn,
-      children: [[], []],
-      variableValue: "",
-    };
-
-    dispatch(addElement(newElement));
-  };
+  
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -35,7 +23,6 @@ function SetOn(props) {
     : undefined;
   return (
     <Fragment>
-      {props.id !== undefined ? (
         <div
           ref={setNodeRef}
           className="control-block bg-color-if"
@@ -48,17 +35,17 @@ function SetOn(props) {
               <div className="text-bold text-white">Ustaw </div>
               <MainDroppable dropId={props.id + "|0"}>
                 <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                  {props.children[0]?.map((item, index) =>
+                  {props.children?props.children[0]?.map((item, index) =>
                     blockRenderer(item, index)
-                  )}
+                  ):null}
                 </div>
               </MainDroppable>
               <div className="text-bold text-white">na</div>
               <MainDroppable dropId={props.id + "|1"}>
                 <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                  {props.children[1]?.map((item, index) =>
+                  {props.children?props.children[1]?.map((item, index) =>
                     blockRenderer(item, index)
-                  )}
+                  ):null}
                 </div>
               </MainDroppable>
             </Fragment>
@@ -66,25 +53,7 @@ function SetOn(props) {
             <div className="text-bold text-white">Ustaw zmienną</div>
           )}
         </div>
-      ) : (
-        <div className="control-block bg-color-if" onClick={onAddElement}>
-          <div className="flex-row">
-            <div className="text-bold text-white">Ustaw zmienną</div>
-            <div className="flex-row">
-              <div className="text-bold text-white">{"("}</div>
-              <div className="insideBox bg-color-if-condition m-8" />
-              <div className="text-bold text-white">{")"}</div>
-            </div>
-            <div className="text-bold text-white">na</div>
-            <input
-              disabled
-              placeholder="Wartosc startowa"
-              className="block-input"
-              type="text"
-            />
-          </div>
-        </div>
-      )}
+     
     </Fragment>
   );
 }

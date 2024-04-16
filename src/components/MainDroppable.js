@@ -8,8 +8,8 @@ function MainDroppable(props) {
   const style = {
     width:"100%",
     transition: "0.1s",
-    borderStyle: isOver? "solid" :undefined,
-    padding: isOver? 15 :10,
+    borderStyle: isOver&&!props.hide? "solid" :undefined,
+    padding: isOver&&props.hide? 15 :10,
     height: props.placeholder?20 : undefined,
     borderRadius: 20,
   };

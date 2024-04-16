@@ -54,9 +54,9 @@ function VariableDeclarationBlock(props) {
             <Fragment>
               <MainDroppable dropId={props.id + "|0"}>
                 <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                  {props.children[0]?.map((item, index) =>
+                  {props.children?props.children[0]?.map((item, index) =>
                     blockRenderer(item, index)
-                  )}
+                  ):null}
                 </div>
               </MainDroppable>
               <input
