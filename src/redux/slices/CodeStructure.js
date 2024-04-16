@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import GetBlockStructure from "../../GetBlockStructure";
 import { classDefinitionBlock, classMethodBlock, operatorsBlocks, variableBlock, variableTypesBlock } from "../../blockTypes";
 
-const getValueByPath = (obj, path) => {
+const findLocationByPath = (obj, path) => {
   let newObj = obj;
   let tmp = [];
   let nextIsSplitArray;
@@ -21,6 +21,14 @@ const getValueByPath = (obj, path) => {
 
   return newObj;
 };
+const findPath = (state,id)=>{
+  return state.paths.find((el) => el.id === id)?.path;
+}
+const findObject = (state,id,path)=>{
+  return JSON.parse(
+    JSON.stringify(findLocationByPath(state, path))
+  ).find((el) => el.id === id);
+}
 
 const getObjectByPath = (obj, path) => {
   const result = path.reduce((acc, key) => acc[key], obj);
@@ -87,7 +95,7 @@ const codeStructureSlice = createSlice({
       const PathIndex = state.paths.find((el) => el.id === id).path;
 
       let objectValue = JSON.parse(
-        JSON.stringify(getValueByPath(state, PathIndex))
+        JSON.stringify(findLocationByPath(state, PathIndex))
       );
 
       objectValue = objectValue.find((obj) => obj.id.split("|")[0] === id);
@@ -141,108 +149,93 @@ const codeStructureSlice = createSlice({
       debugger;
       const { object, to } = action.payload;
       //uzyskanie sciezku obiektu
-      const elementPathIndex = state.paths.find((el) => el.id === object)?.path;
+      const pathToObject = findPath(state,object);
 
       //uzyskanie sziezki miejsca docelowego
       const splitTarget = to.split("|");
-
-      let destinationPathIndex = state.paths.find(
-        (el) => el.id === splitTarget[0]
-      ).path;
+      let destinationPathIndex = findPath(state,splitTarget[0]);
 
       let objectValue = undefined;
-      //jeżeli undefined w tablicy ścieżek nie ma takiego elementu więc należy utworzyć nowy
-      if (elementPathIndex === undefined) {
-        const splitObject = object.split("|");
-        objectValue = GetBlockStructure(splitObject[0]);
-        if(splitObject[0]===operatorsBlocks)
-        {
-          objectValue.operator = splitObject[1]
-          objectValue.name = splitObject[1]
-        }
-        else if(splitObject[0]===variableTypesBlock)
-        {
-          objectValue.name = splitObject[1]
-        }
-        else if(splitObject[0]===classDefinitionBlock)
-        {
-          objectValue.classId = splitObject[1]
-        }
-        else if(splitObject[0]===classMethodBlock)
-        {
-          objectValue.classId =splitObject[1];
-          objectValue.methodId =splitObject[2];
-        }
-        else if(splitObject[0]===variableBlock)
-        {
-          objectValue.id = splitObject[1].concat(objectValue.id)
-        }
+      if (pathToObject === undefined) {
+        //pobranie szablonu nowego obiektu (jeśli przetwarzany obiekt jest nowo dodany) 
+        objectValue = GetBlockStructure(object);
       } else {
-        //pobranie obiektu z pod "object"
-        objectValue = JSON.parse(
-          JSON.stringify(getValueByPath(state, elementPathIndex))
-        ).find((el) => el.id === object);
+        //pobranie obiektu z pod "object" (jeśli obiekt jest przenoszony do innej lokalizacji)
+        objectValue = findObject(state,object,pathToObject);
       }
 
       //wyznaczenie miejsca docelowego "to"
-      let destinationValue = getValueByPath(state, destinationPathIndex);
+      let destinationValue = findLocationByPath(state, destinationPathIndex);
+      //wyznaczenie lokalizacji w miejscu docelowym (jeśli określono id potomka)
       if (splitTarget.length === 2) {
+        //wyznaczenie elementu w miejscu dodelowym
         destinationValue = destinationValue.find(
           (el) => el.id === splitTarget[0]
         );
+        //przejście do potomków elementu
         destinationValue = getObjectByPath(destinationValue, ["children"]);
+        //wybranie konkretnego potomka
         destinationValue = destinationValue[splitTarget[1]];
       }
 
-      if (elementPathIndex !== undefined) {
+      //wyznaczenie i usunięcie obiektu w starej lokalizacji (jeśli przetwarzany obiekt nie jet nowo utworzony)
+      if (pathToObject !== undefined) {
         //wyznaczenie starej lokalizacja "object"
-        const oldObjectLoaction = getValueByPath(state, elementPathIndex);
+        const oldObjectLoaction = findLocationByPath(state, pathToObject);
         //wyznaczenie indeksu "object" w starej lokalizacja
-        const oldObjectLoactionIndex = getValueByPath(
+        const oldObjectLoactionIndex = findLocationByPath(
           state,
-          elementPathIndex
+          pathToObject
         ).findIndex((el) => el.id === object);
         //usuniecie object z starej lokalizacji
         oldObjectLoaction.splice(oldObjectLoactionIndex, 1);
       }
 
-      //dodanie "object" do "to"
+      //dodanie elementu do wyznaczonego kokretnego miejsca w lokalizacji docelowej
       destinationValue.push(objectValue);
 
-      if (elementPathIndex === undefined) {
+      //dodanie ścieżki do obiektu (jeśli obiekt jest nowo utworzonym obiektem)
+      if (pathToObject === undefined) {
         if (to !== "mainId") destinationPathIndex = destinationPathIndex.concat(to);
-        //dodanie path "object"
+        //dodanie ścieżki do obiektu
         state.paths.push({
           id: objectValue.id,
           path: destinationPathIndex,
         });
+        //utworzenie zmiennej (jeśli użyty blok jest deklaracją zmiennej)
         if (objectValue.name === "variableDeclaration")
-        state.variables.push(objectValue);
+          state.variables.push(objectValue);
         return;
       }
 
-      //aktualizacja path "object"
+      //aktualizacja ścieżki do obiektu
       state.paths.find((el) => el.id === object).path = JSON.parse(
         JSON.stringify(destinationPathIndex)
       );
 
+      //uwzględnienie na końcu ścieżki informacji którego obiektu końcowego dotyczy
       if (splitTarget.length === 2)
         state.paths.find((el) => el.id === object).path.push(to);
-      //wyszukiwanie ścieżek powiązanych z "object"
+
+      //wyszukiwanie ścieżek powiązanych z przenoszonym obiektem
       const filteredPaths = state.paths.filter((pathItem) => {
         // Sprawdzenie, czy identyfikator występuje w ścieżce
         return pathItem.path.some((segment) => segment.startsWith(object));
       });
 
-      //aktualizacja ścieżek powiązanych z "object"
+      //aktualizacja ścieżek powiązanych przenoszonym obiektem
       filteredPaths.forEach((v, i) => {
+        //wyszukanie indeksu w ścieżce w którym występuje id przenoszonego elementu
         const elementIndex = v.path.findIndex((path) =>
           path.startsWith(object)
         );
+        //wyznaczenie ścieżki która zastąpi nieaktualną część starej śzieżki
         let pathToConcat = JSON.parse(JSON.stringify(destinationPathIndex));
+        //usunięcie nieaktualnej części ścieżki
         v.path.splice(0, elementIndex);
+        //uwzględnienie id elementu końcowego jeśli nie jest to id głównego kontenera
         if (to !== "mainId") pathToConcat = pathToConcat.concat(to);
-        v.path = pathToConcat.concat(v.path);
+          v.path = pathToConcat.concat(v.path);
       });
     },
     deleteElement(state, action) {
@@ -251,7 +244,7 @@ const codeStructureSlice = createSlice({
       const elementPath = state.paths.find(
         (el) => el.id === action.payload.id
       ).path;
-      let elementLocalization = getValueByPath(state, elementPath);
+      let elementLocalization = findLocationByPath(state, elementPath);
 
       // Uzyskanie indeksu elementu do usunięcia
       const indexToRemove = elementLocalization.findIndex(

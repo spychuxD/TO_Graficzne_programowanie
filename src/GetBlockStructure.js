@@ -17,8 +17,11 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 export default function GetBlockStructure(object) {
-  switch (object) {
+  debugger
+  const dataArray = object.split("|");
+  switch (dataArray[0]) {
     case beginBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "start",
@@ -26,6 +29,7 @@ export default function GetBlockStructure(object) {
         items: [],
       };
     case endBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "stop",
@@ -33,6 +37,7 @@ export default function GetBlockStructure(object) {
         items: [],
       };
     case ifElseBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "ifElseBlock",
@@ -40,6 +45,7 @@ export default function GetBlockStructure(object) {
         children: [[], [], []],
       };
     case forBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "for",
@@ -47,6 +53,7 @@ export default function GetBlockStructure(object) {
         children: [[], [], [], []],
       };
     case whileBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "while",
@@ -54,6 +61,7 @@ export default function GetBlockStructure(object) {
         children: [[], []],
       };
     case dowhileBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "dowhile",
@@ -61,6 +69,7 @@ export default function GetBlockStructure(object) {
         children: [[], []],
       };
     case variableDeclarationBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "variableDeclaration",
@@ -70,6 +79,7 @@ export default function GetBlockStructure(object) {
         children: [[]],
       };
     case setOn:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "setOn",
@@ -78,6 +88,7 @@ export default function GetBlockStructure(object) {
         variableValue: "",
       };
     case consoleLogBlock:
+      //dataArray = type
       return {
         id: uuidv4(),
         name: "consoleLogBlock",
@@ -85,38 +96,43 @@ export default function GetBlockStructure(object) {
         children: [[]],
       };
     case variableBlock:
+      //dataArray = type
       return {
-        id: "|" + uuidv4(),
+        id: dataArray[1]+"|" + uuidv4(),
         name: "variable",
         type: variableBlock,
       };
     case operatorsBlocks:
+      //dataArray = type|operator
       return {
         id: uuidv4(),
-        name: null,
-        operator: null,
+        name: dataArray[1],
+        operator: dataArray[1],
         type: operatorsBlocks,
         children: [[], []],
       };
     case variableTypesBlock:
+      //dataArray = type|name
       return {
         id: uuidv4(),
-        name: "",
+        name: dataArray[1],
         type: variableTypesBlock,
       };
     case classDefinitionBlock:
+      //dataArray = type|classId
       return {
         id: uuidv4(),
-        classId: null,
+        classId: dataArray[1],
         type: classDefinitionBlock,
       };
     case classMethodBlock:
+      //dataArray = type|classId|methodId
       return {
         id: uuidv4(),
         name: "classMethodBlock",
         type: classMethodBlock,
-        classId: null,
-        methodId: null,
+        classId: dataArray[1],
+        methodId: dataArray[2],
         children: [[]],
       };
   }
