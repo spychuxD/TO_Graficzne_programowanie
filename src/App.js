@@ -7,7 +7,7 @@ import SectionLeft from "./components/sectionLeft";
 import SectionMid from "./components/sectionMid";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
-import { addClass } from "./redux/slices/Classes";
+import { addClass, inserElementToClass } from "./redux/slices/Classes";
 import {
   changeElementOrder,
   deleteElement,
@@ -32,9 +32,7 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
-  const tabIndex = useSelector(
-    state => state.blocksTabs.index
-  )
+  const tabIndex = useSelector((state) => state.blocksTabs.index);
   const [tabs, setTabs] = useState([{ name: "Sekcja", id: null }]);
   const handleAddClass = () => {
     const newId = uuidv4();
@@ -44,7 +42,7 @@ function App() {
   };
   function handleDragEnd(event) {
     console.log(tabs[tabIndex]);
-    debugger
+    debugger;
     if (event.over) {
       const { active, over } = event;
       if (over.id === "deleteId") {
@@ -61,21 +59,27 @@ function App() {
             );
             break;
           default:
-            if(tabs[tabIndex].id!==null)
-            {
-
-            }
-            else
-              dispatch(inserElement({ object: active.id, to: over.id }));
+            if (tabs[tabIndex].id !== null) {
+              dispatch(
+                inserElementToClass({
+                  object: active.id,
+                  to: over.id,
+                  classId: tabs[tabIndex].id,
+                })
+              );
+            } else dispatch(inserElement({ object: active.id, to: over.id }));
             break;
         }
       } else {
-        if(tabs[tabIndex].id!==null)
-        {
-
-        }
-        else
-          dispatch(inserElement({ object: active.id, to: over.id }));
+        if (tabs[tabIndex].id !== null) {
+          dispatch(
+            inserElementToClass({
+              object: active.id,
+              to: over.id,
+              classId: tabs[tabIndex].id,
+            })
+          );
+        } else dispatch(inserElement({ object: active.id, to: over.id }));
       }
     }
   }

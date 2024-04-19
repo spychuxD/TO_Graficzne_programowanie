@@ -17,7 +17,6 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 export default function GetBlockStructure(object) {
-  debugger
   const dataArray = object.split("|");
   switch (dataArray[0]) {
     case beginBlock:
