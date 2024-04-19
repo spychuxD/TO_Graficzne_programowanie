@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 
 import blockRenderer from "../blockRenderer";
 import ClassBlock from "../blocks/classBlock";
+import { changeTab } from "../redux/slices/BlocksTabs";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -46,12 +47,17 @@ function a11yProps(index) {
 }
 
 function SectionMid({ stores, setStores, tabs, setTabs }) {
+  const tabIndex = useSelector(
+    state => state.blocksTabs.index
+  )
+  const dispatch = useDispatch();
+
   const codeStructureElements = useSelector(
     (state) => state.codeStructure.elements
   );
-  const [value, setValue] = useState(0);
+
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    dispatch(changeTab({index:newValue}));
   };
 
   return (
@@ -59,7 +65,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
       <div sx={{ width: "100%" }}>
         <div sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
-            value={value}
+            value={tabIndex}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
@@ -73,7 +79,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
           </Tabs>
         </div>
         {tabs.map((item, index) => (
-          <CustomTabPanel value={value} index={index} key={index}>
+          <CustomTabPanel value={tabIndex} index={index} key={index}>
             {item.name === "Sekcja" ? (
               <Fragment>
                 <MainDroppable dropId={"mainId"}>

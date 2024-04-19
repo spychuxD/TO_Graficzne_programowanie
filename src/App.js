@@ -2,7 +2,7 @@ import React, { useState } from "react"; //useRef
 import "./App.css";
 import { DndContext } from "@dnd-kit/core";
 import Header from "./components/header";
-import Footer from "./components/footer";
+import { useSelector } from "react-redux";
 import SectionLeft from "./components/sectionLeft";
 import SectionMid from "./components/sectionMid";
 import { v4 as uuidv4 } from "uuid";
@@ -32,6 +32,9 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
+  const tabIndex = useSelector(
+    state => state.blocksTabs.index
+  )
   const [tabs, setTabs] = useState([{ name: "Sekcja", id: null }]);
   const handleAddClass = () => {
     const newId = uuidv4();
@@ -40,9 +43,9 @@ function App() {
     setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
   };
   function handleDragEnd(event) {
+    console.log(tabs[tabIndex]);
     debugger
     if (event.over) {
-      //debugger
       const { active, over } = event;
       if (over.id === "deleteId") {
         dispatch(deleteElement({ id: active.id }));
@@ -58,11 +61,21 @@ function App() {
             );
             break;
           default:
-            dispatch(inserElement({ object: active.id, to: over.id }));
+            if(tabs[tabIndex].id!==null)
+            {
+
+            }
+            else
+              dispatch(inserElement({ object: active.id, to: over.id }));
             break;
         }
       } else {
-        dispatch(inserElement({ object: active.id, to: over.id }));
+        if(tabs[tabIndex].id!==null)
+        {
+
+        }
+        else
+          dispatch(inserElement({ object: active.id, to: over.id }));
       }
     }
   }

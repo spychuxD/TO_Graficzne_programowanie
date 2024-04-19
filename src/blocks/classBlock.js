@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 function ClassBlock({ reduxClassId }) {
   const classObjest = useSelector((state) =>
-    state.classes.find((c) => c.id === reduxClassId)
+    state.classes.classes.find((c) => c.id === reduxClassId)
   );
   const dispatch = useDispatch();
 
