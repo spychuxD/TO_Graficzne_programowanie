@@ -37,7 +37,7 @@ import {
 } from "../blockTypes";
 
 export default function Palette({ blocksState, setBlocksState }) {
-  const classes = useSelector((state) => state.classes);
+  const classes = useSelector((state) => state.classes.classes);
   const variables = useSelector((state) => state.codeStructure.variables);
   const [category, setCategory] = useState([0]);
   const [operatorsCategory, setOperatorsCategory] = useState([0]);

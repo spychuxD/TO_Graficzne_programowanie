@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 export default function ClassMethodBlock(props) {
 
   const methodObject = useSelector(
-    (state) => state.classes.find(cl => cl.id === props.classId)?.methods.find(me => me.id === props.methodId)
+    (state) => state.classes.classes.find(cl => cl.id === props.classId)?.methods.find(me => me.id === props.methodId)
   );
  
 

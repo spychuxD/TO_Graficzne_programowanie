@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 export default function ClassDefinitionBlock(props) {
   const dispatch = useDispatch();
   const classObject = useSelector((state) =>
-    state.classes.find((c) => c.id == props.classId)
+    state.classes.classes.find((c) => c.id == props.classId)
   );
   const onAddElement = () => {
     const newElement = {
