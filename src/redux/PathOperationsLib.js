@@ -70,3 +70,41 @@ export function updateElementByIdRecursive(id, elements, fieldToModify, value) {
   }
   return false;
 }
+export function findAndDeleteByPath(state, pathToObject,objectId) 
+{
+    //wyznaczenie starej lokalizacja "object"
+    const oldObjectLoaction = findLocationByPath(state, pathToObject);
+    //wyznaczenie indeksu "object" w starej lokalizacja
+    const oldObjectLoactionIndex = findLocationByPath(
+      state,
+      pathToObject
+    ).findIndex((el) => el.id === objectId);
+    //usuniecie object z starej lokalizacji
+    oldObjectLoaction.splice(oldObjectLoactionIndex, 1);
+}
+export function findRelatedPaths(state,objectId){
+  return state.paths.filter((pathItem) => {
+    // Sprawdzenie, czy identyfikator występuje w ścieżce
+    return pathItem.path.some((segment) => segment.startsWith(objectId));
+  });
+}
+export function updateRelatedPaths(relatedPaths,pathTo,objectId,toId){
+  relatedPaths.forEach((v, i) => {
+    //wyszukanie indeksu w ścieżce w którym występuje id przenoszonego elementu
+    const elementIndex = v.path.findIndex((path) =>
+      path.startsWith(objectId)
+    );
+    //wyznaczenie ścieżki która zastąpi nieaktualną część starej śzieżki
+    let pathToConcat = JSON.parse(JSON.stringify(pathTo));
+    //usunięcie nieaktualnej części ścieżki
+    v.path.splice(0, elementIndex);
+    //uwzględnienie id elementu końcowego jeśli nie jest to id głównego kontenera
+    if (toId !== "mainId") pathToConcat = pathToConcat.concat(toId);
+      v.path = pathToConcat.concat(v.path);
+  });
+}
+export function updateObjectPath(state,objectId,pathTo,toSplit,toId){
+  state.paths.find((el) => el.id === objectId).path = JSON.parse(
+    JSON.stringify(toSplit.length === 2?pathTo.concat(toId):pathTo)
+  );
+}
