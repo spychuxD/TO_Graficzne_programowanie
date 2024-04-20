@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import GetBlockStructure from "../../GetBlockStructure";
 import { classDefinitionBlock, classMethodBlock, operatorsBlocks, variableBlock, variableTypesBlock } from "../../blockTypes";
-import { findLocationByPath,findPath,findObject,getObjectByPath,updateElementByIdRecursive } from "../PathOperationsLib";
+import { findLocationByPath,findPath,findObject,getObjectByPath,updateElementByIdRecursive, findAndDeleteByPath, findRelatedPaths, updateRelatedPaths, updateObjectPath } from "../PathOperationsLib";
 
 
 const codeStructureSlice = createSlice({
@@ -117,15 +117,7 @@ const codeStructureSlice = createSlice({
 
       //wyznaczenie i usunięcie obiektu w starej lokalizacji (jeśli przetwarzany obiekt nie jet nowo utworzony)
       if (pathToObject !== undefined) {
-        //wyznaczenie starej lokalizacja "object"
-        const oldObjectLoaction = findLocationByPath(state, pathToObject);
-        //wyznaczenie indeksu "object" w starej lokalizacja
-        const oldObjectLoactionIndex = findLocationByPath(
-          state,
-          pathToObject
-        ).findIndex((el) => el.id === object);
-        //usuniecie object z starej lokalizacji
-        oldObjectLoaction.splice(oldObjectLoactionIndex, 1);
+        findAndDeleteByPath(state,pathToObject,object)
       }
 
       //dodanie elementu do wyznaczonego kokretnego miejsca w lokalizacji docelowej
@@ -146,34 +138,14 @@ const codeStructureSlice = createSlice({
       }
 
       //aktualizacja ścieżki do obiektu
-      state.paths.find((el) => el.id === object).path = JSON.parse(
-        JSON.stringify(destinationPathIndex)
-      );
+      updateObjectPath(state,object,destinationPathIndex,splitTarget,to);
 
-      //uwzględnienie na końcu ścieżki informacji którego obiektu końcowego dotyczy
-      if (splitTarget.length === 2)
-        state.paths.find((el) => el.id === object).path.push(to);
 
       //wyszukiwanie ścieżek powiązanych z przenoszonym obiektem
-      const filteredPaths = state.paths.filter((pathItem) => {
-        // Sprawdzenie, czy identyfikator występuje w ścieżce
-        return pathItem.path.some((segment) => segment.startsWith(object));
-      });
+      const relatedPaths = findRelatedPaths(state,object);
 
       //aktualizacja ścieżek powiązanych przenoszonym obiektem
-      filteredPaths.forEach((v, i) => {
-        //wyszukanie indeksu w ścieżce w którym występuje id przenoszonego elementu
-        const elementIndex = v.path.findIndex((path) =>
-          path.startsWith(object)
-        );
-        //wyznaczenie ścieżki która zastąpi nieaktualną część starej śzieżki
-        let pathToConcat = JSON.parse(JSON.stringify(destinationPathIndex));
-        //usunięcie nieaktualnej części ścieżki
-        v.path.splice(0, elementIndex);
-        //uwzględnienie id elementu końcowego jeśli nie jest to id głównego kontenera
-        if (to !== "mainId") pathToConcat = pathToConcat.concat(to);
-          v.path = pathToConcat.concat(v.path);
-      });
+      updateRelatedPaths(relatedPaths,destinationPathIndex,object,to);
     },
     deleteElement(state, action) {
       debugger;

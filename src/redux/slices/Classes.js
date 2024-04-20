@@ -1,103 +1,151 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { findPath,findObject,findLocationByPath, getObjectByPath } from "../PathOperationsLib";
+import {
+  findPath,
+  findObject,
+  findLocationByPath,
+  getObjectByPath,
+  findAndDeleteByPath,
+  updateObjectPath,
+  updateRelatedPaths,
+  findRelatedPaths,
+} from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
 
 const classesSlice = createSlice({
   name: "classes",
   initialState: {
-    classes:[],
-    paths:[]
-  }
-  ,
+    classes: [],
+    paths: [],
+  },
   reducers: {
     addClass(state, action) {
       state.classes.push({
         id: action.payload.id,
         name: "Nienazwana klasa",
         fields: [],
-        methods: []
+        methods: [],
       });
     },
-    createMethod(state,action){
-        const findedClass = state.classes.find(cl => cl.id === action.payload.id);
-        if(findedClass!==undefined)
-        {
-          const newMethod = {
-            id: uuidv4(),
-            name:"Metoda bez nazwy",
-            children: [[],[]]
-          }; 
-          findedClass.methods.push(newMethod);
-          state.paths.push({
-            id: newMethod.id,
-            path:["classes",action.payload.id+"|-1","methods"]
-          })
-        }
+    createMethod(state, action) {
+      const findedClass = state.classes.find(
+        (cl) => cl.id === action.payload.id
+      );
+      if (findedClass !== undefined) {
+        const newMethod = {
+          id: uuidv4(),
+          name: "Metoda bez nazwy",
+          children: [[], []],
+        };
+        findedClass.methods.push(newMethod);
+        state.paths.push({
+          id: newMethod.id,
+          path: ["classes", action.payload.id + "|-1", "methods"],
+        });
+      }
     },
-    createField(state,action){
-        const findedClass = state.classes.find(cl => cl.id === action.payload.id);
-        if(findedClass!==undefined)
-        {
-          const newField = {
-            id: uuidv4(),
-            name:"Pole bez nazwy",
-            children: [[]]
-          }
-          findedClass.fields.push(newField);
-          state.paths.push({
-            id: newField.id,
-            path:["classes",action.payload.id+"|-1","fields"]
-          })
-        }
+    createField(state, action) {
+      const findedClass = state.classes.find(
+        (cl) => cl.id === action.payload.id
+      );
+      if (findedClass !== undefined) {
+        const newField = {
+          id: uuidv4(),
+          name: "Pole bez nazwy",
+          children: [[]],
+        };
+        findedClass.fields.push(newField);
+        state.paths.push({
+          id: newField.id,
+          path: ["classes", action.payload.id + "|-1", "fields"],
+        });
+      }
     },
-    editClassName(state,action){
-      const findedClass = state.classes.find(cl => cl.id === action.payload.id);
-      findedClass.name = action.payload.name
+    editClassName(state, action) {
+      const findedClass = state.classes.find(
+        (cl) => cl.id === action.payload.id
+      );
+      findedClass.name = action.payload.name;
     },
-    editFieldName(state,action){
-      const findedClass = state.classes.find(cl => cl.id === action.payload.classId);
-      const findedField = findedClass.fields.find(fi => fi.id === action.payload.fieldId);
-      findedField.name = action.payload.name
+    editFieldName(state, action) {
+      const findedClass = state.classes.find(
+        (cl) => cl.id === action.payload.classId
+      );
+      const findedField = findedClass.fields.find(
+        (fi) => fi.id === action.payload.fieldId
+      );
+      findedField.name = action.payload.name;
     },
-    editMethodName(state,action){
-      const findedClass = state.classes.find(cl => cl.id === action.payload.classId);
-      const findedMethod = findedClass.methods.find(me => me.id === action.payload.methodId);
-      findedMethod.name = action.payload.name
+    editMethodName(state, action) {
+      const findedClass = state.classes.find(
+        (cl) => cl.id === action.payload.classId
+      );
+      const findedMethod = findedClass.methods.find(
+        (me) => me.id === action.payload.methodId
+      );
+      findedMethod.name = action.payload.name;
     },
-    inserElementToClass(state,action)
-    {
+    inserElementToClass(state, action) {
       debugger;
-      const {object,to,classId} = action.payload;
+      const { object, to, classId } = action.payload;
 
+      //podział id obiektu dodawanego
       const objectSplit = object.split("|");
+      //podział id lokalizacji
       const toSplit = to.split("|");
 
-      const pathTo = findPath(state,toSplit[0]);
-      const pathObject = findPath(state,objectSplit[0]);
+      //pobranie ścieżek lokalizacji oraz obiektu
+      let pathTo = findPath(state, toSplit[0]);
+      const pathObject = findPath(state, objectSplit[0]);
 
       let objectValue = undefined;
-      if(pathObject===undefined)
-      {
-        objectValue = GetBlockStructure(objectSplit[0])
+      if (pathObject === undefined) {
+        //generowanie struktury nowego obiektu
+        objectValue = GetBlockStructure(objectSplit[0]);
+      } else {
+        //pobranie struktury obiektu z starej lokalizacji
+        objectValue = findObject(state, object, pathObject);
       }
-      else
-      {
-        objectValue = findObject(state,object,pathObject);
-      }
+      //odszukanie lokalizacji docelowej na podstawie ścieżki
       let destinationValue = findLocationByPath(state, pathTo);
-
-      destinationValue = destinationValue.find(
-        (el) => el.id === toSplit[0]
-      );
+      destinationValue = destinationValue.find((el) => el.id === toSplit[0]);
       if (toSplit.length === 2) {
         destinationValue = getObjectByPath(destinationValue, ["children"]);
         destinationValue = destinationValue[toSplit[1]];
       }
+      //wyznaczenie i usunięcie obiektu w starej lokalizacji
+      if (pathObject !== undefined)
+        findAndDeleteByPath(state, pathObject, object);
+
+      //dodanie obiektu do nowej lokalizacji
       destinationValue.push(objectValue);
-    }
+
+      if (pathObject === undefined) {
+        pathTo = pathTo.concat(to);
+        //dodanie śzieżki do nowego obiektu
+        state.paths.push({
+          id: objectValue.id,
+          path: pathTo,
+        });
+        return;
+      } 
+
+      //aktualizacja ścieżki do obiektu
+      updateObjectPath(state,object,pathTo,toSplit,to);
+      const relatedPaths = findRelatedPaths(state,object);
+      updateRelatedPaths(relatedPaths,pathTo,object,to);
+      
+    },
   },
 });
 
-export const { addClass , createMethod , createField , editClassName, editFieldName,editMethodName,inserElementToClass} = classesSlice.actions;
+export const {
+  addClass,
+  createMethod,
+  createField,
+  editClassName,
+  editFieldName,
+  editMethodName,
+  inserElementToClass,
+} = classesSlice.actions;
 export default classesSlice.reducer;
