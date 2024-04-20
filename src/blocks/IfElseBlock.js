@@ -8,11 +8,16 @@ import MainDroppable from "../components/MainDroppable";
 import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
+import { useSelector } from "react-redux";
 
 function IfElseBlock(props) {
+  const disableDraggable = useSelector(
+    (state) => state.draggableSettings.disableDraggable
+  );
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
+      disabled: disableDraggable,
     });
   const style = transform
     ? {

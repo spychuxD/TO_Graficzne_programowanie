@@ -8,11 +8,16 @@ import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
 import { consoleLogBlock } from "../blockTypes";
 import MainDroppable from "../components/MainDroppable";
-function ConsoleLogBlock(props) {
+import { useSelector } from "react-redux";
 
+function ConsoleLogBlock(props) {
+  const disableDraggable = useSelector(
+    (state) => state.draggableSettings.disableDraggable
+  );
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
+      disabled: disableDraggable,
     });
 
   const style = transform
@@ -21,28 +26,30 @@ function ConsoleLogBlock(props) {
 
   return (
     <Fragment>
-        <div
-          ref={setNodeRef}
-          className="blocks-container control-block bg-color-console"
-          style={{ width: "min-content", ...style }}
-          {...listeners}
-          {...attributes}
-        >
-          {!isDragging ? (
-            <div className="flex-row center w-full">
-              <div className="text-bold text-small text-white mr-8">
-                Wyświetl
+      <div
+        ref={setNodeRef}
+        className="blocks-container control-block bg-color-console"
+        style={{ width: "min-content", ...style }}
+        {...listeners}
+        {...attributes}
+      >
+        {!isDragging ? (
+          <div className="flex-row center w-full">
+            <div className="text-bold text-small text-white mr-8">Wyświetl</div>
+            <MainDroppable dropId={props.id + "|0"}>
+              <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
+                {props.children
+                  ? props.children[0].map((item, index) =>
+                      blockRenderer(item, index)
+                    )
+                  : null}
               </div>
-              <MainDroppable dropId={props.id + "|0"}>
-                <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
-                  {props.children?props.children[0].map((item, index) => blockRenderer(item)):null}
-                </div>
-              </MainDroppable>
-            </div>
-          ) : (
-            <div>Wyświetl</div>
-          )}
-        </div>
+            </MainDroppable>
+          </div>
+        ) : (
+          <div>Wyświetl</div>
+        )}
+      </div>
     </Fragment>
   );
 }

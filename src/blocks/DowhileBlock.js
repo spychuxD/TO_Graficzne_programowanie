@@ -4,10 +4,16 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
 import blockRenderer from "../blockRenderer";
+import { useSelector } from "react-redux";
+
 function WhileBlock(props) {
+  const disableDraggable = useSelector(
+    (state) => state.draggableSettings.disableDraggable
+  );
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
+      disabled: disableDraggable,
     });
   const style = transform
     ? {

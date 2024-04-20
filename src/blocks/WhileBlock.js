@@ -8,9 +8,13 @@ import { useDispatch } from "react-redux";
 import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
 import { whileBlock } from "../blockTypes";
+import { useSelector } from "react-redux";
+
 function WhileBlock(props) {
   const dispatch = useDispatch();
-
+  const disableDraggable = useSelector(
+    (state) => state.draggableSettings.disableDraggable
+  );
   const onAddElement = () => {
     const newElement = {
       id: uuidv4(),
@@ -24,6 +28,7 @@ function WhileBlock(props) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
+      disabled: disableDraggable,
     });
   const style = transform
     ? {
@@ -48,9 +53,11 @@ function WhileBlock(props) {
                   <div className="text-bold text-white text-nowrap">While</div>
                   <MainDroppable dropId={props.id + "|0"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children?props.children[0].map((item, index) =>
-                        blockRenderer(item, index)
-                      ):null}
+                      {props.children
+                        ? props.children[0].map((item, index) =>
+                            blockRenderer(item, index)
+                          )
+                        : null}
                     </div>
                   </MainDroppable>
                 </div>
@@ -61,9 +68,11 @@ function WhileBlock(props) {
                   <div className="text-bold text-white ">wykonaj</div>
                   <MainDroppable dropId={props.id + "|1"}>
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                      {props.children?props.children[1].map((item, index) =>
-                        blockRenderer(item, index)
-                      ):null}
+                      {props.children
+                        ? props.children[1].map((item, index) =>
+                            blockRenderer(item, index)
+                          )
+                        : null}
                     </div>
                   </MainDroppable>
                 </div>

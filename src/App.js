@@ -14,6 +14,7 @@ import {
   inserElement,
 } from "./redux/slices/CodeStructure";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { snapCenterToCursor } from "@dnd-kit/modifiers";
 
 const theme = createTheme({
   typography: {
@@ -42,7 +43,7 @@ function App() {
   };
   function handleDragEnd(event) {
     console.log(tabs[tabIndex]);
-    debugger;
+    //debugger;
     if (event.over) {
       const { active, over } = event;
       if (over.id === "deleteId") {
@@ -86,7 +87,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <DndContext onDragEnd={handleDragEnd}>
+        <DndContext onDragEnd={handleDragEnd} modifiers={[snapCenterToCursor]}>
           <div className="max-h-vh w-20">
             <SectionLeft></SectionLeft>
           </div>

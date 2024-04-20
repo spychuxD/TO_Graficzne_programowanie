@@ -4,13 +4,16 @@ import { variableDeclarationBlock } from "../../blockTypes";
 import { v4 as uuidv4 } from "uuid";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addElement, changeElement } from "../../redux/slices/CodeStructure";
+import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import MainDroppable from "../../components/MainDroppable";
 import blockRenderer from "../../blockRenderer";
 function VariableDeclarationBlock(props) {
   const dispatch = useDispatch();
-  const [isHovered, setIsHovered] = useState(false);
+  const disableDraggable = useSelector(
+    (state) => state.draggableSettings.disableDraggable
+  );
 
   const onAddElement = () => {
     const newElement = {
@@ -32,7 +35,7 @@ function VariableDeclarationBlock(props) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: props.id,
-      disabled: isHovered,
+      disabled: disableDraggable,
     });
   const style = transform
     ? {
@@ -54,9 +57,11 @@ function VariableDeclarationBlock(props) {
             <Fragment>
               <MainDroppable dropId={props.id + "|0"}>
                 <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                  {props.children?props.children[0]?.map((item, index) =>
-                    blockRenderer(item, index)
-                  ):null}
+                  {props.children
+                    ? props.children[0]?.map((item, index) =>
+                        blockRenderer(item, index)
+                      )
+                    : null}
                 </div>
               </MainDroppable>
               <input
@@ -65,8 +70,12 @@ function VariableDeclarationBlock(props) {
                 className="block-input"
                 type="text"
                 defaultValue={props.variableName}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onMouseEnter={() => {
+                  dispatch(toggleDisableDraggable());
+                }}
+                onMouseLeave={() => {
+                  dispatch(toggleDisableDraggable());
+                }}
               />
             </Fragment>
           ) : (
