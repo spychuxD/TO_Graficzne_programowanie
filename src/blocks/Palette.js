@@ -15,10 +15,10 @@ import IfElseBlock from "./IfElseBlock";
 import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
 import { useSelector } from "react-redux";
-import ClassDefinitionBlock from "./ClassDefinitionBlock";
+import ClassDefinitionBlock from "./ClassBlocks/ClassDefinitionBlock";
 import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
-import ClassMethodBlock from "./ClassMethodBlock";
+import ClassMethodBlock from "./ClassBlocks/ClassMethodBlock";
 import {
   beginBlock,
   classDefinitionBlock,
@@ -35,6 +35,7 @@ import {
   variableTypesBlock,
   whileBlock,
 } from "../blockTypes";
+import FieldBlock from "./ClassBlocks/FieldBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes.classes);
@@ -260,6 +261,9 @@ export default function Palette({ blocksState, setBlocksState }) {
             {classes.map((v, k) => (
               <div key={k}>
                 <ClassDefinitionBlock id={classDefinitionBlock+"|"+v.id} name={v.name} classId={v.id} />
+                {v.fields.map((field, index) => (
+                  <FieldBlock name={field.name} id={classMethodBlock+"|"+v.id+"|"+field.id} key={index}/>
+                ))}
                 {v.methods.map((method, index) => (
                   <ClassMethodBlock name={method.name} id={classMethodBlock+"|"+v.id+"|"+method.id} key={index}/>
                 ))}

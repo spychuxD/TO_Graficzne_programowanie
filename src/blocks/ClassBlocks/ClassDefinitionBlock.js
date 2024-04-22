@@ -1,27 +1,14 @@
 import { Fragment } from "react";
-import { classDefinitionBlock } from "../blockTypes";
-import { v4 as uuidv4 } from "uuid";
 import { useDraggable } from "@dnd-kit/core";
-import { useDispatch } from "react-redux";
-import { addElement } from "../redux/slices/CodeStructure";
 import { CSS } from "@dnd-kit/utilities";
 import { useSelector } from "react-redux";
 export default function ClassDefinitionBlock(props) {
-  const dispatch = useDispatch();
   const classObject = useSelector((state) =>
-    state.classes.classes.find((c) => c.id == props.classId)
+    state.classes.classes.find((c) => c.id === props.classId)
   );
-  const onAddElement = () => {
-    const newElement = {
-      id: uuidv4(),
-      classId: props.classId,
-      type: classDefinitionBlock,
-    };
+  
 
-    dispatch(addElement(newElement));
-  };
-
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
+  const { attributes, listeners, setNodeRef, transform } =
     useDraggable({
       id: props.id,
     });
@@ -39,7 +26,7 @@ export default function ClassDefinitionBlock(props) {
         {...listeners}
         {...attributes}
       >
-        <div className="control-block bg-color-01">{classObject.name}</div>
+        <div className="control-block bg-color-01 text-nowrap">{classObject.name}</div>
       </div>
     </Fragment>
   );

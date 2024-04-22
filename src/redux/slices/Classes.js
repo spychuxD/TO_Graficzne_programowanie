@@ -35,7 +35,7 @@ const classesSlice = createSlice({
         const newMethod = {
           id: uuidv4(),
           name: "Metoda bez nazwy",
-          children: [[], []],
+          children: [[], [],[]],
         };
         findedClass.methods.push(newMethod);
         state.paths.push({
@@ -52,7 +52,7 @@ const classesSlice = createSlice({
         const newField = {
           id: uuidv4(),
           name: "Pole bez nazwy",
-          children: [[]],
+          children: [[],[]],
         };
         findedClass.fields.push(newField);
         state.paths.push({
@@ -68,6 +68,7 @@ const classesSlice = createSlice({
       findedClass.name = action.payload.name;
     },
     editFieldName(state, action) {
+      debugger
       const findedClass = state.classes.find(
         (cl) => cl.id === action.payload.classId
       );
@@ -87,7 +88,7 @@ const classesSlice = createSlice({
     },
     inserElementToClass(state, action) {
       debugger;
-      const { object, to, classId } = action.payload;
+      const { object, to } = action.payload;
 
       //podział id obiektu dodawanego
       const objectSplit = object.split("|");
@@ -101,7 +102,7 @@ const classesSlice = createSlice({
       let objectValue = undefined;
       if (pathObject === undefined) {
         //generowanie struktury nowego obiektu
-        objectValue = GetBlockStructure(objectSplit[0]);
+        objectValue = GetBlockStructure(object);
       } else {
         //pobranie struktury obiektu z starej lokalizacji
         objectValue = findObject(state, object, pathObject);

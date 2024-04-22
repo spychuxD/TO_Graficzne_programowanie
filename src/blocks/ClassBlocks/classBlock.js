@@ -1,15 +1,13 @@
-import "../App.css";
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import VariableBlock from "./VariableBlocks/VariableDeclarationBlock";
+import "../../App.css";
 import MethodBlock from "./MethodBlock";
 import { useDispatch } from "react-redux";
 import {
   createField,
   editClassName,
   createMethod,
-} from "../redux/slices/Classes";
+} from "../../redux/slices/Classes";
 import { useSelector } from "react-redux";
+import ClassFieldBlock from "./ClassFieldBlock";
 
 function ClassBlock({ reduxClassId }) {
   const classObjest = useSelector((state) =>
@@ -24,7 +22,7 @@ function ClassBlock({ reduxClassId }) {
     dispatch(createMethod({ id: reduxClassId }));
   };
   return (
-    <div className="border-r-10 bg-color-class blocks-container flex-col p-8">
+    <div className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10" >
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
         <div className="text-bold text-white">Klasa</div>
         <input
@@ -37,10 +35,10 @@ function ClassBlock({ reduxClassId }) {
           }
         />
       </div>
-      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col">
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8 gap-10">
         {classObjest.fields.map((item, index) => (
-          <div className="item-container  p-8" key={index}>
-            <VariableBlock {...item}/>
+          <div className="item-container"  key={index}>
+            <ClassFieldBlock {...item} classObject={classObjest}/>
           </div>
         ))}
         <button
@@ -51,9 +49,9 @@ function ClassBlock({ reduxClassId }) {
           Dodaj nowe pole klasy
         </button>
       </div>
-      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col">
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
         {classObjest.methods.map((item, index) => (
-          <div className="item-container w-full p-8">
+          <div className="item-container p-8">
             <MethodBlock {...item} classObject={classObjest}/>
           </div>
         ))}

@@ -24,10 +24,10 @@ import VariableDeclarationBlock from "./blocks/VariableBlocks/VariableDeclaratio
 import VariableTypesBlock from "./blocks/VariableBlocks/VariableTypesBlock";
 import SetOn from "./blocks/SetOn";
 import ConsoleLogBlock from "./blocks/ConsoleLogBlock";
-import ClassDefinitionBlock from "./blocks/ClassDefinitionBlock";
+import ClassDefinitionBlock from "./blocks/ClassBlocks/ClassDefinitionBlock";
 import WhileBlock from "./blocks/WhileBlock";
 import DowhileBlock from "./blocks/DowhileBlock";
-import ClassMethodBlock from "./blocks/ClassMethodBlock";
+import ClassMethodBlock from "./blocks/ClassBlocks/ClassMethodBlock";
 
 export default function blockRenderer(store, index) {
   switch (store.type) {

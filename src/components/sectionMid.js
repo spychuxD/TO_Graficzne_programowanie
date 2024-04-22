@@ -1,17 +1,16 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { DndContext } from "@dnd-kit/core";
 import MainDroppable from "./MainDroppable";
 import { useSelector } from "react-redux";
 import OrderDroppable from "./OrderDroppable";
 import { useDispatch } from "react-redux";
 
 import blockRenderer from "../blockRenderer";
-import ClassBlock from "../blocks/classBlock";
+import ClassBlock from "../blocks/ClassBlocks/classBlock";
 import { changeTab } from "../redux/slices/BlocksTabs";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

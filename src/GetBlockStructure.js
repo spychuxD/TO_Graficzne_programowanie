@@ -132,7 +132,7 @@ export default function GetBlockStructure(object) {
         type: classMethodBlock,
         classId: dataArray[1],
         methodId: dataArray[2],
-        children: [[]],
+        children: [[],[],[],[],[],[],[],[],[],[]],//maksymalnie 10 paramrtrów dla metody, zabezpieczyc ograniczenie dodawania parametrów
       };
   }
 }

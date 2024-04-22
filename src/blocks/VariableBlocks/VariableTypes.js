@@ -6,4 +6,5 @@ export const VariableTypes = {
   unsignedDouble: "unsignedDouble",
   string: "string",
   char: "char",
+  void: "void",
 };
