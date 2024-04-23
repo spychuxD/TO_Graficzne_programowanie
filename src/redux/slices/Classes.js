@@ -12,6 +12,13 @@ import {
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
 
+function findById(startState,classId){
+  return startState.find(
+    (cl) => cl.id === classId
+  );
+}
+
+
 const classesSlice = createSlice({
   name: "classes",
   initialState: {
@@ -45,9 +52,7 @@ const classesSlice = createSlice({
       }
     },
     createField(state, action) {
-      const findedClass = state.classes.find(
-        (cl) => cl.id === action.payload.id
-      );
+      const findedClass = findById(state.classes,action.payload.id)
       if (findedClass !== undefined) {
         const newField = {
           id: uuidv4(),
@@ -60,6 +65,18 @@ const classesSlice = createSlice({
           path: ["classes", action.payload.id + "|-1", "fields"],
         });
       }
+    },
+    deleteMethod(state,action){
+      const {classId,methodId} = action.payload;
+      const findedClass = findById(state.classes,classId)
+      const methodIndex = findedClass.methods.find(me => me.id === methodId);
+      findedClass.methods.splice(methodIndex, 1);
+    },
+    deleteField(state,action){
+      const {classId,fieldId} = action.payload;
+      const findedClass = findById(state.classes,classId)
+      const fieldIndex = findedClass.fields.find(fi => fi.id === fieldId);
+      findedClass.fields.splice(fieldIndex, 1);
     },
     editClassName(state, action) {
       const findedClass = state.classes.find(
@@ -148,5 +165,7 @@ export const {
   editFieldName,
   editMethodName,
   inserElementToClass,
+  deleteMethod,
+  deleteField
 } = classesSlice.actions;
 export default classesSlice.reducer;

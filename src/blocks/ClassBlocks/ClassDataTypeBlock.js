@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useSelector } from "react-redux";
-export default function ClassDefinitionBlock(props) {
+export default function ClassDataTypeBlock(props) {
   const classObject = useSelector((state) =>
     state.classes.classes.find((c) => c.id === props.classId)
   );

@@ -13,3 +13,4 @@ export const variableType = "variableType";
 export const setOn = "setOn";
 export const classDefinitionBlock = "classDefinitionBlock";
 export const classMethodBlock = "classMethodBlock";
+export const classFieldBlock = "classFieldBlock";

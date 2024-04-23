@@ -13,6 +13,7 @@ import {
   whileBlock,
   dowhileBlock,
   classMethodBlock,
+  classFieldBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import BeginBlock from "./blocks/BeginBlock";
@@ -24,10 +25,11 @@ import VariableDeclarationBlock from "./blocks/VariableBlocks/VariableDeclaratio
 import VariableTypesBlock from "./blocks/VariableBlocks/VariableTypesBlock";
 import SetOn from "./blocks/SetOn";
 import ConsoleLogBlock from "./blocks/ConsoleLogBlock";
-import ClassDefinitionBlock from "./blocks/ClassBlocks/ClassDefinitionBlock";
+import ClassDataTypeBlock from "./blocks/ClassBlocks/ClassDataTypeBlock";
 import WhileBlock from "./blocks/WhileBlock";
 import DowhileBlock from "./blocks/DowhileBlock";
 import ClassMethodBlock from "./blocks/ClassBlocks/ClassMethodBlock";
+import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
 
 export default function blockRenderer(store, index) {
   switch (store.type) {
@@ -54,11 +56,13 @@ export default function blockRenderer(store, index) {
     case setOn:
       return <SetOn {...store} key={index} />;
     case classDefinitionBlock:
-      return <ClassDefinitionBlock {...store} key={index} />;
+      return <ClassDataTypeBlock {...store} key={index} />;
     case variableTypesBlock:
       return <VariableTypesBlock {...store} key={index} />;
     case classMethodBlock:
       return <ClassMethodBlock {...store} key={index}/>
+    case classFieldBlock:
+      return <ClassFieldBlock {...store} key={index}/>
       default:
       break;
   }

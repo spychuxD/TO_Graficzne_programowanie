@@ -15,13 +15,14 @@ import IfElseBlock from "./IfElseBlock";
 import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
 import { useSelector } from "react-redux";
-import ClassDefinitionBlock from "./ClassBlocks/ClassDefinitionBlock";
+import ClassDataTypeBlock from "./ClassBlocks/ClassDataTypeBlock";
 import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
 import ClassMethodBlock from "./ClassBlocks/ClassMethodBlock";
 import {
   beginBlock,
   classDefinitionBlock,
+  classFieldBlock,
   classMethodBlock,
   consoleLogBlock,
   dowhileBlock,
@@ -35,7 +36,7 @@ import {
   variableTypesBlock,
   whileBlock,
 } from "../blockTypes";
-import FieldBlock from "./ClassBlocks/FieldBlock";
+import ClassFieldBlock from "./ClassBlocks/ClassFieldBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes.classes);
@@ -260,9 +261,9 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {classes.map((v, k) => (
               <div key={k}>
-                <ClassDefinitionBlock id={classDefinitionBlock+"|"+v.id} name={v.name} classId={v.id} />
+                <ClassDataTypeBlock id={classDefinitionBlock+"|"+v.id} name={v.name} classId={v.id} />
                 {v.fields.map((field, index) => (
-                  <FieldBlock name={field.name} id={classMethodBlock+"|"+v.id+"|"+field.id} key={index}/>
+                  <ClassFieldBlock name={field.name} id={classFieldBlock+"|"+v.id+"|"+field.id} key={index}/>
                 ))}
                 {v.methods.map((method, index) => (
                   <ClassMethodBlock name={method.name} id={classMethodBlock+"|"+v.id+"|"+method.id} key={index}/>

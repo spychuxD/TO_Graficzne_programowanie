@@ -10,7 +10,7 @@ import OrderDroppable from "./OrderDroppable";
 import { useDispatch } from "react-redux";
 
 import blockRenderer from "../blockRenderer";
-import ClassBlock from "../blocks/ClassBlocks/classBlock";
+import ClassEditorBlock from "../blocks/ClassBlocks/ClassEditorBlock";
 import { changeTab } from "../redux/slices/BlocksTabs";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -106,7 +106,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
               </Fragment>
             ) : (
               <MainDroppable dropId={"mainClassId"}>
-                <ClassBlock reduxClassId={item.id} />
+                <ClassEditorBlock reduxClassId={item.id} />
               </MainDroppable>
             )}
           </CustomTabPanel>

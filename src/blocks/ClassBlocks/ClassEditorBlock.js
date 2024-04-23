@@ -1,5 +1,5 @@
 import "../../App.css";
-import MethodBlock from "./MethodBlock";
+import ClassMethodBodyBlock from "./ClassMethodBodyBlock";
 import { useDispatch } from "react-redux";
 import {
   createField,
@@ -7,9 +7,9 @@ import {
   createMethod,
 } from "../../redux/slices/Classes";
 import { useSelector } from "react-redux";
-import ClassFieldBlock from "./ClassFieldBlock";
+import ClassFieldBodyBlock from "./ClassFieldBodyBlock";
 
-function ClassBlock({ reduxClassId }) {
+function ClassEditorBlock({ reduxClassId }) {
   const classObjest = useSelector((state) =>
     state.classes.classes.find((c) => c.id === reduxClassId)
   );
@@ -38,7 +38,7 @@ function ClassBlock({ reduxClassId }) {
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8 gap-10">
         {classObjest.fields.map((item, index) => (
           <div className="item-container"  key={index}>
-            <ClassFieldBlock {...item} classObject={classObjest}/>
+            <ClassFieldBodyBlock {...item} classObject={classObjest}/>
           </div>
         ))}
         <button
@@ -52,7 +52,7 @@ function ClassBlock({ reduxClassId }) {
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
         {classObjest.methods.map((item, index) => (
           <div className="item-container p-8">
-            <MethodBlock {...item} classObject={classObjest}/>
+            <ClassMethodBodyBlock {...item} classObject={classObjest}/>
           </div>
         ))}
         <button
@@ -66,4 +66,4 @@ function ClassBlock({ reduxClassId }) {
     </div>
   );
 }
-export default ClassBlock;
+export default ClassEditorBlock;

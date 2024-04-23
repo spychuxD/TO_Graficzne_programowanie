@@ -1,6 +1,7 @@
 import {
   beginBlock,
   classDefinitionBlock,
+  classFieldBlock,
   classMethodBlock,
   consoleLogBlock,
   dowhileBlock,
@@ -128,11 +129,18 @@ export default function GetBlockStructure(object) {
       //dataArray = type|classId|methodId
       return {
         id: uuidv4(),
-        name: "classMethodBlock",
         type: classMethodBlock,
         classId: dataArray[1],
         methodId: dataArray[2],
         children: [[],[],[],[],[],[],[],[],[],[]],//maksymalnie 10 paramrtrów dla metody, zabezpieczyc ograniczenie dodawania parametrów
       };
+      case classFieldBlock:
+        return{
+          id: uuidv4(),
+          type: classFieldBlock,
+          classId: dataArray[1],
+          fieldId: dataArray[2],
+          children: [[]],
+        }
   }
 }
