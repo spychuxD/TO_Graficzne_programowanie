@@ -88,7 +88,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <DndContext onDragEnd={handleDragEnd} modifiers={[snapCenterToCursor]}>
-          <div className="max-h-vh w-20">
+          <div className="max-h-vh display-flex w-20 overflox-x-hidden ">
             <SectionLeft></SectionLeft>
           </div>
           <div className="max-h-vh w-full">

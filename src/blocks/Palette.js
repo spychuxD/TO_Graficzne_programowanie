@@ -58,18 +58,18 @@ export default function Palette({ blocksState, setBlocksState }) {
     }
   };
   return (
-    <div>
+    <>
       <div className="list-header">
         <Button
           fullWidth
           startIcon={<MdForkRight size={24} className="mr-8" />}
           onClick={() => handleCategory(1)}
         >
-          <span className="text-bold">Bloki sterujące</span>
+          <span className=" text-nowrap">Bloki sterujące</span>
         </Button>
       </div>
       {category?.includes(1) ? (
-        <div>
+        <>
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
@@ -122,7 +122,7 @@ export default function Palette({ blocksState, setBlocksState }) {
             />
             <SetOn id={setOn} blocksState={blocksState} setBlocksState={setBlocksState} />
           </div>
-        </div>
+        </>
       ) : null}
       <div className="list-header">
         <Button
@@ -130,7 +130,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           startIcon={<MdForkRight size={24} className="mr-8" />}
           onClick={() => handleCategory(2)}
         >
-          <span className="text-bold">zmienne</span>
+          <span className="">zmienne</span>
         </Button>
       </div>
       {category?.includes(2) ? (
@@ -162,7 +162,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           startIcon={<MdCalculate size={24} className="mr-8" />}
           onClick={() => handleCategory(3)}
         >
-          <span className="text-bold">Operatory</span>
+          <span className="">Operatory</span>
         </Button>
       </div>
       {category?.includes(3) ? (
@@ -181,7 +181,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                     startIcon={<MdCalculate size={24} className="mr-8" />}
                     onClick={() => handleOperatorsCategory(operatorGroup)}
                   >
-                    <span className="text-bold">{operatorGroup}</span>
+                    <span className="">{operatorGroup}</span>
                   </Button>
                 </div>
 
@@ -217,7 +217,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           startIcon={<MdCalculate size={24} className="mr-8" />}
           onClick={() => handleCategory(4)}
         >
-          <span className="text-bold">Typy zmiennych</span>
+          <span className="">Typy zmiennych</span>
         </Button>
       </div>
       {category?.includes(4) ? (
@@ -247,7 +247,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           startIcon={<MdBento size={24} className="mr-8" />}
           onClick={() => handleCategory(5)}
         >
-          <span className="text-bold">Klasy</span>
+          <span className="">Klasy</span>
         </Button>
       </div>
       {category?.includes(5) ? (
@@ -273,6 +273,6 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 }
