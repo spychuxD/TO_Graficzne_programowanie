@@ -22,7 +22,7 @@ function ClassEditorBlock({ reduxClassId }) {
     dispatch(createMethod({ id: reduxClassId }));
   };
   return (
-    <div className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10" >
+    <div className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10">
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
         <div className="text-bold text-white">Klasa</div>
         <input
@@ -37,8 +37,8 @@ function ClassEditorBlock({ reduxClassId }) {
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8 gap-10">
         {classObjest.fields.map((item, index) => (
-          <div className="item-container"  key={index}>
-            <ClassFieldBodyBlock {...item} classObject={classObjest}/>
+          <div className="item-container" key={index}>
+            <ClassFieldBodyBlock {...item} classObject={classObjest} />
           </div>
         ))}
         <button
@@ -51,8 +51,8 @@ function ClassEditorBlock({ reduxClassId }) {
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
         {classObjest.methods.map((item, index) => (
-          <div className="item-container p-8">
-            <ClassMethodBodyBlock {...item} classObject={classObjest}/>
+          <div className="item-container p-8" key={index}>
+            <ClassMethodBodyBlock {...item} classObject={classObjest} />
           </div>
         ))}
         <button

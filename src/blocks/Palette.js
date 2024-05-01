@@ -11,6 +11,7 @@ import OperatorsBlocks from "./OperatorsBlocks/OperatorsBlocks";
 import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
+
 import IfElseBlock from "./IfElseBlock";
 import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
@@ -37,8 +38,15 @@ import {
   whileBlock,
 } from "../blockTypes";
 import ClassFieldBlock from "./ClassBlocks/ClassFieldBlock";
+import { DragOverlay } from "@dnd-kit/core";
+import { createPortal } from "react-dom";
+import blockRenderer from "../blockRenderer";
+import { useDispatch } from "react-redux";
+import { setVariableType } from "../redux/slices/DraggableSettings";
 
 export default function Palette({ blocksState, setBlocksState }) {
+  const dispatch = useDispatch();
+
   const classes = useSelector((state) => state.classes.classes);
   const variables = useSelector((state) => state.codeStructure.variables);
   const [category, setCategory] = useState([0]);
@@ -57,6 +65,9 @@ export default function Palette({ blocksState, setBlocksState }) {
       setOperatorsCategory((oldVal) => [...oldVal, newVal]);
     }
   };
+  const dragOverlayData = useSelector(
+    (state) => state.draggableSettings.dragOverlayData
+  );
   return (
     <>
       <div className="list-header">
@@ -84,43 +95,57 @@ export default function Palette({ blocksState, setBlocksState }) {
               id={beginBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <EndBlock
               id={endBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <IfElseBlock
               id={ifElseBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <ForBlock
               id={forBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <WhileBlock
               id={whileBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <DowhileBlock
               id={dowhileBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <ConsoleLogBlock
               id={consoleLogBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
             <VariableDeclarationBlock
               id={variableDeclarationBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
+              palette={true}
             />
-            <SetOn id={setOn} blocksState={blocksState} setBlocksState={setBlocksState} />
+
+            <SetOn
+              id={setOn}
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+              palette={true}
+            />
           </div>
         </>
       ) : null}
@@ -144,13 +169,14 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {variables?.map((v, k) => (
               <VariableBlock
-                id={variableBlock+"|"+v.id}
+                id={variableBlock + "|" + v.id}
                 key={k}
                 blockId={v.id}
                 dataType={v.dataType}
                 variableName={v.variableName}
                 blocksState={blocksState}
                 setBlocksState={setBlocksState}
+                palette={true}
               />
             ))}
           </div>
@@ -166,8 +192,11 @@ export default function Palette({ blocksState, setBlocksState }) {
         </Button>
       </div>
       {category?.includes(3) ? (
-        <div>
-          <div className="palette-blocks-container slideDown">
+        <div className="palette-operators-container">
+          <div className="flex-row align-center justify-center">
+            <div className="text-center text-large">Rodzaje operatorów</div>
+          </div>
+          <div className="palette-operators-container-buttons slideDown">
             {Object.keys(Operators).map((operatorGroup, index) => (
               <div
                 key={index}
@@ -175,10 +204,9 @@ export default function Palette({ blocksState, setBlocksState }) {
                   width: "100%",
                 }}
               >
-                <div className="list-header">
+                <div className="list-header2">
                   <Button
                     fullWidth
-                    startIcon={<MdCalculate size={24} className="mr-8" />}
                     onClick={() => handleOperatorsCategory(operatorGroup)}
                   >
                     <span className="">{operatorGroup}</span>
@@ -193,17 +221,24 @@ export default function Palette({ blocksState, setBlocksState }) {
                         Kliknij na blok, aby go dodać
                       </div>
                     </div>
-                    {Object.keys(Operators[operatorGroup]).map(
-                      (operatorType, index) => (
-                        <OperatorsBlocks
-                          id={operatorsBlocks+"|"+Operators[operatorGroup][operatorType]}
-                          key={index}
-                          blocksState={blocksState}
-                          setBlocksState={setBlocksState}
-                          name={Operators[operatorGroup][operatorType]}
-                        />
-                      )
-                    )}
+                    <div className="palette-blocks-container slideDown">
+                      {Object.keys(Operators[operatorGroup]).map(
+                        (operatorType, index) => (
+                          <OperatorsBlocks
+                            id={
+                              operatorsBlocks +
+                              "|" +
+                              Operators[operatorGroup][operatorType]
+                            }
+                            key={index}
+                            blocksState={blocksState}
+                            setBlocksState={setBlocksState}
+                            name={Operators[operatorGroup][operatorType]}
+                            palette={true}
+                          />
+                        )
+                      )}
+                    </div>
                   </>
                 ) : null}
               </div>
@@ -231,16 +266,23 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {Object.keys(VariableTypes).map((variableType, index) => (
               <VariableTypesBlock
-                id={variableTypesBlock+"|"+VariableTypes[variableType]}
+                id={variableTypesBlock + "|" + VariableTypes[variableType]}
                 key={index}
                 blocksState={blocksState}
                 setBlocksState={setBlocksState}
                 name={VariableTypes[variableType]}
+                palette={true}
               />
             ))}
           </div>
         </div>
       ) : null}
+      {createPortal(
+        <DragOverlay dropAnimation={null}>
+          {blockRenderer(dragOverlayData, 1, true)}
+        </DragOverlay>,
+        document.body
+      )}
       <div className="list-header flex-row align-center justify-between">
         <Button
           fullWidth
@@ -261,12 +303,27 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="palette-blocks-container slideDown">
             {classes.map((v, k) => (
               <div key={k}>
-                <ClassDataTypeBlock id={classDefinitionBlock+"|"+v.id} name={v.name} classId={v.id} />
+                <ClassDataTypeBlock
+                  id={classDefinitionBlock + "|" + v.id}
+                  name={v.name}
+                  classId={v.id}
+                  palette={true}
+                />
                 {v.fields.map((field, index) => (
-                  <ClassFieldBlock name={field.name} id={classFieldBlock+"|"+v.id+"|"+field.id} key={index}/>
+                  <ClassFieldBlock
+                    name={field.name}
+                    id={classFieldBlock + "|" + v.id + "|" + field.id}
+                    key={index}
+                    palette={true}
+                  />
                 ))}
                 {v.methods.map((method, index) => (
-                  <ClassMethodBlock name={method.name} id={classMethodBlock+"|"+v.id+"|"+method.id} key={index}/>
+                  <ClassMethodBlock
+                    name={method.name}
+                    id={classMethodBlock + "|" + v.id + "|" + method.id}
+                    key={index}
+                    palette={true}
+                  />
                 ))}
               </div>
             ))}

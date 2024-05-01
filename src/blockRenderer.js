@@ -31,39 +31,49 @@ import DowhileBlock from "./blocks/DowhileBlock";
 import ClassMethodBlock from "./blocks/ClassBlocks/ClassMethodBlock";
 import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
 
-export default function blockRenderer(store, index) {
+export default function blockRenderer(store, index, isOverlay = false) {
   switch (store.type) {
     case beginBlock:
-      return <BeginBlock {...store} key={index} />;
+      return <BeginBlock {...store} key={index} isOverlay={isOverlay} />;
     case forBlock:
-      return <ForBlock {...store} key={index} />;
+      return <ForBlock {...store} key={index} isOverlay={isOverlay} />;
     case whileBlock:
-      return <WhileBlock {...store} key={index} />;
+      return <WhileBlock {...store} key={index} isOverlay={isOverlay} />;
     case dowhileBlock:
-      return <DowhileBlock {...store} key={index} />;
+      return <DowhileBlock {...store} key={index} isOverlay={isOverlay} />;
     case endBlock:
-      return <EndBlock {...store} key={index} />;
+      return <EndBlock {...store} key={index} isOverlay={isOverlay} />;
     case operatorsBlocks:
-      return <OperatorsBlocks {...store} key={index} />;
+      return <OperatorsBlocks {...store} key={index} isOverlay={isOverlay} />;
     case ifElseBlock:
-      return <IfElseBlock {...store} key={index} />;
+      return <IfElseBlock {...store} key={index} isOverlay={isOverlay} />;
     case consoleLogBlock:
-      return <ConsoleLogBlock {...store} key={index} />;
+      return <ConsoleLogBlock {...store} key={index} isOverlay={isOverlay} />;
     case variableBlock:
-      return <VariableBlock {...store} key={index} />;
+      return <VariableBlock {...store} key={index} isOverlay={isOverlay} />;
     case variableDeclarationBlock:
-      return <VariableDeclarationBlock {...store} key={index} />;
+      return (
+        <VariableDeclarationBlock
+          {...store}
+          key={index}
+          isOverlay={isOverlay}
+        />
+      );
     case setOn:
-      return <SetOn {...store} key={index} />;
+      return <SetOn {...store} key={index} isOverlay={isOverlay} />;
     case classDefinitionBlock:
-      return <ClassDataTypeBlock {...store} key={index} />;
+      return (
+        <ClassDataTypeBlock {...store} key={index} isOverlay={isOverlay} />
+      );
     case variableTypesBlock:
-      return <VariableTypesBlock {...store} key={index} />;
+      return (
+        <VariableTypesBlock {...store} key={index} isOverlay={isOverlay} />
+      );
     case classMethodBlock:
-      return <ClassMethodBlock {...store} key={index}/>
+      return <ClassMethodBlock {...store} key={index} isOverlay={isOverlay} />;
     case classFieldBlock:
-      return <ClassFieldBlock {...store} key={index}/>
-      default:
+      return <ClassFieldBlock {...store} key={index} isOverlay={isOverlay} />;
+    default:
       break;
   }
 }

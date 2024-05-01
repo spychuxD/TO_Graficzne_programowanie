@@ -1,44 +1,23 @@
 import "../App.css";
 import { Fragment } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { ifElseBlock } from "../blockTypes";
-import { useDraggable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
-import { useDispatch } from "react-redux";
-import { addElement } from "../redux/slices/CodeStructure";
 import blockRenderer from "../blockRenderer";
-import { useSelector } from "react-redux";
-
+import DragHandle from "./DragHandle/DragHandle";
+import { ifElseBlock } from "../blockTypes";
 function IfElseBlock(props) {
-  const disableDraggable = useSelector(
-    (state) => state.draggableSettings.disableDraggable
-  );
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: props.id,
-      disabled: disableDraggable,
-    });
-  const style = transform
-    ? {
-        transform: CSS.Translate.toString(transform),
-      }
-    : undefined;
   return (
     <Fragment>
-      <div
-        ref={setNodeRef}
-        style={{ width: "min-content", ...style }}
-        {...listeners}
-        {...attributes}
-      >
-        {!isDragging ? (
+      <DragHandle {...props} isOverlay={props.isOverlay} type={ifElseBlock}>
+        {(!props.isDragging && !props.isOverlay) || props.palette ? (
           <div className="control-block bg-color-if">
             <div className="flex-col gap-10 center w-full">
               <div className="flex-row center w-full">
                 <div className="text-bold text-small text-white mr-8 flex-row align-center">
                   Jeżeli
-                  <MainDroppable dropId={props.id + "|0"}>
+                  <MainDroppable
+                    dropId={props.id + "|0"}
+                    disabled={props.palette}
+                  >
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                       {props.children
                         ? props.children[0].map((item, index) =>
@@ -51,7 +30,10 @@ function IfElseBlock(props) {
                 </div>
               </div>
               <div className="flex-row center w-full">
-                <MainDroppable dropId={props.id + "|1"}>
+                <MainDroppable
+                  dropId={props.id + "|1"}
+                  disabled={props.palette}
+                >
                   <div className="w-min-50px w-full bg-color-if-body h-20px b-r-10">
                     {props.children
                       ? props.children[1].map((item, index) =>
@@ -67,7 +49,10 @@ function IfElseBlock(props) {
                 </div>
               </div>
               <div className="flex-row center w-full">
-                <MainDroppable dropId={props.id + "|2"}>
+                <MainDroppable
+                  dropId={props.id + "|2"}
+                  disabled={props.palette}
+                >
                   <div className="w-min-50px w-full bg-color-else h-20px b-r-10">
                     {props.children
                       ? props.children[2].map((item, index) =>
@@ -81,10 +66,10 @@ function IfElseBlock(props) {
           </div>
         ) : (
           <div className="blocks-container control-block bg-color-if text-bold text-white">
-            if-else
+            ifElse
           </div>
         )}
-      </div>
+      </DragHandle>
     </Fragment>
   );
 }

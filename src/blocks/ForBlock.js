@@ -1,40 +1,19 @@
 import "../App.css";
 import { Fragment } from "react";
-import { useDraggable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import MainDroppable from "../components/MainDroppable";
 import blockRenderer from "../blockRenderer";
-import { useSelector } from "react-redux";
+import DragHandle from "./DragHandle/DragHandle";
+import { forBlock } from "../blockTypes";
 
 function ForBlock(props) {
-  const disableDraggable = useSelector(
-    (state) => state.draggableSettings.disableDraggable
-  );
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: props.id,
-      disabled: disableDraggable,
-    });
-  const style = transform
-    ? {
-        transform: CSS.Translate.toString(transform),
-      }
-    : undefined;
-
   return (
     <Fragment>
-      <div
-        ref={setNodeRef}
-        className="control-block bg-color-for"
-        style={{
-          width: "min-content",
-          ...style,
-          height: isDragging ? 50 : "auto",
-        }}
-        {...listeners}
-        {...attributes}
+      <DragHandle
+        {...props}
+        type={forBlock}
+        className={"control-block bg-color-for"}
       >
-        {!isDragging ? (
+        {(!props.isDragging && !props.isOverlay) || props.palette ? (
           <div className="">
             <div className="" style={{ padding: 10 }}>
               <div
@@ -45,7 +24,10 @@ function ForBlock(props) {
                   <div className="text-bold text-white text-nowrap">
                     Powtarzaj dla
                   </div>
-                  <MainDroppable dropId={props.id + "|0"}>
+                  <MainDroppable
+                    dropId={props.id + "|0"}
+                    disabled={props.palette}
+                  >
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                       {props.children
                         ? props.children[0].map((item, index) =>
@@ -57,7 +39,10 @@ function ForBlock(props) {
                 </div>
                 <div>
                   <div className="text-bold text-white text-nowrap">dopóki</div>
-                  <MainDroppable dropId={props.id + "|1"}>
+                  <MainDroppable
+                    dropId={props.id + "|1"}
+                    disabled={props.palette}
+                  >
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                       {props.children
                         ? props.children[1].map((item, index) =>
@@ -71,7 +56,10 @@ function ForBlock(props) {
                   <div className="text-bold text-white text-nowrap">
                     a potem
                   </div>
-                  <MainDroppable dropId={props.id + "|2"}>
+                  <MainDroppable
+                    dropId={props.id + "|2"}
+                    disabled={props.palette}
+                  >
                     <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                       {props.children
                         ? props.children[2].map((item, index) =>
@@ -87,7 +75,10 @@ function ForBlock(props) {
                 className="control-block flex-col"
               >
                 <div className="text-bold text-white ">wykonaj</div>
-                <MainDroppable dropId={props.id + "|3"}>
+                <MainDroppable
+                  dropId={props.id + "|3"}
+                  disabled={props.palette}
+                >
                   <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                     {props.children
                       ? props.children[3].map((item, index) =>
@@ -105,7 +96,7 @@ function ForBlock(props) {
             Pętla for
           </div>
         )}
-      </div>
+      </DragHandle>
     </Fragment>
   );
 }

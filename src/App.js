@@ -42,7 +42,7 @@ function App() {
     setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
   };
   function handleDragEnd(event) {
-    console.log(tabs[tabIndex]);
+    //console.log(tabs[tabIndex]);
     //debugger;
     if (event.over) {
       const { active, over } = event;
@@ -88,7 +88,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <DndContext onDragEnd={handleDragEnd} modifiers={[snapCenterToCursor]}>
-          <div className="max-h-vh display-flex w-20 overflox-x-hidden ">
+          <div className="display-flex w-20 ">
             <SectionLeft></SectionLeft>
           </div>
           <div className="max-h-vh w-full">

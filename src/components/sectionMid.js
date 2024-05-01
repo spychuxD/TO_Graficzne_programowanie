@@ -46,9 +46,7 @@ function a11yProps(index) {
 }
 
 function SectionMid({ stores, setStores, tabs, setTabs }) {
-  const tabIndex = useSelector(
-    state => state.blocksTabs.index
-  )
+  const tabIndex = useSelector((state) => state.blocksTabs.index);
   const dispatch = useDispatch();
 
   const codeStructureElements = useSelector(
@@ -56,7 +54,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
   );
 
   const handleChange = (event, newValue) => {
-    dispatch(changeTab({index:newValue}));
+    dispatch(changeTab({ index: newValue }));
   };
 
   return (
