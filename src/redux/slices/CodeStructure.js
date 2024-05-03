@@ -42,7 +42,8 @@ const codeStructureSlice = createSlice({
       const variableToUpdate = state.variables.find(
         (obj) => obj.id.split("|")[0] === id
       );
-      variableToUpdate[fieldToModify] = value;
+      if(variableToUpdate!==undefined)
+        variableToUpdate[fieldToModify] = value;
     },
     changeElementOrder(state, action) {
       const { object, over } = action.payload;

@@ -32,6 +32,7 @@ import {
   ifElseBlock,
   operatorsBlocks,
   setOn,
+  valueBlock,
   variableBlock,
   variableDeclarationBlock,
   variableTypesBlock,
@@ -43,6 +44,7 @@ import { createPortal } from "react-dom";
 import blockRenderer from "../blockRenderer";
 import { useDispatch } from "react-redux";
 import { setVariableType } from "../redux/slices/DraggableSettings";
+import ValueBlock from "./VariableBlocks/VlaueBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const dispatch = useDispatch();
@@ -179,6 +181,11 @@ export default function Palette({ blocksState, setBlocksState }) {
                 palette={true}
               />
             ))}
+            <ValueBlock
+             id={valueBlock}
+             blocksState={blocksState}
+             setBlocksState={setBlocksState}
+             palette={true}/>
           </div>
         </div>
       ) : null}

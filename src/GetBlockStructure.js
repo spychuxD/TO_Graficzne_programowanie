@@ -10,6 +10,7 @@ import {
   ifElseBlock,
   operatorsBlocks,
   setOn,
+  valueBlock,
   variableBlock,
   variableDeclarationBlock,
   variableTypesBlock,
@@ -142,5 +143,13 @@ export default function GetBlockStructure(object) {
           fieldId: dataArray[2],
           children: [[]],
         }
+      case valueBlock:
+        //dataArray = type
+        return {
+          id: uuidv4(),
+          type: valueBlock,
+          value:"",
+          valueType: "integers"
+        };
   }
 }

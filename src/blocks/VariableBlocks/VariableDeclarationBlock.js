@@ -65,7 +65,7 @@ function VariableDeclarationBlock(props) {
               placeholder="Nazwa Zmiennej"
               className="block-input"
               type="text"
-              defaultValue={props.variableName}
+              value={props.value}
               onMouseEnter={() => {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}

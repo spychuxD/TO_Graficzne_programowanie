@@ -85,6 +85,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                       {blockRenderer(store)}
                     </OrderDroppable>
                   ))}
+                  test
                 </MainDroppable>
                 <div style={{ position: "absolute", right: 30, top: 30 }}>
                   <MainDroppable dropId={"deleteId"}>

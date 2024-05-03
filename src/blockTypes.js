@@ -14,3 +14,4 @@ export const setOn = "setOn";
 export const classDefinitionBlock = "classDefinitionBlock";
 export const classMethodBlock = "classMethodBlock";
 export const classFieldBlock = "classFieldBlock";
+export const valueBlock = "valueBlock";

@@ -14,6 +14,7 @@ import {
   dowhileBlock,
   classMethodBlock,
   classFieldBlock,
+  valueBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import BeginBlock from "./blocks/BeginBlock";
@@ -30,6 +31,7 @@ import WhileBlock from "./blocks/WhileBlock";
 import DowhileBlock from "./blocks/DowhileBlock";
 import ClassMethodBlock from "./blocks/ClassBlocks/ClassMethodBlock";
 import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
+import ValueBlock from "./blocks/VariableBlocks/VlaueBlock";
 
 export default function blockRenderer(store, index, isOverlay = false) {
   switch (store.type) {
@@ -73,6 +75,8 @@ export default function blockRenderer(store, index, isOverlay = false) {
       return <ClassMethodBlock {...store} key={index} isOverlay={isOverlay} />;
     case classFieldBlock:
       return <ClassFieldBlock {...store} key={index} isOverlay={isOverlay} />;
+    case valueBlock:
+      return <ValueBlock {...store} key={index} isOverlay={isOverlay} />
     default:
       break;
   }
