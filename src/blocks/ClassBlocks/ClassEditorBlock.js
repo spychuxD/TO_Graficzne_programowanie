@@ -5,6 +5,7 @@ import {
   createField,
   editClassName,
   createMethod,
+  createConstructor,
 } from "../../redux/slices/Classes";
 import { useSelector } from "react-redux";
 import ClassFieldBodyBlock from "./ClassFieldBodyBlock";
@@ -21,6 +22,9 @@ function ClassEditorBlock({ reduxClassId }) {
   const onAddMethods = () => {
     dispatch(createMethod({ id: reduxClassId }));
   };
+  const onAddContructor = () =>{
+    dispatch(createConstructor({id:reduxClassId}));
+  }
   return (
     <div className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10">
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
@@ -47,6 +51,20 @@ function ClassEditorBlock({ reduxClassId }) {
           onClick={() => onAddField()}
         >
           Dodaj nowe pole klasy
+        </button>
+      </div>
+      <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
+        {classObjest.constructors.map((item, index) => (
+          <div className="item-container p-8" key={index}>
+            <ClassMethodBodyBlock constructor={true} {...item} classObject={classObjest} />
+          </div>
+        ))}
+        <button
+          className="button"
+          style={{ position: "relative" }}
+          onClick={() => onAddContructor()}
+        >
+          Dodaj nowy konstruktor klasy
         </button>
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">

@@ -77,7 +77,7 @@ export default function GetBlockStructure(object) {
         type: variableDeclarationBlock,
         variableName: "test",
         availability: "public",
-        children: [[]],
+        children: [[],[]],
       };
     case setOn:
       //dataArray = type

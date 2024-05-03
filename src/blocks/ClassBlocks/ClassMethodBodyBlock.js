@@ -6,36 +6,65 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import blockRenderer from "../../blockRenderer";
 import { useDispatch } from "react-redux";
 import { deleteMethod, editMethodName } from "../../redux/slices/Classes";
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
+import { changeClassElement } from "../../redux/slices/Classes";
 export default function ClassMethodBodyBlock(props) {
   const dispatch = useDispatch();
+  const onChangeElement = (fieldToModify, e) => {
+    dispatch(
+      changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
+    );
+  };
   const [isVisable, setIsVisable] = useState(false);
   return (
     <div className="blocks-container control-block bg-color-13 flex-col">
-      <div className="w-full flex-row center">
-        Typ
-        <MainDroppable dropId={props.id + "|0"}>
-          <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-            {props.children[0].map((item, index) => blockRenderer(item, index))}
-          </div>
-        </MainDroppable>
-        Nazwa
-        <input
-          value={props.name}
-          placeholder="Nazwa metody"
+      <div className="w-full flex-row center text-nowrap">
+        {props.constructor == true ? "Konstruktor" : "Metoda"}
+        &nbsp;
+        <select
           className="block-input"
-          type="text"
-          onChange={(e) =>
-            dispatch(
-              editMethodName({
-                classId: props.classObject.id,
-                methodId: props.id,
-                name: e.target.value,
-              })
-            )
-          }
-        />
-        Parametry
+          onMouseEnter={() => {
+            if (!props.palette) dispatch(toggleDisableDraggable());
+          }}
+          onMouseLeave={() => {
+            if (!props.palette) dispatch(toggleDisableDraggable());
+          }}
+          onChange={(e) => onChangeElement("visibility", e)}
+        >
+          <option value="private">{props.constructor == true?"prywatny":"prywatna"}</option>
+          <option value="public">{props.constructor == true?"pobliczny":"publiczna"}</option>
+          <option value="protected">{props.constructor == true?"chroniony":"chroniona"}</option>
+        </select>
+        {props.constructor == true ? null : (
+          <Fragment>
+            &nbsp;typu&nbsp;
+            <MainDroppable dropId={props.id + "|0"}>
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                {props.children[0].map((item, index) =>
+                  blockRenderer(item, index)
+                )}
+              </div>
+            </MainDroppable>
+            &nbsp;o nazwie&nbsp;
+            <input
+              value={props.name}
+              placeholder="Nazwa metody"
+              className="block-input"
+              type="text"
+              onChange={(e) =>
+                dispatch(
+                  editMethodName({
+                    classId: props.classObject.id,
+                    methodId: props.id,
+                    name: e.target.value,
+                  })
+                )
+              }
+            />
+          </Fragment>
+        )}
+        &nbsp;z parametrami&nbsp;
         <MainDroppable dropId={props.id + "|1"}>
           <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10 flex-row ">
             {props.children[1].map((item, index) => blockRenderer(item, index))}

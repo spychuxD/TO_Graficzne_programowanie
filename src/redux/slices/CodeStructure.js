@@ -28,6 +28,7 @@ const codeStructureSlice = createSlice({
         state.variables.push(action.payload);
     },
     changeElement(state, action) {
+      debugger
       const { id, fieldToModify, value } = action.payload;
       const PathIndex = state.paths.find((el) => el.id === id).path;
 

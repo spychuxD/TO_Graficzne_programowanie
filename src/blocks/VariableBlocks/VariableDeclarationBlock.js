@@ -1,6 +1,6 @@
 import "../../App.css";
 import { Fragment } from "react";
-import { variableDeclarationBlock } from "../../blockTypes";
+import { classDefinitionBlock, variableDeclarationBlock } from "../../blockTypes";
 import { v4 as uuidv4 } from "uuid";
 
 import { useDispatch } from "react-redux";
@@ -9,26 +9,18 @@ import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import MainDroppable from "../../components/MainDroppable";
 import blockRenderer from "../../blockRenderer";
 import DragHandle from "../DragHandle/DragHandle";
+import { useSelector } from "react-redux";
 
 function VariableDeclarationBlock(props) {
   const dispatch = useDispatch();
-  const onAddElement = () => {
-    const newElement = {
-      id: uuidv4(),
-      name: "variableDeclaration",
-      type: variableDeclarationBlock,
-      variableName: "test",
-      availability: "public",
-      children: [[]],
-    };
-    dispatch(addElement(newElement));
-  };
   const onChangeElement = (fieldToModify, e) => {
     dispatch(
       changeElement({ id: props.id, fieldToModify, value: e.target.value })
     );
   };
-
+  /*const classObject = props.children?.length>0?useSelector(
+    
+  ):undefined;*/
   return (
     <Fragment>
       {/* {props.id !== undefined && !props.isOverlay ? ( */}
@@ -46,8 +38,9 @@ function VariableDeclarationBlock(props) {
       <DragHandle
         {...props}
         type={variableDeclarationBlock}
-        className="blocks-container control-block bg-color-7"
+        className="blocks-container control-block bg-color-7 text-nowrap"
       >
+        Zmnienna&nbsp;
         {(!props.isDragging && !props.isOverlay) || props.palette ? (
           <Fragment>
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
@@ -59,6 +52,7 @@ function VariableDeclarationBlock(props) {
                   : null}
               </div>
             </MainDroppable>
+            &nbsp;o nazwie&nbsp;
             <input
               disabled={props.palette}
               onChange={(e) => onChangeElement("variableName", e)}
@@ -73,6 +67,24 @@ function VariableDeclarationBlock(props) {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}
             />
+            {
+              props.children&&props.children[0].length>0&&props.children[0][0].type===classDefinitionBlock?
+              <Fragment>
+                &nbsp;z parametrami&nbsp;
+                <MainDroppable dropId={props.id + "|1"} disabled={props.palette}>
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                {props.children
+                  ? props.children[1]?.map((item, index) =>
+                      blockRenderer(item, index)
+                    )
+                  : null}
+              </div>
+            </MainDroppable>
+              </Fragment>
+              
+              :
+              null
+            }
           </Fragment>
         ) : (
           <div className=" text-nowrap">Deklaracja zmiennej</div>

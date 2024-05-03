@@ -9,6 +9,7 @@ import {
   updateObjectPath,
   updateRelatedPaths,
   findRelatedPaths,
+  updateElementByIdRecursive,
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
 
@@ -31,6 +32,7 @@ const classesSlice = createSlice({
         id: action.payload.id,
         name: "Nienazwana klasa",
         fields: [],
+        constructors: [],
         methods: [],
       });
     },
@@ -41,6 +43,7 @@ const classesSlice = createSlice({
       if (findedClass !== undefined) {
         const newMethod = {
           id: uuidv4(),
+          visibility: "private",
           name: "Metoda bez nazwy",
           children: [[], [],[]],
         };
@@ -56,6 +59,7 @@ const classesSlice = createSlice({
       if (findedClass !== undefined) {
         const newField = {
           id: uuidv4(),
+          visibility: "private",
           name: "Pole bez nazwy",
           children: [[],[]],
         };
@@ -63,6 +67,22 @@ const classesSlice = createSlice({
         state.paths.push({
           id: newField.id,
           path: ["classes", action.payload.id + "|-1", "fields"],
+        });
+      }
+    },
+    createConstructor(state,action){
+      const findedClass = findById(state.classes,action.payload.id)
+      if(findedClass !== undefined)
+      {
+        const newConstructor = {
+          id: uuidv4(),
+          children: [[],[],[]],
+          visibility: "private"
+        };
+        findedClass.constructors.push(newConstructor);
+        state.paths.push({
+          id: newConstructor.id,
+          path: ["classes", action.payload.id + "|-1", "constructors"],
         });
       }
     },
@@ -154,6 +174,19 @@ const classesSlice = createSlice({
       updateRelatedPaths(relatedPaths,pathTo,object,to);
       
     },
+    changeClassElement(state, action) {
+      debugger
+      const { id, fieldToModify, value } = action.payload;
+
+      //podział id
+      const idSplit = id.split("|");
+
+      //pobranie ścieżek lokalizacji oraz obiektu
+      let pathTo = findPath(state, idSplit[0]);
+      let destinationValue = findLocationByPath(state, pathTo);
+      destinationValue = destinationValue.find((el) => el.id === idSplit[0]);
+      destinationValue[fieldToModify] = value
+    },
   },
 });
 
@@ -166,6 +199,8 @@ export const {
   editMethodName,
   inserElementToClass,
   deleteMethod,
-  deleteField
+  deleteField,
+  createConstructor,
+  changeClassElement
 } = classesSlice.actions;
 export default classesSlice.reducer;
