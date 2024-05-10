@@ -26,6 +26,7 @@ const classesSlice = createSlice({
   initialState: {
     classes: [],
     paths: [],
+    variables: []
   },
   reducers: {
     addClass(state, action) {
@@ -35,6 +36,7 @@ const classesSlice = createSlice({
         fields: [],
         constructors: [],
         methods: [],
+        
       });
     },
     createMethod(state, action) {
@@ -126,7 +128,7 @@ const classesSlice = createSlice({
     },
     inserElementToClass(state, action) {
       debugger;
-      const { object, to } = action.payload;
+      const { object, to,classId } = action.payload;
 
       //podział id obiektu dodawanego
       const objectSplit = object.split("|");
@@ -166,6 +168,13 @@ const classesSlice = createSlice({
           id: objectValue.id,
           path: pathTo,
         });
+        //
+        if(objectValue.type === "variableDeclarationBlock"&&pathTo[2]==="methods")
+        {
+          objectValue.methodId = pathTo[3].split("|")[0];
+          state.variables.push(objectValue);
+        }
+          
         return;
       } 
 
@@ -188,6 +197,13 @@ const classesSlice = createSlice({
       destinationValue = destinationValue.find((el) => el.id === idSplit[0]);
       destinationValue[fieldToModify] = value
     },
+    changeClassMethodVariable(state,action)
+    {
+      const { id, fieldToModify, value } = action.payload;
+
+      const variable = state.variables.find(el=>el.id === id)
+      variable[fieldToModify]=value;
+    }
   },
 });
 
@@ -202,6 +218,7 @@ export const {
   deleteMethod,
   deleteField,
   createConstructor,
-  changeClassElement
+  changeClassElement,
+  changeClassMethodVariable
 } = classesSlice.actions;
 export default classesSlice.reducer;

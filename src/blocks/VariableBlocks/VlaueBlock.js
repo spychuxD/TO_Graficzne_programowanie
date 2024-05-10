@@ -29,7 +29,7 @@ export default function ValueBlock(props) {
               placeholder="Podaj wartość"
               className="block-input"
               type="text"
-              defaultValue={props.variableName}
+              defaultValue={props.name}
               onMouseEnter={() => {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}

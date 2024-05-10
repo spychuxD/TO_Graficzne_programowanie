@@ -1,22 +1,31 @@
 import "../../App.css";
 import { Fragment } from "react";
 import { classDefinitionBlock, variableDeclarationBlock } from "../../blockTypes";
-import { v4 as uuidv4 } from "uuid";
-
 import { useDispatch } from "react-redux";
-import { addElement, changeElement } from "../../redux/slices/CodeStructure";
+import { changeElement } from "../../redux/slices/CodeStructure";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import MainDroppable from "../../components/MainDroppable";
 import blockRenderer from "../../blockRenderer";
 import DragHandle from "../DragHandle/DragHandle";
-import { useSelector } from "react-redux";
+import { changeClassElement, changeClassMethodVariable, } from "../../redux/slices/Classes";
 
 function VariableDeclarationBlock(props) {
   const dispatch = useDispatch();
   const onChangeElement = (fieldToModify, e) => {
-    dispatch(
-      changeElement({ id: props.id, fieldToModify, value: e.target.value })
-    );
+    if(props.methodId===null)
+      dispatch(
+        changeElement({ id: props.id, fieldToModify, value: e.target.value })
+      );
+    else
+    {
+      dispatch(
+        changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
+      )
+      dispatch(
+        changeClassMethodVariable({ id: props.id, fieldToModify, value: e.target.value })
+      )
+    }
+      
   };
   /*const classObject = props.children?.length>0?useSelector(
     
@@ -55,7 +64,7 @@ function VariableDeclarationBlock(props) {
             &nbsp;o nazwie&nbsp;
             <input
               disabled={props.palette}
-              onChange={(e) => onChangeElement("variableName", e)}
+              onChange={(e) => onChangeElement("name", e)}
               placeholder="Nazwa Zmiennej"
               className="block-input"
               type="text"

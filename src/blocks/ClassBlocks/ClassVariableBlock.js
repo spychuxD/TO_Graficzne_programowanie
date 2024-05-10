@@ -26,7 +26,8 @@ function ClassVariableBlock(props) {
       >
         {classVariableValue !== undefined
           ? classVariableValue.name
-          : props.variableName}
+          : props.name}
+       
       </DragHandle>
     </Fragment>
   );

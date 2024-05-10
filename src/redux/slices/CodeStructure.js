@@ -134,7 +134,7 @@ const codeStructureSlice = createSlice({
           path: destinationPathIndex,
         });
         //utworzenie zmiennej (jeśli użyty blok jest deklaracją zmiennej)
-        if (objectValue.name === "variableDeclaration")
+        if (objectValue.type === "variableDeclarationBlock")
           state.variables.push(objectValue);
         return;
       }

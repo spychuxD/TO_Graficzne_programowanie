@@ -177,7 +177,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                 key={k}
                 blockId={v.id}
                 dataType={v.dataType}
-                variableName={v.variableName}
+                name={v.name}
                 blocksState={blocksState}
                 setBlocksState={setBlocksState}
                 palette={true}

@@ -19,9 +19,7 @@ export default function ClassMethodBodyBlock(props) {
       changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
     );
   };
-  const classFields = useSelector(
-    state => state.classes.classes
-  )
+  const classFields = useSelector((state) => state.classes.classes);
   const variables = useSelector((state) => state.classes.variables);
   const [isVisable, setIsVisable] = useState(false);
   return (
@@ -118,31 +116,37 @@ export default function ClassMethodBodyBlock(props) {
                 className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"
                 style={{ height: "100%" }}
               >
-                <div>
-                Zmienne metody
-                </div>
+                <div>Pola metody</div>
                 {props.children[1].map((v, k) => (
                   <ClassVariableBlock
                     id={classVariableBlock + "|" + v.id}
-                    variableName={v.name}
+                    name={v.name}
                     key={k}
                     palette={true}
                   />
                 ))}
-                <div>
-                Pola klasy
-                </div>
-               
+
+                <div>Pola klasy</div>
                 {props.classObject.fields.map((v, k) => (
                   <ClassVariableBlock
                     id={classVariableBlock + "|" + v.id}
-                    variableName={v.name}
+                    name={v.name}
                     key={k}
                     palette={true}
                   />
                 ))}
-               
-               
+
+                <div>Zmienne metody </div>
+                {variables.map((v, k) =>
+                  v.methodId === props.id ? (
+                    <ClassVariableBlock
+                      id={classVariableBlock + "|" + v.id}
+                      name={v.name}
+                      key={k}
+                      palette={true}
+                    />
+                  ) : null
+                )}
               </div>
             </MainDroppable>
           </div>

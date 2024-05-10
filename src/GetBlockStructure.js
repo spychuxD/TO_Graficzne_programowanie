@@ -75,9 +75,9 @@ export default function GetBlockStructure(object) {
       //dataArray = type
       return {
         id: uuidv4(),
-        name: "variableDeclaration",
+        name: "nowa_Zmienna",
         type: variableDeclarationBlock,
-        variableName: "nowa_zmienna",
+        methodId: null,
         children: [[], []],
       };
     case classVariableDeclarationBlock:

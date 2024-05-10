@@ -9,7 +9,7 @@ function VariableBlock(props) {
       ? state.codeStructure.variables.find(
           (va) => va.id === props?.id.split("|")[0]
         )
-      : { variableName: "zmienna" }
+      : { name: "zmienna" }
   );
   return (
     <Fragment>
@@ -18,7 +18,8 @@ function VariableBlock(props) {
         type={variableBlock}
         className={"blocks-container control-block bg-color-7"}
       >
-        {variableObject ? variableObject.variableName : props.variableName}
+        {variableObject ? variableObject.name : props.name}
+        
       </DragHandle>
     </Fragment>
   );
