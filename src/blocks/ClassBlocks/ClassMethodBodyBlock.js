@@ -9,6 +9,9 @@ import { deleteMethod, editMethodName } from "../../redux/slices/Classes";
 import { Fragment, useState } from "react";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import { changeClassElement } from "../../redux/slices/Classes";
+import ClassVariableBlock from "./ClassVariableBlock";
+import { classVariableBlock } from "../../blockTypes";
+import { useSelector } from "react-redux";
 export default function ClassMethodBodyBlock(props) {
   const dispatch = useDispatch();
   const onChangeElement = (fieldToModify, e) => {
@@ -16,6 +19,10 @@ export default function ClassMethodBodyBlock(props) {
       changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
     );
   };
+  const classFields = useSelector(
+    state => state.classes.classes
+  )
+  const variables = useSelector((state) => state.classes.variables);
   const [isVisable, setIsVisable] = useState(false);
   return (
     <div className="blocks-container control-block bg-color-13 flex-col">
@@ -32,9 +39,15 @@ export default function ClassMethodBodyBlock(props) {
           }}
           onChange={(e) => onChangeElement("visibility", e)}
         >
-          <option value="private">{props.constructor == true?"prywatny":"prywatna"}</option>
-          <option value="public">{props.constructor == true?"pobliczny":"publiczna"}</option>
-          <option value="protected">{props.constructor == true?"chroniony":"chroniona"}</option>
+          <option value="private">
+            {props.constructor == true ? "prywatny" : "prywatna"}
+          </option>
+          <option value="public">
+            {props.constructor == true ? "pobliczny" : "publiczna"}
+          </option>
+          <option value="protected">
+            {props.constructor == true ? "chroniony" : "chroniona"}
+          </option>
         </select>
         {props.constructor == true ? null : (
           <Fragment>
@@ -98,13 +111,52 @@ export default function ClassMethodBodyBlock(props) {
       </div>
       {isVisable ? (
         <div className="control-block w-full bg-color-7 border-none">
-          <MainDroppable dropId={props.id + "|2"}>
-            <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-              {props.children[2].map((item, index) =>
-                blockRenderer(item, index)
-              )}
-            </div>
-          </MainDroppable>
+          <div style={{ height: "75%" }}>
+            Zmienne lokalne
+            <MainDroppable dropId={props.id + "|localVariable"}>
+              <div
+                className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"
+                style={{ height: "100%" }}
+              >
+                <div>
+                Zmienne metody
+
+                </div>
+                {props.children[1].map((v, k) => (
+                  <ClassVariableBlock
+                    id={classVariableBlock + "|" + props.id}
+                    variableName={v.variableName}
+                    key={k}
+                    palette={true}
+                  />
+                ))}
+                <div>
+                Pola klasy
+                </div>
+               
+                {props.classObject.fields.map((v, k) => (
+                  <ClassVariableBlock
+                    id={classVariableBlock + "|" + props.id}
+                    variableName={v.name}
+                    key={k}
+                    palette={true}
+                  />
+                ))}
+               
+               
+              </div>
+            </MainDroppable>
+          </div>
+          <div style={{ width: "75%" }}>
+            Ciało metody
+            <MainDroppable dropId={props.id + "|2"}>
+              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                {props.children[2].map((item, index) =>
+                  blockRenderer(item, index)
+                )}
+              </div>
+            </MainDroppable>
+          </div>
         </div>
       ) : null}
     </div>

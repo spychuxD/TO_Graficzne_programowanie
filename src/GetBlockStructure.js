@@ -3,6 +3,8 @@ import {
   classDefinitionBlock,
   classFieldBlock,
   classMethodBlock,
+  classVariableBlock,
+  classVariableDeclarationBlock,
   consoleLogBlock,
   dowhileBlock,
   endBlock,
@@ -76,8 +78,16 @@ export default function GetBlockStructure(object) {
         name: "variableDeclaration",
         type: variableDeclarationBlock,
         variableName: "test",
-        availability: "public",
-        children: [[],[]],
+        children: [[], []],
+      };
+    case classVariableDeclarationBlock:
+      //dataArray = type|parentID
+      return {
+        id: uuidv4(),
+        type: classVariableDeclarationBlock,
+        parent: dataArray[1],
+        variableName: "test",
+        children: [[]],
       };
     case setOn:
       //dataArray = type
@@ -99,9 +109,15 @@ export default function GetBlockStructure(object) {
     case variableBlock:
       //dataArray = type
       return {
-        id: dataArray[1]+"|" + uuidv4(),
+        id: dataArray[1] + "|" + uuidv4(),
         name: "variable",
         type: variableBlock,
+      };
+    case classVariableBlock:
+      //dataArray = type
+      return {
+        id: dataArray[1] + "|" + uuidv4(),
+        type: classVariableBlock,
       };
     case operatorsBlocks:
       //dataArray = type|operator
@@ -133,23 +149,23 @@ export default function GetBlockStructure(object) {
         type: classMethodBlock,
         classId: dataArray[1],
         methodId: dataArray[2],
-        children: [[],[],[],[],[],[],[],[],[],[]],//maksymalnie 10 paramrtrów dla metody, zabezpieczyc ograniczenie dodawania parametrów
+        children: [[], [], [], [], [], [], [], [], [], []], //maksymalnie 10 paramrtrów dla metody, zabezpieczyc ograniczenie dodawania parametrów
       };
-      case classFieldBlock:
-        return{
-          id: uuidv4(),
-          type: classFieldBlock,
-          classId: dataArray[1],
-          fieldId: dataArray[2],
-          children: [[]],
-        }
-      case valueBlock:
-        //dataArray = type
-        return {
-          id: uuidv4(),
-          type: valueBlock,
-          value:"",
-          valueType: "integers"
-        };
+    case classFieldBlock:
+      return {
+        id: uuidv4(),
+        type: classFieldBlock,
+        classId: dataArray[1],
+        fieldId: dataArray[2],
+        children: [[]],
+      };
+    case valueBlock:
+      //dataArray = type
+      return {
+        id: uuidv4(),
+        type: valueBlock,
+        value: "",
+        valueType: "integers",
+      };
   }
 }

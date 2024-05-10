@@ -12,6 +12,7 @@ import {
   updateElementByIdRecursive,
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
+import { classVariableDeclarationBlock, variableDeclarationBlock } from "../../blockTypes";
 
 function findById(startState,classId){
   return startState.find(
@@ -25,6 +26,7 @@ const classesSlice = createSlice({
   initialState: {
     classes: [],
     paths: [],
+    variables:[]
   },
   reducers: {
     addClass(state, action) {

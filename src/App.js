@@ -43,7 +43,7 @@ function App() {
   };
   function handleDragEnd(event) {
     //console.log(tabs[tabIndex]);
-    //debugger;
+    debugger;
     if (event.over) {
       const { active, over } = event;
       if (over.id === "deleteId") {

@@ -25,6 +25,7 @@ import {
   classDefinitionBlock,
   classFieldBlock,
   classMethodBlock,
+  classVariableDeclarationBlock,
   consoleLogBlock,
   dowhileBlock,
   endBlock,
@@ -45,6 +46,7 @@ import blockRenderer from "../blockRenderer";
 import { useDispatch } from "react-redux";
 import { setVariableType } from "../redux/slices/DraggableSettings";
 import ValueBlock from "./VariableBlocks/VlaueBlock";
+import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const dispatch = useDispatch();
@@ -308,6 +310,10 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
+            <ClassVariableDeclarationBlock
+              id={classVariableDeclarationBlock}
+              palette={true}
+            />
             {classes.map((v, k) => (
               <div key={k}>
                 <ClassDataTypeBlock

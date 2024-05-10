@@ -15,6 +15,8 @@ import {
   classMethodBlock,
   classFieldBlock,
   valueBlock,
+  classVariableDeclarationBlock,
+  classVariableBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import BeginBlock from "./blocks/BeginBlock";
@@ -32,8 +34,12 @@ import DowhileBlock from "./blocks/DowhileBlock";
 import ClassMethodBlock from "./blocks/ClassBlocks/ClassMethodBlock";
 import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
 import ValueBlock from "./blocks/VariableBlocks/VlaueBlock";
+import ClassVariableDeclarationBlock from "./blocks/ClassBlocks/ClassVariableDeclarationBlock";
+import ClassVariableBlock from "./blocks/ClassBlocks/ClassVariableBlock";
 
 export default function blockRenderer(store, index, isOverlay = false) {
+  if(store === undefined)
+    return
   switch (store.type) {
     case beginBlock:
       return <BeginBlock {...store} key={index} isOverlay={isOverlay} />;
@@ -61,6 +67,14 @@ export default function blockRenderer(store, index, isOverlay = false) {
           isOverlay={isOverlay}
         />
       );
+    case classVariableDeclarationBlock:
+      return (
+        <ClassVariableDeclarationBlock
+          {...store}
+          key={index}
+          isOverlay={isOverlay}
+        />
+      );
     case setOn:
       return <SetOn {...store} key={index} isOverlay={isOverlay} />;
     case classDefinitionBlock:
@@ -76,7 +90,9 @@ export default function blockRenderer(store, index, isOverlay = false) {
     case classFieldBlock:
       return <ClassFieldBlock {...store} key={index} isOverlay={isOverlay} />;
     case valueBlock:
-      return <ValueBlock {...store} key={index} isOverlay={isOverlay} />
+      return <ValueBlock {...store} key={index} isOverlay={isOverlay} />;
+    case classVariableBlock:
+      return <ClassVariableBlock {...store} key={index} isOverlay={isOverlay}/>
     default:
       break;
   }
