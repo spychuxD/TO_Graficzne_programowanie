@@ -120,12 +120,11 @@ export default function ClassMethodBodyBlock(props) {
               >
                 <div>
                 Zmienne metody
-
                 </div>
                 {props.children[1].map((v, k) => (
                   <ClassVariableBlock
-                    id={classVariableBlock + "|" + props.id}
-                    variableName={v.variableName}
+                    id={classVariableBlock + "|" + v.id}
+                    variableName={v.name}
                     key={k}
                     palette={true}
                   />
@@ -136,7 +135,7 @@ export default function ClassMethodBodyBlock(props) {
                
                 {props.classObject.fields.map((v, k) => (
                   <ClassVariableBlock
-                    id={classVariableBlock + "|" + props.id}
+                    id={classVariableBlock + "|" + v.id}
                     variableName={v.name}
                     key={k}
                     palette={true}

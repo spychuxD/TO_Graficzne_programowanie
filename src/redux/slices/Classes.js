@@ -26,7 +26,6 @@ const classesSlice = createSlice({
   initialState: {
     classes: [],
     paths: [],
-    variables:[]
   },
   reducers: {
     addClass(state, action) {

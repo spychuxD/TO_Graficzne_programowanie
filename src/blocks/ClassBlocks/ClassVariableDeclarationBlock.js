@@ -1,6 +1,6 @@
 import "../../App.css";
 import { Fragment } from "react";
-import { classDefinitionBlock,classVariableDeclarationBlock } from "../../blockTypes";
+import { classVariableDeclarationBlock } from "../../blockTypes";
 import { useDispatch } from "react-redux";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import MainDroppable from "../../components/MainDroppable";
@@ -36,11 +36,11 @@ function ClassVariableDeclarationBlock(props) {
             &nbsp;o nazwie&nbsp;
             <input
               disabled={props.palette}
-              onChange={(e) => onChangeElement("variableName", e)}
+              onChange={(e) => onChangeElement("name", e)}
               placeholder="Nazwa Zmiennej"
               className="block-input"
               type="text"
-              value={props.value}
+              value={props.name}
               onMouseEnter={() => {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}

@@ -77,16 +77,15 @@ export default function GetBlockStructure(object) {
         id: uuidv4(),
         name: "variableDeclaration",
         type: variableDeclarationBlock,
-        variableName: "test",
+        variableName: "nowa_zmienna",
         children: [[], []],
       };
     case classVariableDeclarationBlock:
-      //dataArray = type|parentID
+      //dataArray = type
       return {
         id: uuidv4(),
         type: classVariableDeclarationBlock,
-        parent: dataArray[1],
-        variableName: "test",
+        name: "nowy_parametr",
         children: [[]],
       };
     case setOn:
