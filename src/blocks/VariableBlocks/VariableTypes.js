@@ -7,4 +7,5 @@ export const VariableTypes = {
   string: "string",
   char: "char",
   void: "void",
+  int: "int",
 };

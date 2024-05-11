@@ -87,6 +87,7 @@
   border-radius: 10px;
   display: flex;
   overflow-y: auto;
+  text-align: left;
 }
 
 .sectionMid {

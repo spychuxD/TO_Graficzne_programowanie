@@ -41,7 +41,7 @@ export default function ClassMethodBodyBlock(props) {
             {props.constructor == true ? "prywatny" : "prywatna"}
           </option>
           <option value="public">
-            {props.constructor == true ? "pobliczny" : "publiczna"}
+            {props.constructor == true ? "publiczny" : "publiczna"}
           </option>
           <option value="protected">
             {props.constructor == true ? "chroniony" : "chroniona"}

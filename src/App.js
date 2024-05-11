@@ -5,6 +5,7 @@ import Header from "./components/header";
 import { useSelector } from "react-redux";
 import SectionLeft from "./components/sectionLeft";
 import SectionMid from "./components/sectionMid";
+import SectionRight from "./components/sectionRight";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addClass, inserElementToClass } from "./redux/slices/Classes";
@@ -101,7 +102,9 @@ function App() {
             </header>
             <main className="main-content">
               <SectionMid tabs={tabs} setTabs={setTabs}></SectionMid>
-              <div className="sectionRight"></div>
+              <div className="sectionRight">
+                <SectionRight/>
+              </div>
             </main>
           </div>
         </DndContext>
