@@ -1,3 +1,5 @@
+import { ifElseBlock, returnBlock } from "../blockTypes";
+
 export function generateCppClassFromJson(json) {
   let cppClass = `class ${json.name.replace(/ /g, "_")} {\n`;
 
@@ -12,7 +14,9 @@ export function generateCppClassFromJson(json) {
   cppClass += getFields("protected", json);
   cppClass += getConstructor("protected", json);
   cppClass += getMethod("protected", json);
+//ebugger
 
+  //traverse(json.children[0][2])
   // Dodaj konstruktory
 
   /*
@@ -82,10 +86,43 @@ function getMethod(visibility, json) {
               result += ",";
             });
             result += `) {\n`;
-            result += `        // Implementacja metody\n`;
+            debugger
+            result += traverse(method.children[2],2)
             result += `    }\n`;
           }
     });
+  }
+  return result;
+}
+
+function traverse(obj,level) {
+  let result = "";
+  obj?.forEach((element)=>{
+    switch(element.type){
+      case returnBlock:
+        result+= generateTabs(level)+"return"
+        result+= traverse(element.children[0],level+1)
+        result+= ";\n"
+      break
+      case ifElseBlock:
+        result+= generateTabs(level)+"if("
+        result+= traverse(element.children[0])
+        result+= generateTabs(level)+"){\n"
+        result+= traverse(element.children[1],level+1)
+        result+= generateTabs(level)+"}else{\n"
+        result+= traverse(element.children[2],level+1)
+        result+= generateTabs(level)+"}\n"
+      break
+    }
+  })
+  return result;
+}
+function generateTabs(count)
+{
+  let result = "";
+  for(let i=0;i<count;i++)
+  {
+    result += `    `;
   }
   return result;
 }

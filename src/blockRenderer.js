@@ -17,6 +17,7 @@ import {
   valueBlock,
   classVariableDeclarationBlock,
   classVariableBlock,
+  returnBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import BeginBlock from "./blocks/BeginBlock";
@@ -36,6 +37,7 @@ import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
 import ValueBlock from "./blocks/VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./blocks/ClassBlocks/ClassVariableDeclarationBlock";
 import ClassVariableBlock from "./blocks/ClassBlocks/ClassVariableBlock";
+import ReturnBlock from "./blocks/returnBlock";
 
 export default function blockRenderer(store, index, isOverlay = false) {
   if(store === undefined)
@@ -93,7 +95,9 @@ export default function blockRenderer(store, index, isOverlay = false) {
       return <ValueBlock {...store} key={index} isOverlay={isOverlay} />;
     case classVariableBlock:
       return <ClassVariableBlock {...store} key={index} isOverlay={isOverlay}/>
-    default:
+    case returnBlock:
+      return <ReturnBlock {...store} key={index} isOverlay={isOverlay}/>
+      default:
       break;
   }
 }

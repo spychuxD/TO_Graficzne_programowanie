@@ -17,3 +17,4 @@ export const classDefinitionBlock = "classDefinitionBlock";
 export const classMethodBlock = "classMethodBlock";
 export const classFieldBlock = "classFieldBlock";
 export const valueBlock = "valueBlock";
+export const returnBlock = "returnBlock";

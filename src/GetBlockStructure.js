@@ -11,6 +11,7 @@ import {
   forBlock,
   ifElseBlock,
   operatorsBlocks,
+  returnBlock,
   setOn,
   valueBlock,
   variableBlock,
@@ -166,5 +167,11 @@ export default function GetBlockStructure(object) {
         value: "",
         valueType: "integers",
       };
+    case returnBlock:
+      return{
+        id: uuidv4(),
+        type: returnBlock,
+        children:[[]]
+      }
   }
 }
