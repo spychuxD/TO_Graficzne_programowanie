@@ -98,6 +98,7 @@ export default function ClassMethodBodyBlock(props) {
                 deleteMethod({
                   classId: props.classObject.id,
                   methodId: props.id,
+                  isConstructor: props.constructor
                 })
               );
             }}

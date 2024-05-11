@@ -90,15 +90,25 @@ const classesSlice = createSlice({
       }
     },
     deleteMethod(state,action){
-      const {classId,methodId} = action.payload;
+      debugger
+      const {classId,methodId,isConstructor} = action.payload;
       const findedClass = findById(state.classes,classId)
-      const methodIndex = findedClass.methods.find(me => me.id === methodId);
-      findedClass.methods.splice(methodIndex, 1);
+      if(isConstructor === true)
+      {
+        const methodIndex = findedClass.constructors.findIndex(me => me.id === methodId);
+        findedClass.constructors.splice(methodIndex, 1);
+      }
+      else
+      {
+        const methodIndex = findedClass.methods.findIndex(me => me.id === methodId);
+        findedClass.methods.splice(methodIndex, 1);
+      }
+      
     },
     deleteField(state,action){
       const {classId,fieldId} = action.payload;
       const findedClass = findById(state.classes,classId)
-      const fieldIndex = findedClass.fields.find(fi => fi.id === fieldId);
+      const fieldIndex = findedClass.fields.findIndex(fi => fi.id === fieldId);
       findedClass.fields.splice(fieldIndex, 1);
     },
     editClassName(state, action) {
@@ -169,7 +179,8 @@ const classesSlice = createSlice({
           path: pathTo,
         });
         //
-        if(objectValue.type === "variableDeclarationBlock"&&pathTo[2]==="methods")
+        debugger
+        if(objectValue.type === "variableDeclarationBlock"&&(pathTo[2]==="methods"||pathTo[2]==="constructors"))
         {
           objectValue.methodId = pathTo[3].split("|")[0];
           state.variables.push(objectValue);
