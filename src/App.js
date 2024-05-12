@@ -92,7 +92,7 @@ function App() {
           <div className="display-flex w-20 ">
             <SectionLeft></SectionLeft>
           </div>
-          <div className="max-h-vh w-full">
+          <div className="max-h-vh w-80">
             <header className="App-header">
               <Header
                 tabs={tabs}
@@ -103,7 +103,7 @@ function App() {
             <main className="main-content">
               <SectionMid tabs={tabs} setTabs={setTabs}></SectionMid>
               <div className="sectionRight">
-                <SectionRight/>
+                <SectionRight />
               </div>
             </main>
           </div>

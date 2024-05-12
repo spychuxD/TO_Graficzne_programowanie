@@ -8,4 +8,6 @@ export const VariableTypes = {
   char: "char",
   void: "void",
   int: "int",
+  let: "let",
+  var: "var",
 };

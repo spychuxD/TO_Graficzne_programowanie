@@ -5,7 +5,7 @@ const draggableSettingsSlice = createSlice({
   initialState: {
     disableDraggable: false,
     dragOverlayData: { type: consoleLogBlock },
-    variableType: "a",
+    variableType: "",
   },
   reducers: {
     toggleDisableDraggable: (state) => {
@@ -13,11 +13,11 @@ const draggableSettingsSlice = createSlice({
     },
 
     changeDragOverlayData: (state, data) => {
-      console.log("data.payload", data.payload);
+      //console.log("data.payload", data.payload);
       state.dragOverlayData = data.payload;
     },
     setVariableType: (state, type) => {
-      console.log("type.payload", type.payload);
+      //console.log("type.payload", type.payload);
       state.variableType = type.payload;
     },
   },

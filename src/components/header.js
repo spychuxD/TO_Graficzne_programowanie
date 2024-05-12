@@ -7,19 +7,23 @@ import {
   MdOutlineControlPoint,
 } from "react-icons/md";
 import Button from "@mui/material/Button";
-
+import { useDispatch, useSelector } from "react-redux";
+import { changeLanguage } from "../redux/slices/LanguageSettings";
 function Header({ tabs, setTabs, onAddClass }) {
+  const dispatch = useDispatch();
+
   const [isHoverPython, setIsHoverPython] = useState(false);
   const [isHoverCpp, setIsHoverCpp] = useState(false);
   const [isHoverJavascript, setIsHoverJavascript] = useState(false);
-  const [isLanguage, setIsLanguage] = useState("cpp");
+  const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+
   const handleLanguageClick = (language) => {
-    setIsLanguage(language);
+    dispatch(changeLanguage(language));
   };
   return (
     <header className="App-header">
       <div className="flex-row justify-center align-center p-8">
-        <div style={{position: 'fixed', right: 20}}>
+        <div style={{ position: "fixed", right: 20 }}>
           <Button
             variant="outlined"
             startIcon={<MdOutlineControlPoint />}
@@ -71,12 +75,12 @@ function Header({ tabs, setTabs, onAddClass }) {
           </div>
           <div className="mr-8">
             <Button
-              variant={isLanguage === "javascript" ? "contained" : "outlined"}
-              onClick={() => handleLanguageClick("javascript")}
+              variant={isLanguage === "js" ? "contained" : "outlined"}
+              onClick={() => handleLanguageClick("js")}
             >
               <img
                 src={
-                  isLanguage === "javascript"
+                  isLanguage === "js"
                     ? `${process.env.PUBLIC_URL}/logo_javascript_dark.png`
                     : `${process.env.PUBLIC_URL}/logo_javascript.png`
                 }
