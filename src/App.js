@@ -8,12 +8,11 @@ import SectionMid from "./components/sectionMid";
 import SectionRight from "./components/sectionRight";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
-import { addClass, inserElementToClass } from "./redux/slices/Classes";
 import {
-  changeElementOrder,
-  deleteElement,
-  inserElement,
-} from "./redux/slices/CodeStructure";
+  addClass,
+  deleteClassElement,
+  inserElementToClass,
+} from "./redux/slices/Classes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 
@@ -43,11 +42,11 @@ function App() {
     setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
   };
   function handleDragEnd(event) {
-    debugger
+    debugger;
     if (event.over) {
       const { active, over } = event;
       if (over.id === "deleteId") {
-        dispatch(deleteElement({ id: active.id }));
+        dispatch(deleteClassElement({ id: active.id }));
         return;
       }
       const idAndType = over.id.split("|");
@@ -55,9 +54,6 @@ function App() {
       if (idAndType.length === 2) {
         switch (idAndType[1]) {
           case "order":
-            dispatch(
-              changeElementOrder({ object: active.id, over: idAndType[0] })
-            );
             break;
           default:
             if (tabs[tabIndex].id !== null) {
@@ -68,7 +64,7 @@ function App() {
                   classId: tabs[tabIndex].id,
                 })
               );
-            } else dispatch(inserElement({ object: active.id, to: over.id }));
+            }
             break;
         }
       } else {
@@ -80,7 +76,7 @@ function App() {
               classId: tabs[tabIndex].id,
             })
           );
-        } else dispatch(inserElement({ object: active.id, to: over.id }));
+        } 
       }
     }
   }

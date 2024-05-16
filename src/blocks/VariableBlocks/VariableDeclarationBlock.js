@@ -1,31 +1,32 @@
 import "../../App.css";
 import { Fragment } from "react";
-import { classDefinitionBlock, variableDeclarationBlock } from "../../blockTypes";
+import {
+  classDefinitionBlock,
+  variableDeclarationBlock,
+} from "../../blockTypes";
 import { useDispatch } from "react-redux";
-import { changeElement } from "../../redux/slices/CodeStructure";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import MainDroppable from "../../components/MainDroppable";
 import blockRenderer from "../../blockRenderer";
 import DragHandle from "../DragHandle/DragHandle";
-import { changeClassElement, changeClassMethodVariable, } from "../../redux/slices/Classes";
+import {
+  changeClassElement,
+  changeClassMethodVariable,
+} from "../../redux/slices/Classes";
 
 function VariableDeclarationBlock(props) {
   const dispatch = useDispatch();
   const onChangeElement = (fieldToModify, e) => {
-    if(props.methodId===null)
-      dispatch(
-        changeElement({ id: props.id, fieldToModify, value: e.target.value })
-      );
-    else
-    {
-      dispatch(
-        changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
-      )
-      dispatch(
-        changeClassMethodVariable({ id: props.id, fieldToModify, value: e.target.value })
-      )
-    }
-      
+    dispatch(
+      changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
+    );
+    dispatch(
+      changeClassMethodVariable({
+        id: props.id,
+        fieldToModify,
+        value: e.target.value,
+      })
+    );
   };
   /*const classObject = props.children?.length>0?useSelector(
     
@@ -76,24 +77,25 @@ function VariableDeclarationBlock(props) {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}
             />
-            {
-              props.children&&props.children[0].length>0&&props.children[0][0].type===classDefinitionBlock?
+            {props.children &&
+            props.children[0].length > 0 &&
+            props.children[0][0].type === classDefinitionBlock ? (
               <Fragment>
                 &nbsp;z parametrami&nbsp;
-                <MainDroppable dropId={props.id + "|1"} disabled={props.palette}>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                {props.children
-                  ? props.children[1]?.map((item, index) =>
-                      blockRenderer(item, index)
-                    )
-                  : null}
-              </div>
-            </MainDroppable>
+                <MainDroppable
+                  dropId={props.id + "|1"}
+                  disabled={props.palette}
+                >
+                  <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                    {props.children
+                      ? props.children[1]?.map((item, index) =>
+                          blockRenderer(item, index)
+                        )
+                      : null}
+                  </div>
+                </MainDroppable>
               </Fragment>
-              
-              :
-              null
-            }
+            ) : null}
           </Fragment>
         ) : (
           <div className=" text-nowrap">Deklaracja zmiennej</div>

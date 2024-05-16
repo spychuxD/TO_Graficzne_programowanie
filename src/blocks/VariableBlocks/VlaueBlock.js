@@ -3,24 +3,15 @@ import { valueBlock } from "../../blockTypes";
 import { Fragment } from "react";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import DragHandle from "../DragHandle/DragHandle";
-import { changeElement } from "../../redux/slices/CodeStructure";
 import { useDispatch } from "react-redux";
 import { changeClassElement } from "../../redux/slices/Classes";
 
 export default function ValueBlock(props) {
   const dispatch = useDispatch();
   const onChangeElement = (fieldToModify, e) => {
-    debugger
-    if(props.methodId===null)
-      dispatch(
-        changeElement({ id: props.id, fieldToModify, value: e.target.value })
-      );
-    else
-    {
-      dispatch(
-        changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
-      )
-    }
+    dispatch(
+      changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
+    );
   };
   return (
     <Fragment>
@@ -55,7 +46,7 @@ export default function ValueBlock(props) {
               onMouseLeave={() => {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}
-              onChange={(e)=>onChangeElement("valueType",e)}
+              onChange={(e) => onChangeElement("valueType", e)}
             >
               <option value="integers">całkowitego</option>
               <option value="rationals">rzeczywisego</option>

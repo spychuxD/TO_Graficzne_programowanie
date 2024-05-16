@@ -244,7 +244,33 @@ const classesSlice = createSlice({
 
       const variable = state.variables.find(el=>el.id === id)
       variable[fieldToModify]=value;
-    }
+    },
+    deleteClassElement(state, action) {
+      debugger;
+      //uzyskanie sziezki miejsca docelowego elementu
+      const elementPath = state.paths.find(
+        (el) => el.id === action.payload.id
+      ).path;
+      let elementLocalization = findLocationByPath(state, elementPath);
+
+      // Uzyskanie indeksu elementu do usunięcia
+      const indexToRemove = elementLocalization.findIndex(
+        (el) => el.id === action.payload.id
+      );
+      //usuwanie elementu
+      if (indexToRemove !== -1) {
+        elementLocalization.splice(indexToRemove, 1);
+      }
+      //usuniece sniezek(do poprawy)
+      state.paths.forEach((pathItem, index) => {
+        // Sprawdzenie, czy identyfikator występuje w ścieżce
+        if (
+          pathItem.path.some((segment) => segment.startsWith(action.payload.id))
+        ) {
+          state.paths.splice(index, 1);
+        }
+      });
+    },
   },
 });
 
@@ -260,6 +286,7 @@ export const {
   deleteField,
   createConstructor,
   changeClassElement,
-  changeClassMethodVariable
+  changeClassMethodVariable,
+  deleteClassElement
 } = classesSlice.actions;
 export default classesSlice.reducer;

@@ -49,9 +49,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
   const tabIndex = useSelector((state) => state.blocksTabs.index);
   const dispatch = useDispatch();
 
-  const codeStructureElements = useSelector(
-    (state) => state.codeStructure.elements
-  );
+
   const mainMethod = useSelector(
     (state) =>
       state.classes.classes.find((el) => el.id === "mainClass").methods[0]
@@ -88,7 +86,12 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                   )}
                   test
                 </MainDroppable>
-                <div style={{ position: "absolute", right: 30, top: 30 }}>
+                
+              </Fragment>
+            ) : (
+              <ClassEditorBlock reduxClassId={item.id} />
+            )}
+            <div style={{ position: "absolute", right: 30, top: 30 }}>
                   <MainDroppable dropId={"deleteId"}>
                     <div
                       className="blocks-container"
@@ -103,12 +106,6 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                     </div>
                   </MainDroppable>
                 </div>
-              </Fragment>
-            ) : (
-              <MainDroppable dropId={"mainClassId|2"}>
-                <ClassEditorBlock reduxClassId={item.id} />
-              </MainDroppable>
-            )}
           </CustomTabPanel>
         ))}
       </div>
