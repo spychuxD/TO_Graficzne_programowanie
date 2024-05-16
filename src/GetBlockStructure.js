@@ -166,6 +166,7 @@ export default function GetBlockStructure(object) {
         type: valueBlock,
         value: "",
         valueType: "integers",
+        methodId: null
       };
     case returnBlock:
       return{

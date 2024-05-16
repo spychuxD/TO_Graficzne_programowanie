@@ -4,7 +4,7 @@ import { generateCppClassFromJson } from "../CodeGenerators/CPlusPlusGenerator";
 import { generateJavaScriptFromJson } from "../CodeGenerators/JavaScriptGenerator";
 export default function SectionRight(props) {
   const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
-
+  const variables = useSelector(state=>state.classes.variables);
   const pageIndex = useSelector((state) => state.blocksTabs.index);
   const jsonStructure = useSelector((state) => {
     if (pageIndex === 0) {
@@ -19,7 +19,7 @@ export default function SectionRight(props) {
         language={isLanguage}
         text={
           pageIndex !== 0 && isLanguage === "cpp"
-            ? generateCppClassFromJson(jsonStructure)
+            ? generateCppClassFromJson(jsonStructure,variables)
             : pageIndex !== 0 && isLanguage === "js"
             ? generateJavaScriptFromJson(jsonStructure)
             : //: pageIndex !== 0 && isLanguage === "python"

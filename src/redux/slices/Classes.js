@@ -12,7 +12,7 @@ import {
   updateElementByIdRecursive,
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
-import { classVariableDeclarationBlock, variableDeclarationBlock } from "../../blockTypes";
+import { classVariableDeclarationBlock, valueBlock, variableDeclarationBlock } from "../../blockTypes";
 
 function findById(startState,classId){
   return startState.find(
@@ -180,7 +180,7 @@ const classesSlice = createSlice({
         });
         //
         debugger
-        if(objectValue.type === "variableDeclarationBlock"&&(pathTo[2]==="methods"||pathTo[2]==="constructors"))
+        if((objectValue.type === variableDeclarationBlock||objectValue.type === valueBlock)&&(pathTo[2]==="methods"||pathTo[2]==="constructors"))
         {
           objectValue.methodId = pathTo[3].split("|")[0];
           state.variables.push(objectValue);

@@ -5,13 +5,22 @@ import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import DragHandle from "../DragHandle/DragHandle";
 import { changeElement } from "../../redux/slices/CodeStructure";
 import { useDispatch } from "react-redux";
+import { changeClassElement } from "../../redux/slices/Classes";
 
 export default function ValueBlock(props) {
   const dispatch = useDispatch();
   const onChangeElement = (fieldToModify, e) => {
-    dispatch(
-      changeElement({ id: props.id, fieldToModify, value: e.target.value })
-    );
+    debugger
+    if(props.methodId===null)
+      dispatch(
+        changeElement({ id: props.id, fieldToModify, value: e.target.value })
+      );
+    else
+    {
+      dispatch(
+        changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
+      )
+    }
   };
   return (
     <Fragment>
