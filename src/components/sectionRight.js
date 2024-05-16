@@ -7,22 +7,20 @@ export default function SectionRight(props) {
   const variables = useSelector(state=>state.classes.variables);
   const pageIndex = useSelector((state) => state.blocksTabs.index);
   const jsonStructure = useSelector((state) => {
-    if (pageIndex === 0) {
-      return state.codeStructure.elements;
-    } else {
-      return state.classes.classes[pageIndex - 1];
-    }
+
+      return state.classes.classes[pageIndex];
+
   });
   return (
     <div style={{ overflowX: "auto" }}>
       <CopyBlock
         language={isLanguage}
         text={
-          pageIndex !== 0 && isLanguage === "cpp"
-            ? generateCppClassFromJson(jsonStructure,variables)
-            : pageIndex !== 0 && isLanguage === "js"
+              isLanguage === "cpp"
+            ? generateCppClassFromJson(jsonStructure,variables,pageIndex)
+            : isLanguage === "js"
             ? generateJavaScriptFromJson(jsonStructure)
-            : //: pageIndex !== 0 && isLanguage === "python"
+            : //: isLanguage === "python"
               //? generatePythonFromJson(jsonStructure)
               JSON.stringify(jsonStructure)
         }

@@ -1,8 +1,18 @@
 import { useSelector } from "react-redux";
 import { classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
 
-export function generateCppClassFromJson(json,variables) {
-  let cppClass = `class ${json.name.replace(/ /g, "_")} {\n`;
+export function generateCppClassFromJson(json,variables,page) {
+
+  let cppClass = "";
+  if(page===0)
+  {
+    cppClass += "int main(int argc, char *argv[]){\n"
+    cppClass += traverse(json.methods[0].children[2],2,json,variables,true)
+    cppClass += "}"
+    return cppClass;
+  }
+
+  cppClass = `class ${json.name.replace(/ /g, "_")} {\n`;
 
   cppClass += getFields("private", json);
   cppClass += getConstructor("private", json,variables);

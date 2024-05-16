@@ -52,7 +52,10 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
   const codeStructureElements = useSelector(
     (state) => state.codeStructure.elements
   );
-
+  const mainMethod = useSelector(
+    (state) =>
+      state.classes.classes.find((el) => el.id === "mainClass").methods[0]
+  );
   const handleChange = (event, newValue) => {
     dispatch(changeTab({ index: newValue }));
   };
@@ -79,12 +82,10 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
           <CustomTabPanel value={tabIndex} index={index} key={index}>
             {item.name === "Sekcja" ? (
               <Fragment>
-                <MainDroppable dropId={"mainId"}>
-                  {codeStructureElements.map((store, index) => (
-                    <OrderDroppable dropId={store.id} key={index}>
-                      {blockRenderer(store)}
-                    </OrderDroppable>
-                  ))}
+                <MainDroppable dropId={"mainMethod|2"}>
+                  {mainMethod.children[2].map((store, index) =>
+                    blockRenderer(store)
+                  )}
                   test
                 </MainDroppable>
                 <div style={{ position: "absolute", right: 30, top: 30 }}>
@@ -104,7 +105,7 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                 </div>
               </Fragment>
             ) : (
-              <MainDroppable dropId={"mainClassId"}>
+              <MainDroppable dropId={"mainClassId|2"}>
                 <ClassEditorBlock reduxClassId={item.id} />
               </MainDroppable>
             )}

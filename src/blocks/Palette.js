@@ -21,6 +21,7 @@ import {
   classDefinitionBlock,
   classFieldBlock,
   classMethodBlock,
+  classVariableBlock,
   classVariableDeclarationBlock,
   consoleLogBlock,
   dowhileBlock,
@@ -42,11 +43,13 @@ import blockRenderer from "../blockRenderer";
 import ValueBlock from "./VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
 import ReturnBlock from "./returnBlock";
+import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
 
   const classes = useSelector((state) => state.classes.classes);
-  const variables = useSelector((state) => state.codeStructure.variables);
+  const tabIndex = useSelector((state) => state.blocksTabs.index);
+  const mainMethodVariables = useSelector(state => state.classes.variables.filter(el=>el.methodId === "mainMethod"))
   const [category, setCategory] = useState([0]);
   const [operatorsCategory, setOperatorsCategory] = useState([0]);
   const handleCategory = (newVal) => {
@@ -159,9 +162,9 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {variables?.map((v, k) => (
-              <VariableBlock
-                id={variableBlock + "|" + v.id}
+            {tabIndex===0?mainMethodVariables?.map((v, k) => (
+              <ClassVariableBlock
+                id={classVariableBlock + "|" + v.id}
                 key={k}
                 blockId={v.id}
                 dataType={v.dataType}
@@ -170,7 +173,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                 setBlocksState={setBlocksState}
                 palette={true}
               />
-            ))}
+            )):null}
             <ValueBlock
              id={valueBlock}
              blocksState={blocksState}

@@ -35,7 +35,7 @@ const theme = createTheme({
 function App() {
   const dispatch = useDispatch();
   const tabIndex = useSelector((state) => state.blocksTabs.index);
-  const [tabs, setTabs] = useState([{ name: "Sekcja", id: null }]);
+  const [tabs, setTabs] = useState([{ name: "Sekcja", id: 1 }]);
   const handleAddClass = () => {
     const newId = uuidv4();
     console.log(newId);
@@ -43,6 +43,7 @@ function App() {
     setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
   };
   function handleDragEnd(event) {
+    debugger
     if (event.over) {
       const { active, over } = event;
       if (over.id === "deleteId") {

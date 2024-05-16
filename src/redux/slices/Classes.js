@@ -24,8 +24,32 @@ function findById(startState,classId){
 const classesSlice = createSlice({
   name: "classes",
   initialState: {
-    classes: [],
-    paths: [],
+    classes: [
+      {
+        id: "mainClass",
+        name: "mainClass",
+        fields: [],
+        constructors: [],
+        methods: [
+          {
+            id: "mainMethod",
+            visibility: "public",
+            name: "mainMethod",
+            children: [[], [],[]],
+          }
+        ],
+      }
+    ],
+    paths: [
+      {
+        id:"mainMethod",
+        path:[
+          "classes",
+          "mainClass|-1",
+          "methods"
+        ]
+      }
+    ],
     variables: []
   },
   reducers: {
@@ -135,6 +159,7 @@ const classesSlice = createSlice({
       findedMethod.name = action.payload.name;
     },
     inserElementToClass(state, action) {
+      debugger
       const { object, to,classId } = action.payload;
 
       //podział id obiektu dodawanego
