@@ -8,15 +8,16 @@ function ClassVariableBlock(props) {
   const classVariableValue = useSelector((state) => {
     const variableSplit = props.id.split("|");
     if (variableSplit[0] == classVariableBlock) return undefined;
-    const pathToVariable = findPath(state.classes, variableSplit[0]);
+    let pathToVariable = findPath(state.classes, variableSplit[0]);
+    if(pathToVariable === undefined) 
+      pathToVariable = findPath(state.classes,variableSplit[1]);
     let destinationValue = findLocationByPath(state.classes, pathToVariable);
     if (destinationValue === undefined) return undefined;
     destinationValue = destinationValue.find(
-      (el) => el.id === variableSplit[0]
+      (el) => el.id === variableSplit[1]
     );
     return destinationValue;
   });
-
   return (
     <Fragment>
       <DragHandle
@@ -27,7 +28,6 @@ function ClassVariableBlock(props) {
         {classVariableValue !== undefined
           ? classVariableValue.name
           : props.name}
-       
       </DragHandle>
     </Fragment>
   );

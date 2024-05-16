@@ -12,7 +12,7 @@ import {
   updateElementByIdRecursive,
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
-import { classVariableDeclarationBlock, valueBlock, variableDeclarationBlock } from "../../blockTypes";
+import { classVariableBlock, classVariableDeclarationBlock, valueBlock, variableDeclarationBlock } from "../../blockTypes";
 
 function findById(startState,classId){
   return startState.find(
@@ -90,7 +90,6 @@ const classesSlice = createSlice({
       }
     },
     deleteMethod(state,action){
-      debugger
       const {classId,methodId,isConstructor} = action.payload;
       const findedClass = findById(state.classes,classId)
       if(isConstructor === true)
@@ -118,7 +117,6 @@ const classesSlice = createSlice({
       findedClass.name = action.payload.name;
     },
     editFieldName(state, action) {
-      debugger
       const findedClass = state.classes.find(
         (cl) => cl.id === action.payload.classId
       );
@@ -137,7 +135,6 @@ const classesSlice = createSlice({
       findedMethod.name = action.payload.name;
     },
     inserElementToClass(state, action) {
-      debugger;
       const { object, to,classId } = action.payload;
 
       //podział id obiektu dodawanego
@@ -145,14 +142,24 @@ const classesSlice = createSlice({
       //podział id lokalizacji
       const toSplit = to.split("|");
 
-      //pobranie ścieżek lokalizacji oraz obiektu
+      //pobranie ścieżek lokalizacji docelowej
       let pathTo = findPath(state, toSplit[0]);
-      const pathObject = findPath(state, objectSplit[0]);
+
+      //pobranie ścieżek lokalizacji obiektu
+      let pathObject = findPath(state, objectSplit[0]);
+      //pobranie ścieżek lokalizacji obiektu dla zmiennej lokalnej
+      if(pathObject === undefined)
+      {
+        pathObject = findPath(state,object);
+      }
 
       let objectValue = undefined;
       if (pathObject === undefined) {
         //generowanie struktury nowego obiektu
-        objectValue = GetBlockStructure(object);
+        if(objectSplit[0]===classVariableBlock)
+          objectValue = GetBlockStructure(object+"|"+classId+"|"+(pathTo.length>3?pathTo[3].split("|")[0]:toSplit[0]));
+        else
+          objectValue = GetBlockStructure(object);
       } else {
         //pobranie struktury obiektu z starej lokalizacji
         objectValue = findObject(state, object, pathObject);
@@ -179,7 +186,6 @@ const classesSlice = createSlice({
           path: pathTo,
         });
         //
-        debugger
         if((objectValue.type === variableDeclarationBlock||objectValue.type === valueBlock)&&(pathTo[2]==="methods"||pathTo[2]==="constructors"))
         {
           objectValue.methodId = pathTo[3].split("|")[0];
@@ -196,7 +202,6 @@ const classesSlice = createSlice({
       
     },
     changeClassElement(state, action) {
-      debugger
       const { id, fieldToModify, value } = action.payload;
 
       //podział id

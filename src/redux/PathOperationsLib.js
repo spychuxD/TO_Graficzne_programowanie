@@ -1,5 +1,4 @@
 export const findLocationByPath = (obj, path) => {
-   
   let newObj = obj;
   let tmp = [];
   let nextIsSplitArray;
@@ -29,6 +28,7 @@ export const findPath = (state, id) => {
   return state.paths.find((el) => el.id === id)?.path;
 };
 export const findObject = (state, id, path) => {
+  debugger
   return JSON.parse(JSON.stringify(findLocationByPath(state, path))).find(
     (el) => el.id === id
   );
@@ -72,6 +72,7 @@ export function updateElementByIdRecursive(id, elements, fieldToModify, value) {
 }
 export function findAndDeleteByPath(state, pathToObject,objectId) 
 {
+  debugger
     //wyznaczenie starej lokalizacja "object"
     const oldObjectLoaction = findLocationByPath(state, pathToObject);
     //wyznaczenie indeksu "object" w starej lokalizacja

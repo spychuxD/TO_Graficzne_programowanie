@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import ForBlock from "./ForBlock";
-import BeginBlock from "./BeginBlock";
 import VariableDeclarationBlock from "./VariableBlocks/VariableDeclarationBlock";
 import VariableBlock from "./VariableBlocks/VariableBlock";
 import VariableTypesBlock from "./VariableBlocks/VariableTypesBlock";
-import EndBlock from "./EndBlock";
 import { Operators } from "./OperatorsBlocks/Operators";
 import { VariableTypes } from "./VariableBlocks/VariableTypes";
 import OperatorsBlocks from "./OperatorsBlocks/OperatorsBlocks";
 import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
-
 import IfElseBlock from "./IfElseBlock";
 import ConsoleLogBlock from "./ConsoleLogBlock";
 import SetOn from "./SetOn";
@@ -21,14 +18,12 @@ import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
 import ClassMethodBlock from "./ClassBlocks/ClassMethodBlock";
 import {
-  beginBlock,
   classDefinitionBlock,
   classFieldBlock,
   classMethodBlock,
   classVariableDeclarationBlock,
   consoleLogBlock,
   dowhileBlock,
-  endBlock,
   forBlock,
   ifElseBlock,
   operatorsBlocks,
@@ -44,14 +39,11 @@ import ClassFieldBlock from "./ClassBlocks/ClassFieldBlock";
 import { DragOverlay } from "@dnd-kit/core";
 import { createPortal } from "react-dom";
 import blockRenderer from "../blockRenderer";
-import { useDispatch } from "react-redux";
-import { setVariableType } from "../redux/slices/DraggableSettings";
 import ValueBlock from "./VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
 import ReturnBlock from "./returnBlock";
 
 export default function Palette({ blocksState, setBlocksState }) {
-  const dispatch = useDispatch();
 
   const classes = useSelector((state) => state.classes.classes);
   const variables = useSelector((state) => state.codeStructure.variables);
@@ -97,18 +89,6 @@ export default function Palette({ blocksState, setBlocksState }) {
             className="palette-blocks-container slideDown"
             style={{ zIndex: 1000 }}
           >
-            <BeginBlock
-              id={beginBlock}
-              blocksState={blocksState}
-              setBlocksState={setBlocksState}
-              palette={true}
-            />
-            <EndBlock
-              id={endBlock}
-              blocksState={blocksState}
-              setBlocksState={setBlocksState}
-              palette={true}
-            />
             <IfElseBlock
               id={ifElseBlock}
               blocksState={blocksState}

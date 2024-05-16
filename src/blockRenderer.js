@@ -1,7 +1,5 @@
 import {
   operatorsBlocks,
-  beginBlock,
-  endBlock,
   forBlock,
   ifElseBlock,
   consoleLogBlock,
@@ -20,8 +18,6 @@ import {
   returnBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
-import BeginBlock from "./blocks/BeginBlock";
-import EndBlock from "./blocks/EndBlock";
 import ForBlock from "./blocks/ForBlock";
 import OperatorsBlocks from "./blocks/OperatorsBlocks/OperatorsBlocks";
 import VariableBlock from "./blocks/VariableBlocks/VariableBlock";
@@ -43,16 +39,12 @@ export default function blockRenderer(store, index, isOverlay = false) {
   if(store === undefined)
     return
   switch (store.type) {
-    case beginBlock:
-      return <BeginBlock {...store} key={index} isOverlay={isOverlay} />;
     case forBlock:
       return <ForBlock {...store} key={index} isOverlay={isOverlay} />;
     case whileBlock:
       return <WhileBlock {...store} key={index} isOverlay={isOverlay} />;
     case dowhileBlock:
       return <DowhileBlock {...store} key={index} isOverlay={isOverlay} />;
-    case endBlock:
-      return <EndBlock {...store} key={index} isOverlay={isOverlay} />;
     case operatorsBlocks:
       return <OperatorsBlocks {...store} key={index} isOverlay={isOverlay} />;
     case ifElseBlock:

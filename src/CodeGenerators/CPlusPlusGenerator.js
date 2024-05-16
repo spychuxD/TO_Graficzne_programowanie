@@ -87,7 +87,7 @@ function getMethod(visibility, json,variables) {
               result += ",";
             });
             result += `) {\n`;
-            debugger
+            //debugger
             result += traverse(method.children[2],2,json,variables,true)
             result += `\n   }\n`;
           }
@@ -98,10 +98,10 @@ function getMethod(visibility, json,variables) {
 
 function traverse(obj,level,classObject,variables,addSemicolon,adder) {
   let result = "";
-  
+  //debugger
   let i=0;
   obj?.forEach((element)=>{
-    switch(element.type){
+    switch(element?.type){
       case returnBlock:
         result+= generateTabs(level)+"return"
         result+= traverse(element.children[0],level+1,classObject,variables)
@@ -120,11 +120,14 @@ function traverse(obj,level,classObject,variables,addSemicolon,adder) {
         result+= generateTabs(level)+traverse(element.children[0],0,classObject,variables)+element.operator+traverse(element.children[1],0,classObject,variables,addSemicolon);
         break;
       case classVariableBlock:
-        //debugger
-        result+= generateTabs(level-2)
-        let objectVal = classObject.fields?.find(el=>el.id === element.id.split("|")[0]);
-        if(objectVal===undefined) objectVal = variables?.find(el=>el.id === element.id.split("|")[0])
-       // if(objectVal===undefined) objectVal = classObject.children[1]?.find(el=>el.id === element.id.split("|")[0])
+        const splitElement = element.id.split("|");
+        result+= generateTabs(level)
+        //zmienna jest polem klasy
+        let objectVal = classObject.fields?.find(el=>el.id === splitElement[1]);
+        //zmienna jest zmienną lokalną metod
+        if(objectVal===undefined) objectVal = variables?.find(el=>el.id === splitElement[1])
+        //zmienna jest parametrem metody
+        if(objectVal===undefined) objectVal = classObject.methods.find(me=>me.id===splitElement[3])?.children[1]?.find(el=>el.id === splitElement[1])
         result+= " "+objectVal?.name
         result+= addSemicolon?";\n":""
         break;

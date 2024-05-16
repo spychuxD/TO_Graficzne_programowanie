@@ -43,8 +43,6 @@ function App() {
     setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
   };
   function handleDragEnd(event) {
-    //console.log(tabs[tabIndex]);
-    debugger;
     if (event.over) {
       const { active, over } = event;
       if (over.id === "deleteId") {

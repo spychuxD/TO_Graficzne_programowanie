@@ -24,22 +24,6 @@ import { v4 as uuidv4 } from "uuid";
 export default function GetBlockStructure(object) {
   const dataArray = object.split("|");
   switch (dataArray[0]) {
-    case beginBlock:
-      //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "start",
-        type: beginBlock,
-        items: [],
-      };
-    case endBlock:
-      //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "stop",
-        type: endBlock,
-        items: [],
-      };
     case ifElseBlock:
       //dataArray = type
       return {
@@ -114,9 +98,9 @@ export default function GetBlockStructure(object) {
         type: variableBlock,
       };
     case classVariableBlock:
-      //dataArray = type
+      //dataArray = type|parametrId lub id zmiennej|classId|methodId
       return {
-        id: dataArray[1] + "|" + uuidv4(),
+        id: uuidv4()+"|"+dataArray[1] +"|"+dataArray[2]+"|"+dataArray[3],
         type: classVariableBlock,
       };
     case operatorsBlocks:
