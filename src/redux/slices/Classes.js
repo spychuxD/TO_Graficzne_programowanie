@@ -12,14 +12,16 @@ import {
   updateElementByIdRecursive,
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
-import { classVariableBlock, classVariableDeclarationBlock, valueBlock, variableDeclarationBlock } from "../../blockTypes";
+import {
+  classVariableBlock,
+  classVariableDeclarationBlock,
+  valueBlock,
+  variableDeclarationBlock,
+} from "../../blockTypes";
 
-function findById(startState,classId){
-  return startState.find(
-    (cl) => cl.id === classId
-  );
+function findById(startState, classId) {
+  return startState.find((cl) => cl.id === classId);
 }
-
 
 const classesSlice = createSlice({
   name: "classes",
@@ -35,22 +37,18 @@ const classesSlice = createSlice({
             id: "mainMethod",
             visibility: "public",
             name: "mainMethod",
-            children: [[], [],[]],
-          }
+            children: [[], [], []],
+          },
         ],
-      }
+      },
     ],
     paths: [
       {
-        id:"mainMethod",
-        path:[
-          "classes",
-          "mainClass|-1",
-          "methods"
-        ]
-      }
+        id: "mainMethod",
+        path: ["classes", "mainClass|-1", "methods"],
+      },
     ],
-    variables: []
+    variables: [],
   },
   reducers: {
     addClass(state, action) {
@@ -60,7 +58,6 @@ const classesSlice = createSlice({
         fields: [],
         constructors: [],
         methods: [],
-        
       });
     },
     createMethod(state, action) {
@@ -72,7 +69,7 @@ const classesSlice = createSlice({
           id: uuidv4(),
           visibility: "private",
           name: "Metoda bez nazwy",
-          children: [[], [],[]],
+          children: [[], [], []],
         };
         findedClass.methods.push(newMethod);
         state.paths.push({
@@ -82,13 +79,13 @@ const classesSlice = createSlice({
       }
     },
     createField(state, action) {
-      const findedClass = findById(state.classes,action.payload.id)
+      const findedClass = findById(state.classes, action.payload.id);
       if (findedClass !== undefined) {
         const newField = {
           id: uuidv4(),
           visibility: "private",
           name: "Pole bez nazwy",
-          children: [[],[]],
+          children: [[], []],
         };
         findedClass.fields.push(newField);
         state.paths.push({
@@ -97,14 +94,13 @@ const classesSlice = createSlice({
         });
       }
     },
-    createConstructor(state,action){
-      const findedClass = findById(state.classes,action.payload.id)
-      if(findedClass !== undefined)
-      {
+    createConstructor(state, action) {
+      const findedClass = findById(state.classes, action.payload.id);
+      if (findedClass !== undefined) {
         const newConstructor = {
           id: uuidv4(),
-          children: [[],[],[]],
-          visibility: "private"
+          children: [[], [], []],
+          visibility: "private",
         };
         findedClass.constructors.push(newConstructor);
         state.paths.push({
@@ -113,25 +109,27 @@ const classesSlice = createSlice({
         });
       }
     },
-    deleteMethod(state,action){
-      const {classId,methodId,isConstructor} = action.payload;
-      const findedClass = findById(state.classes,classId)
-      if(isConstructor === true)
-      {
-        const methodIndex = findedClass.constructors.findIndex(me => me.id === methodId);
+    deleteMethod(state, action) {
+      const { classId, methodId, isConstructor } = action.payload;
+      const findedClass = findById(state.classes, classId);
+      if (isConstructor === true) {
+        const methodIndex = findedClass.constructors.findIndex(
+          (me) => me.id === methodId
+        );
         findedClass.constructors.splice(methodIndex, 1);
-      }
-      else
-      {
-        const methodIndex = findedClass.methods.findIndex(me => me.id === methodId);
+      } else {
+        const methodIndex = findedClass.methods.findIndex(
+          (me) => me.id === methodId
+        );
         findedClass.methods.splice(methodIndex, 1);
       }
-      
     },
-    deleteField(state,action){
-      const {classId,fieldId} = action.payload;
-      const findedClass = findById(state.classes,classId)
-      const fieldIndex = findedClass.fields.findIndex(fi => fi.id === fieldId);
+    deleteField(state, action) {
+      const { classId, fieldId } = action.payload;
+      const findedClass = findById(state.classes, classId);
+      const fieldIndex = findedClass.fields.findIndex(
+        (fi) => fi.id === fieldId
+      );
       findedClass.fields.splice(fieldIndex, 1);
     },
     editClassName(state, action) {
@@ -159,8 +157,8 @@ const classesSlice = createSlice({
       findedMethod.name = action.payload.name;
     },
     inserElementToClass(state, action) {
-      debugger
-      const { object, to,classId } = action.payload;
+      debugger;
+      const { object, to, classId } = action.payload;
 
       //podział id obiektu dodawanego
       const objectSplit = object.split("|");
@@ -173,24 +171,29 @@ const classesSlice = createSlice({
       //pobranie ścieżek lokalizacji obiektu
       let pathObject = findPath(state, objectSplit[0]);
       //pobranie ścieżek lokalizacji obiektu dla zmiennej lokalnej
-      if(pathObject === undefined)
-      {
-        pathObject = findPath(state,object);
+      if (pathObject === undefined) {
+        pathObject = findPath(state, object);
       }
 
       let objectValue = undefined;
       if (pathObject === undefined) {
         //generowanie struktury nowego obiektu
-        if(objectSplit[0]===classVariableBlock)
-          objectValue = GetBlockStructure(object+"|"+classId+"|"+(pathTo.length>3?pathTo[3].split("|")[0]:toSplit[0]));
-        else
-          objectValue = GetBlockStructure(object);
+        if (objectSplit[0] === classVariableBlock)
+          objectValue = GetBlockStructure(
+            object +
+              "|" +
+              classId +
+              "|" +
+              (pathTo.length > 3 ? pathTo[3].split("|")[0] : toSplit[0])
+          );
+        else objectValue = GetBlockStructure(object);
       } else {
         //pobranie struktury obiektu z starej lokalizacji
         objectValue = findObject(state, object, pathObject);
       }
       //odszukanie lokalizacji docelowej na podstawie ścieżki
       let destinationValue = findLocationByPath(state, pathTo);
+      if (!destinationValue) return;
       destinationValue = destinationValue.find((el) => el.id === toSplit[0]);
       if (toSplit.length === 2) {
         destinationValue = getObjectByPath(destinationValue, ["children"]);
@@ -211,20 +214,22 @@ const classesSlice = createSlice({
           path: pathTo,
         });
         //
-        if((objectValue.type === variableDeclarationBlock||objectValue.type === valueBlock)&&(pathTo[2]==="methods"||pathTo[2]==="constructors"))
-        {
+        if (
+          (objectValue.type === variableDeclarationBlock ||
+            objectValue.type === valueBlock) &&
+          (pathTo[2] === "methods" || pathTo[2] === "constructors")
+        ) {
           objectValue.methodId = pathTo[3].split("|")[0];
           state.variables.push(objectValue);
         }
-          
+
         return;
-      } 
+      }
 
       //aktualizacja ścieżki do obiektu
-      updateObjectPath(state,object,pathTo,toSplit,to);
-      const relatedPaths = findRelatedPaths(state,object);
-      updateRelatedPaths(relatedPaths,pathTo,object,to);
-      
+      updateObjectPath(state, object, pathTo, toSplit, to);
+      const relatedPaths = findRelatedPaths(state, object);
+      updateRelatedPaths(relatedPaths, pathTo, object, to);
     },
     changeClassElement(state, action) {
       const { id, fieldToModify, value } = action.payload;
@@ -236,14 +241,13 @@ const classesSlice = createSlice({
       let pathTo = findPath(state, idSplit[0]);
       let destinationValue = findLocationByPath(state, pathTo);
       destinationValue = destinationValue.find((el) => el.id === idSplit[0]);
-      destinationValue[fieldToModify] = value
+      destinationValue[fieldToModify] = value;
     },
-    changeClassMethodVariable(state,action)
-    {
+    changeClassMethodVariable(state, action) {
       const { id, fieldToModify, value } = action.payload;
 
-      const variable = state.variables.find(el=>el.id === id)
-      variable[fieldToModify]=value;
+      const variable = state.variables.find((el) => el.id === id);
+      variable[fieldToModify] = value;
     },
     deleteClassElement(state, action) {
       debugger;
@@ -287,6 +291,6 @@ export const {
   createConstructor,
   changeClassElement,
   changeClassMethodVariable,
-  deleteClassElement
+  deleteClassElement,
 } = classesSlice.actions;
 export default classesSlice.reducer;

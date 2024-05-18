@@ -7,7 +7,7 @@ import { ifElseBlock } from "../blockTypes";
 function IfElseBlock(props) {
   return (
     <Fragment>
-      <DragHandle {...props} isOverlay={props.isOverlay} type={ifElseBlock}>
+      <DragHandle {...props} type={ifElseBlock}>
         {(!props.isDragging && !props.isOverlay) || props.palette ? (
           <div className="control-block bg-color-if">
             <div className="flex-col gap-10 center w-full">
@@ -65,7 +65,7 @@ function IfElseBlock(props) {
             </div>
           </div>
         ) : (
-          <div className="blocks-container control-block bg-color-if text-bold text-white">
+          <div className="blocks-container control-block bg-color-if text-bold text-white text-nowrap">
             ifElse
           </div>
         )}

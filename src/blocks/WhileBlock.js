@@ -65,7 +65,7 @@ function WhileBlock(props) {
             <div className="items-container"></div>
           </div>
         ) : (
-          <div className="">Pętla while</div>
+          <div className="text-nowrap">Pętla while</div>
         )}
       </DragHandle>
       {/* ) : (

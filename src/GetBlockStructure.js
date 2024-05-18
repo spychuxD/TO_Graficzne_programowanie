@@ -1,4 +1,5 @@
 import {
+  arrowFunctionBlock,
   beginBlock,
   classDefinitionBlock,
   classFieldBlock,
@@ -10,6 +11,7 @@ import {
   endBlock,
   forBlock,
   ifElseBlock,
+  methodsBlock,
   operatorsBlocks,
   returnBlock,
   setOn,
@@ -100,7 +102,14 @@ export default function GetBlockStructure(object) {
     case classVariableBlock:
       //dataArray = type|parametrId lub id zmiennej|classId|methodId
       return {
-        id: uuidv4()+"|"+dataArray[1] +"|"+dataArray[2]+"|"+dataArray[3],
+        id:
+          uuidv4() +
+          "|" +
+          dataArray[1] +
+          "|" +
+          dataArray[2] +
+          "|" +
+          dataArray[3],
         type: classVariableBlock,
       };
     case operatorsBlocks:
@@ -150,13 +159,26 @@ export default function GetBlockStructure(object) {
         type: valueBlock,
         value: "",
         valueType: "integers",
-        methodId: null
+        methodId: null,
       };
     case returnBlock:
-      return{
+      return {
         id: uuidv4(),
         type: returnBlock,
-        children:[[]]
-      }
+        children: [[]],
+      };
+    case arrowFunctionBlock:
+      return {
+        id: uuidv4(),
+        type: arrowFunctionBlock,
+        children: [[], []],
+      };
+    case methodsBlock:
+      return {
+        id: uuidv4(),
+        type: methodsBlock,
+        name: dataArray[1],
+        children: [[], []],
+      };
   }
 }

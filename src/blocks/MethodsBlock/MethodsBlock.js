@@ -1,21 +1,20 @@
-import "../../App.css";
 import { Fragment } from "react";
-import MainDroppable from "../../components/MainDroppable";
 import blockRenderer from "../../blockRenderer";
-import { operatorsBlocks } from "../../blockTypes";
+import MainDroppable from "../../components/MainDroppable";
 import DragHandle from "../DragHandle/DragHandle";
-function OperatorsBlocks(props) {
+import { methodsBlock } from "../../blockTypes";
+function MethodsBlock(props) {
   return (
     <Fragment>
       <DragHandle
         {...props}
-        type={operatorsBlocks}
-        className={"control-block bg-color-arithmetic"}
+        type={methodsBlock}
+        className={"blocks-container control-block bg-color-console"}
       >
         {(!props.isDragging && !props.isOverlay) || props.palette ? (
-          <div className="control-block-without-shadow bg-color-arithmetic">
+          <div className="flex-row center w-full ">
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
-              <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">
+              <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10 ">
                 {props.children
                   ? props.children[0].map((item, index) =>
                       blockRenderer(item, index)
@@ -23,13 +22,11 @@ function OperatorsBlocks(props) {
                   : null}
               </div>
             </MainDroppable>
-            <div className="m-8">
-              <div className="text-bold text-white text-nowrap">
-                {props.name}
-              </div>
+            <div className="text-bold text-small text-white text-nowrap ml-4 mr-4">
+              {props?.name + "("}
             </div>
             <MainDroppable dropId={props.id + "|1"} disabled={props.palette}>
-              <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">
+              <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
                 {props.children
                   ? props.children[1].map((item, index) =>
                       blockRenderer(item, index)
@@ -37,18 +34,16 @@ function OperatorsBlocks(props) {
                   : null}
               </div>
             </MainDroppable>
-          </div>
-        ) : (
-          <div className="control-block-without-shadow bg-color-arithmetic">
-            <div className="m-8">
-              <div className="text-bold text-white text-nowrap">
-                Operator {props.name}
-              </div>
+            <div className="text-bold text-small text-white text-nowrap  ml-4">
+              {")"}
             </div>
           </div>
+        ) : (
+          <div className="text-nowrap">{props?.name}</div>
         )}
       </DragHandle>
     </Fragment>
   );
 }
-export default OperatorsBlocks;
+
+export default MethodsBlock;

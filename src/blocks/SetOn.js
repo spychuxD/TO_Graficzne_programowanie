@@ -36,7 +36,7 @@ function SetOn(props) {
             </MainDroppable>
           </Fragment>
         ) : (
-          <div className="text-bold text-white">Ustaw zmienną</div>
+          <div className="text-bold text-white text-nowrap">Ustaw zmienną</div>
         )}
       </DragHandle>
     </Fragment>

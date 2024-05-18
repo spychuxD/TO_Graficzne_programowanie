@@ -1,5 +1,17 @@
-import { ifElseBlock, returnBlock } from "../blockTypes";
-//import { useDispatch, useSelector } from "react-redux";
+import {
+  classVariableBlock,
+  consoleLogBlock,
+  dowhileBlock,
+  forBlock,
+  ifElseBlock,
+  operatorsBlocks,
+  returnBlock,
+  valueBlock,
+  variableBlock,
+  variableDeclarationBlock,
+  variableTypesBlock,
+  whileBlock,
+} from "../blockTypes";
 export function generateJavaScriptFromJson(json) {
   let JSClass = `class ${json.name.replace(/ /g, "_")} {\n`;
 
@@ -74,51 +86,39 @@ function traverse(json, obj, level) {
         result += traverse(json, element.children[2], level + 1);
         result += generateTabs(level) + "}\n";
         break;
-      case "returnBlock":
-        result += generateTabs(level) + "return";
-        result += traverse(json, element.children[0], level + 1);
-        result += ";\n";
-        break;
-      case "forBlock":
+      case forBlock:
         result += generateTabs(level) + "for(";
         result += traverse(json, element.children[0]);
         result += generateTabs(level) + "){\n";
         result += traverse(json, element.children[1], level + 1);
         result += generateTabs(level) + "}\n";
         break;
-      case "whileBlock":
+      case whileBlock:
         result += generateTabs(level) + "while(";
         result += traverse(json, element.children[0]);
         result += generateTabs(level) + "){\n";
         result += traverse(json, element.children[1], level + 1);
         result += generateTabs(level) + "}\n";
         break;
-      case "dowhileBlock":
+      case dowhileBlock:
         result += generateTabs(level) + "do{\n";
         result += traverse(json, element.children[0], level + 1);
         result += generateTabs(level) + "}while(";
         result += traverse(json, element.children[1]);
         result += generateTabs(level) + ");\n";
         break;
-      case "operatorsBlocks":
+      case operatorsBlocks:
         result += traverse(json, element.children[0]);
         result += element.operator;
         result += traverse(json, element.children[1], level + 1);
         break;
-      case "consoleLogBlock":
+      case consoleLogBlock:
         result += generateTabs(level) + "console.log(";
         result += traverse(json, element.children[0], level);
         result += generateTabs(level) + ")\n";
         break;
-      case "variableBlock":
-        result += element.name;
-        break;
-      case "classVariableBlock":
-        //console.log(json, element);
-        result += generateTabs(level) + "this.";
-        result += json.fields.map((v, k) => {
-          if (v.id === element.id.split("|")[0]) return v.name;
-        });
+      case variableTypesBlock:
+        result += generateTabs(level) + element.name;
         break;
     }
   });

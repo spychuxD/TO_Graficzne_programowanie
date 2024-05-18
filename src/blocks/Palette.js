@@ -3,8 +3,11 @@ import ForBlock from "./ForBlock";
 import VariableDeclarationBlock from "./VariableBlocks/VariableDeclarationBlock";
 import VariableBlock from "./VariableBlocks/VariableBlock";
 import VariableTypesBlock from "./VariableBlocks/VariableTypesBlock";
-import { Operators } from "./OperatorsBlocks/Operators";
-import { VariableTypes } from "./VariableBlocks/VariableTypes";
+import { CommonOperators, JSOperators } from "./OperatorsBlocks/Operators";
+import {
+  CPPVariableTypes,
+  JSVariableTypes,
+} from "./VariableBlocks/VariableTypes";
 import OperatorsBlocks from "./OperatorsBlocks/OperatorsBlocks";
 import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
@@ -18,6 +21,7 @@ import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
 import ClassMethodBlock from "./ClassBlocks/ClassMethodBlock";
 import {
+  arrowFunctionBlock,
   classDefinitionBlock,
   classFieldBlock,
   classMethodBlock,
@@ -26,6 +30,7 @@ import {
   consoleLogBlock,
   dowhileBlock,
   forBlock,
+  methodsBlock,
   ifElseBlock,
   operatorsBlocks,
   returnBlock,
@@ -44,12 +49,15 @@ import ValueBlock from "./VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
 import ReturnBlock from "./returnBlock";
 import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
-
+import ArrowFunctionBlock from "./ArrowFunctionBlock";
+import { JSMethods } from "./MethodsBlock/Methods";
+import MethodsBlock from "./MethodsBlock/MethodsBlock";
 export default function Palette({ blocksState, setBlocksState }) {
-
   const classes = useSelector((state) => state.classes.classes);
   const tabIndex = useSelector((state) => state.blocksTabs.index);
-  const mainMethodVariables = useSelector(state => state.classes.variables.filter(el=>el.methodId === "mainMethod"))
+  const mainMethodVariables = useSelector((state) =>
+    state.classes.variables.filter((el) => el.methodId === "mainMethod")
+  );
   const [category, setCategory] = useState([0]);
   const [operatorsCategory, setOperatorsCategory] = useState([0]);
   const handleCategory = (newVal) => {
@@ -69,6 +77,7 @@ export default function Palette({ blocksState, setBlocksState }) {
   const dragOverlayData = useSelector(
     (state) => state.draggableSettings.dragOverlayData
   );
+  const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
   return (
     <>
       <div className="list-header">
@@ -141,6 +150,14 @@ export default function Palette({ blocksState, setBlocksState }) {
               setBlocksState={setBlocksState}
               palette={true}
             />
+            {isLanguage === "js" && (
+              <ArrowFunctionBlock
+                id={arrowFunctionBlock}
+                blocksState={blocksState}
+                setBlocksState={setBlocksState}
+                palette={true}
+              />
+            )}
           </div>
         </>
       ) : null}
@@ -162,23 +179,26 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {tabIndex===0?mainMethodVariables?.map((v, k) => (
-              <ClassVariableBlock
-                id={classVariableBlock + "|" + v.id}
-                key={k}
-                blockId={v.id}
-                dataType={v.dataType}
-                name={v.name}
-                blocksState={blocksState}
-                setBlocksState={setBlocksState}
-                palette={true}
-              />
-            )):null}
+            {tabIndex === 0
+              ? mainMethodVariables?.map((v, k) => (
+                  <ClassVariableBlock
+                    id={classVariableBlock + "|" + v.id}
+                    key={k}
+                    blockId={v.id}
+                    dataType={v.dataType}
+                    name={v.name}
+                    blocksState={blocksState}
+                    setBlocksState={setBlocksState}
+                    palette={true}
+                  />
+                ))
+              : null}
             <ValueBlock
-             id={valueBlock}
-             blocksState={blocksState}
-             setBlocksState={setBlocksState}
-             palette={true}/>
+              id={valueBlock}
+              blocksState={blocksState}
+              setBlocksState={setBlocksState}
+              palette={true}
+            />
           </div>
         </div>
       ) : null}
@@ -197,7 +217,7 @@ export default function Palette({ blocksState, setBlocksState }) {
             <div className="text-center text-large">Rodzaje operatorów</div>
           </div>
           <div className="palette-operators-container-buttons slideDown">
-            {Object.keys(Operators).map((operatorGroup, index) => (
+            {Object.keys(CommonOperators).map((operatorGroup, index) => (
               <div
                 key={index}
                 style={{
@@ -222,22 +242,41 @@ export default function Palette({ blocksState, setBlocksState }) {
                       </div>
                     </div>
                     <div className="palette-blocks-container slideDown">
-                      {Object.keys(Operators[operatorGroup]).map(
+                      {Object.keys(CommonOperators[operatorGroup]).map(
                         (operatorType, index) => (
                           <OperatorsBlocks
                             id={
                               operatorsBlocks +
                               "|" +
-                              Operators[operatorGroup][operatorType]
+                              CommonOperators[operatorGroup][operatorType]
                             }
                             key={index}
                             blocksState={blocksState}
                             setBlocksState={setBlocksState}
-                            name={Operators[operatorGroup][operatorType]}
+                            name={CommonOperators[operatorGroup][operatorType]}
                             palette={true}
                           />
                         )
                       )}
+                      {isLanguage === "js"
+                        ? JSOperators[operatorGroup] &&
+                          Object.keys(JSOperators[operatorGroup]).map(
+                            (operatorType, index) => (
+                              <OperatorsBlocks
+                                id={
+                                  operatorsBlocks +
+                                  "|" +
+                                  JSOperators[operatorGroup][operatorType]
+                                }
+                                key={index}
+                                blocksState={blocksState}
+                                setBlocksState={setBlocksState}
+                                name={JSOperators[operatorGroup][operatorType]}
+                                palette={true}
+                              />
+                            )
+                          )
+                        : null}
                     </div>
                   </>
                 ) : null}
@@ -264,35 +303,78 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {Object.keys(VariableTypes).map((variableType, index) => (
-              <VariableTypesBlock
-                id={variableTypesBlock + "|" + VariableTypes[variableType]}
-                key={index}
-                blocksState={blocksState}
-                setBlocksState={setBlocksState}
-                name={VariableTypes[variableType]}
-                palette={true}
-              />
-            ))}
+            {isLanguage === "cpp" || isLanguage === "python"
+              ? Object.keys(CPPVariableTypes).map((variableType, index) => (
+                  <VariableTypesBlock
+                    id={
+                      variableTypesBlock + "|" + CPPVariableTypes[variableType]
+                    }
+                    key={index}
+                    blocksState={blocksState}
+                    setBlocksState={setBlocksState}
+                    name={CPPVariableTypes[variableType]}
+                    palette={true}
+                  />
+                ))
+              : isLanguage === "js"
+              ? Object.keys(JSVariableTypes).map((variableType, index) => (
+                  <VariableTypesBlock
+                    id={
+                      variableTypesBlock + "|" + JSVariableTypes[variableType]
+                    }
+                    key={index}
+                    blocksState={blocksState}
+                    setBlocksState={setBlocksState}
+                    name={JSVariableTypes[variableType]}
+                    palette={true}
+                  />
+                ))
+              : null}
           </div>
         </div>
       ) : null}
-      {createPortal(
-        <DragOverlay dropAnimation={null}>
-          {blockRenderer(dragOverlayData, 1, true)}
-        </DragOverlay>,
-        document.body
-      )}
+      <div className="list-header">
+        <Button
+          fullWidth
+          startIcon={<MdCalculate size={24} className="mr-8" />}
+          onClick={() => handleCategory(5)}
+        >
+          <span className="">Funkcje</span>
+        </Button>
+      </div>
+      {category?.includes(5) ? (
+        <div>
+          <div className="flex-row align-center justify-center">
+            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+            <div className="text-center text-xx-small">
+              Kliknij na blok, aby go dodać
+            </div>
+          </div>
+          <div className="palette-blocks-container slideDown">
+            {isLanguage === "js"
+              ? Object.keys(JSMethods).map((name, index) => (
+                  <MethodsBlock
+                    id={methodsBlock + "|" + name}
+                    palette={true}
+                    name={name}
+                    key={index}
+                  />
+                ))
+              : null}
+          </div>
+        </div>
+      ) : null}
+
       <div className="list-header flex-row align-center justify-between">
         <Button
           fullWidth
           startIcon={<MdBento size={24} className="mr-8" />}
-          onClick={() => handleCategory(5)}
+          onClick={() => handleCategory(6)}
         >
           <span className="">Klasy</span>
         </Button>
       </div>
-      {category?.includes(5) ? (
+      {category?.includes(6) ? (
         <div>
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
@@ -334,6 +416,12 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
+      {createPortal(
+        <DragOverlay dropAnimation={null}>
+          {blockRenderer(dragOverlayData, 1, true)}
+        </DragOverlay>,
+        document.body
+      )}
     </>
   );
 }

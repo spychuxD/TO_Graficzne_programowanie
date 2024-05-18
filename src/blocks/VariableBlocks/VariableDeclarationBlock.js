@@ -50,9 +50,9 @@ function VariableDeclarationBlock(props) {
         type={variableDeclarationBlock}
         className="blocks-container control-block bg-color-7 text-nowrap"
       >
-        Zmnienna&nbsp;
         {(!props.isDragging && !props.isOverlay) || props.palette ? (
           <Fragment>
+            Zmienna&nbsp;
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
               <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                 {props.children
@@ -66,7 +66,7 @@ function VariableDeclarationBlock(props) {
             <input
               disabled={props.palette}
               onChange={(e) => onChangeElement("name", e)}
-              placeholder="Nazwa Zmiennej"
+              placeholder="Nazwa"
               className="block-input"
               type="text"
               value={props.value}

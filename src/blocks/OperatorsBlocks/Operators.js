@@ -1,4 +1,4 @@
-export const Operators = {
+export const CommonOperators = {
   arithmetic: {
     addition: "+",
     subtraction: "-",
@@ -16,9 +16,7 @@ export const Operators = {
   },
   comparison: {
     equal: "==",
-    //equalValueAndType: "===",
     notEqual: "!=",
-    //notEqualValueAndType: "!==",
     greater: ">",
     less: "<",
     greaterOrEqual: ">=",
@@ -36,4 +34,10 @@ export const Operators = {
     not: "~",
   },
   other: { increment: "++", decrement: "--" },
+};
+export const JSOperators = {
+  comparison: {
+    equalValueAndType: "===",
+    notEqualValueAndType: "!==",
+  },
 };

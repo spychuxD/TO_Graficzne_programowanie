@@ -26,9 +26,9 @@ function ConsoleLogBlock(props) {
             </MainDroppable>
           </div>
         ) : (
-          <div>Wyświetl</div>
+          <div className="text-nowrap">Wyświetl</div>
         )}
-      </DragHandle>{" "}
+      </DragHandle>
     </Fragment>
   );
 }
