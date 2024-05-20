@@ -9,17 +9,34 @@ import {
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../redux/slices/LanguageSettings";
+import { saveResut, sendRequest } from "../redux/slices/Compiler";
+import { generateAllCppFromJson, generateCppClassFromJson } from "../CodeGenerators/CPlusPlusGenerator";
+
 function Header({ tabs, setTabs, onAddClass }) {
   const dispatch = useDispatch();
 
   const [isHoverPython, setIsHoverPython] = useState(false);
   const [isHoverCpp, setIsHoverCpp] = useState(false);
   const [isHoverJavascript, setIsHoverJavascript] = useState(false);
+
+  const allClasses = useSelector(state=>state.classes.classes)
   const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+  const variables = useSelector(state=>state.classes.variables);
+  const pageIndex = useSelector((state) => state.blocksTabs.index);
+  const jsonStructure = useSelector((state) => {
+      return state.classes.classes[pageIndex];
+  });
 
   const handleLanguageClick = (language) => {
     dispatch(changeLanguage(language));
   };
+
+  const onClickCompile = async() =>{
+    debugger
+    const code = generateAllCppFromJson(allClasses,variables);
+    const result = await sendRequest(isLanguage,code)
+    dispatch(saveResut({result:result}))
+  }
   return (
     <header className="App-header">
       <div className="flex-row justify-center align-center p-8">
@@ -96,6 +113,7 @@ function Header({ tabs, setTabs, onAddClass }) {
               variant="outlined"
               size="3xl"
               startIcon={<MdOutlinePlaylistPlay />}
+              onClick={()=>{onClickCompile()}}
             >
               <span>KOMPILUJ</span>
             </Button>

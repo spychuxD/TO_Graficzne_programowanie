@@ -11,6 +11,7 @@ export default function SectionRight(props) {
       return state.classes.classes[pageIndex];
 
   });
+  const compileResult = useSelector(state=>state.compiler.compileResult)
   return (
     <div style={{ overflowX: "auto" }}>
       <CopyBlock
@@ -28,6 +29,9 @@ export default function SectionRight(props) {
         theme={dracula}
         showLineNumbers={false}
       />
+      Wynik z konsoli: {compileResult.output}<br/>
+      Użyta pamięć: {compileResult.memory}<br/>
+      Czas CPU: {compileResult.cpuTime}
     </div>
   );
 }

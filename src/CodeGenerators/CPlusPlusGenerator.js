@@ -1,9 +1,24 @@
 import { useSelector } from "react-redux";
-import { classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
+import { classDefinitionBlock, classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
+
+export function generateAllCppFromJson(json,variables)
+{   
+    let cppClass = "#include <iostream>\n";
+    let page = 0;
+    json.forEach(element => {
+      if(page!==0)
+      {
+        cppClass+= generateCppClassFromJson(element,variables,page);
+      }
+      page++;
+    });
+    cppClass+= generateCppClassFromJson(json[0],variables,0);
+    return cppClass;
+}
 
 export function generateCppClassFromJson(json,variables,page) {
 
-  let cppClass = "";
+  let cppClass = "#include <iostream>\n";
   if(page===0)
   {
     cppClass += "int main(int argc, char *argv[]){\n"
@@ -161,7 +176,7 @@ function traverse(obj,level,classObject,variables,addSemicolon,adder) {
         break;
       case consoleLogBlock:
         result+= generateTabs(level);
-        result+= "std::cout << "+ traverse(element.children[0],0,classObject,variables,false,"<<");
+        result+= "std::cout << "+ traverse(element.children[0],0,classObject,variables,false,"<<")+"<< std::endl";
         result+= addSemicolon?";\n":""
         break;
       case whileBlock:
@@ -170,6 +185,10 @@ function traverse(obj,level,classObject,variables,addSemicolon,adder) {
       case dowhileBlock:
         result+= generateTabs(level)+"do{\n"+traverse(element.children[0],level+1,classObject,variables,true)+"\n"+generateTabs(level)+"}while("+traverse(element.children[1],0,classObject,variables)+");\n"
         break;
+      case classDefinitionBlock:
+        debugger
+        result+="klasa"
+        break
       default:
         result += "undefined";
         result+= addSemicolon?";\n":""
