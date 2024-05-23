@@ -1,18 +1,19 @@
 import { useSelector } from "react-redux";
 import { classDefinitionBlock, classFieldBlock, classMethodBlock, classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
 
-export function generateAllCppFromJson(json,variables)
+export function generateAllCppFromJson(json)
 {   
+  debugger
     let cppClass = "#include <iostream>\n";
     let page = 0;
-    json.forEach(element => {
+    json.classes.forEach(element => {
       if(page!==0)
       {
-        cppClass+= generateCppClassFromJson(element,variables,page);
+        cppClass+= generateCppClassFromJson(json,page);
       }
       page++;
     });
-    cppClass+= generateCppClassFromJson(json[0],variables,0);
+    cppClass+= generateCppClassFromJson(json,0);
     return cppClass;
 }
 
@@ -30,35 +31,19 @@ export function generateCppClassFromJson(json,page) {
   cppClass = `class ${json.classes[page].name.replace(/ /g, "_")} {\n`;
 
   cppClass += getFields("private", json.classes[page]);
-  cppClass += getConstructor("private", json.classes[page],json.variables);
+  cppClass += getConstructor("private", json,page);
   //cppClass += getMethod("private", json.classes[page],json.variables);
   cppClass += getMethod("private", json,page);
 
   cppClass += getFields("public", json.classes[page]);
-  cppClass += getConstructor("public", json.classes[page],json.variables);
+  cppClass += getConstructor("public", json,page);
   cppClass += getMethod("public", json,page);
 
   cppClass += getFields("protected", json.classes[page]);
-  cppClass += getConstructor("protected", json,json.variables);
+  cppClass += getConstructor("protected", json,page);
   cppClass += getMethod("protected", json,page);
-//ebugger
 
-  //traverse(json.children[0][2])
-  // Dodaj konstruktory
-
-  /*
-    // Dodaj metody
-    if (json.methods && json.methods.length > 0) {
-      json.methods.forEach(method => {
-        cppClass += `    ${method.returnType} ${method.name}(${method.parameters.join(', ')}) {\n`;
-        cppClass += `        // Implementacja metody\n`;
-        cppClass += `    }\n`;
-      });
-    }
-  
-    
-  */
-    cppClass += `};\n`;
+  cppClass += `};\n`;
   return cppClass;
 }
 function getFields(visibility, json) {
@@ -73,22 +58,26 @@ function getFields(visibility, json) {
   }
   return result;
 }
-function getConstructor(visibility, json, variables) {
+function getConstructor(visibility, json, page) {
+  const classObject = json.classes[page];
   let result = "";
-  if (json.constructors && json.constructors.length > 0) {
-    json.constructors.forEach((constructor) => {
+  if (classObject.constructors && classObject.constructors.length > 0) {
+    classObject.constructors.forEach((constructor) => {
       if (visibility === constructor.visibility) {
-        result += `    ${json.name.replace(/ /g, "_")}(`;
+        result += `    ${classObject.name.replace(/ /g, "_")}(`;
+        let counter = 0;
         constructor.children[1].forEach((parametr) => {
           result +=
             (parametr.children[0].length > 0
               ? parametr.children[0][0].name
               : undefined) + " ";
           result += parametr.name;
-          result += ",";
+          counter++;
+              if(counter<constructor.children[1].length)
+                result += ",";
         });
         result += `) {\n`;
-        result += traverse(constructor.children[2],2,json,variables,true)
+        result += traverse(json,constructor.children[2],classObject,2,true,"")
         result += `    }\n`;
       }
     });
@@ -106,17 +95,19 @@ function getMethod(visibility, json,page) {
             result += method.children[0].length>0?method.children[0][0].name:undefined
             result += " ";
             result += `${method.name.replace(/ /g, "_")}(`;
+            let counter = 0;
             method.children[1].forEach((parametr) => {
               result +=
                 (parametr.children[0].length > 0
                   ? parametr.children[0][0].name
                   : undefined) + " ";
               result += parametr.name;
-              result += ",";
+              counter++;
+              if(counter<method.children[1].length)
+                result += ",";
+              
             });
             result += `) {\n`;
-            //debugger
-           // result += traverse(method.children[2],2,json,variables,true)
             result += traverse(json,method.children[2],classObject,2,true,"")
             result += `\n   }\n`;
           }
@@ -133,7 +124,6 @@ function getMethod(visibility, json,page) {
 
 function traverse(json,obj,classObject,level,addSemicolon,adder) { 
   let result = "";
-  debugger
   let i=0;
   obj?.forEach((element)=>{
     switch(element?.type){
@@ -166,6 +156,8 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
         if(objectVal===undefined) objectVal = json.variables?.find(el=>el.id === splitElement[1])
         //zmienna jest parametrem metody
         if(objectVal===undefined) objectVal = classObject.methods.find(me=>me.id===splitElement[3])?.children[1]?.find(el=>el.id === splitElement[1])
+        //zmienna jest parametrem konstruktora
+        if(objectVal===undefined) objectVal = classObject.constructors.find(me=>me.id===splitElement[3])?.children[1]?.find(el=>el.id === splitElement[1])
         result+= " "+objectVal?.name
         result+= addSemicolon?";\n":""
         break; 

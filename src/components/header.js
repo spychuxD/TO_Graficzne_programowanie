@@ -27,7 +27,7 @@ function Header({ tabs, setTabs, onAddClass }) {
   const [isHoverCpp, setIsHoverCpp] = useState(false);
   const [isHoverJavascript, setIsHoverJavascript] = useState(false);
 
-  const allClasses = useSelector((state) => state.classes.classes);
+  const codeStructure = useSelector((state) => state.classes);
   const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
   const variables = useSelector((state) => state.classes.variables);
   const pageIndex = useSelector((state) => state.blocksTabs.index);
@@ -41,8 +41,8 @@ function Header({ tabs, setTabs, onAddClass }) {
   };
 
   const onClickCompile = async () => {
-    debugger;
-    const code = generateAllCppFromJson(allClasses, variables);
+    const code = generateAllCppFromJson(codeStructure);
+    debugger
     const result = await sendRequest(isLanguage, code);
     dispatch(saveResut({ result: result }));
   };
