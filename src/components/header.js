@@ -1,45 +1,116 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   MdOutlinePlaylistPlay,
   MdOutlineNotStarted,
   MdKeyboardDoubleArrowRight,
   MdOutlineControlPoint,
+  MdFileDownload,
+  MdFileUpload,
 } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLanguage } from "../redux/slices/LanguageSettings";
-import { saveResut, sendRequest } from "../redux/slices/Compiler";
-import { generateAllCppFromJson, generateCppClassFromJson } from "../CodeGenerators/CPlusPlusGenerator";
+import { changeLanguage, setLanguageSlice } from "../redux/slices/LanguageSettings";
+import { saveResut, sendRequest, setCompiler } from "../redux/slices/Compiler";
+import {
+  generateAllCppFromJson,
+  generateCppClassFromJson,
+} from "../CodeGenerators/CPlusPlusGenerator";
+import { setTabSlice } from "../redux/slices/BlocksTabs";
+import { setClassSlice } from "../redux/slices/Classes";
+import { setDraggSlice } from "../redux/slices/DraggableSettings";
 
 function Header({ tabs, setTabs, onAddClass }) {
   const dispatch = useDispatch();
-
+  const fileInputRef = useRef(null);
   const [isHoverPython, setIsHoverPython] = useState(false);
   const [isHoverCpp, setIsHoverCpp] = useState(false);
   const [isHoverJavascript, setIsHoverJavascript] = useState(false);
 
-  const allClasses = useSelector(state=>state.classes.classes)
+  const allClasses = useSelector((state) => state.classes.classes);
   const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
-  const variables = useSelector(state=>state.classes.variables);
+  const variables = useSelector((state) => state.classes.variables);
   const pageIndex = useSelector((state) => state.blocksTabs.index);
   const jsonStructure = useSelector((state) => {
-      return state.classes.classes[pageIndex];
+    return state.classes.classes[pageIndex];
   });
+  const appState = useSelector((state) => state);
 
   const handleLanguageClick = (language) => {
     dispatch(changeLanguage(language));
   };
 
-  const onClickCompile = async() =>{
-    debugger
-    const code = generateAllCppFromJson(allClasses,variables);
-    const result = await sendRequest(isLanguage,code)
-    dispatch(saveResut({result:result}))
+  const onClickCompile = async () => {
+    debugger;
+    const code = generateAllCppFromJson(allClasses, variables);
+    const result = await sendRequest(isLanguage, code);
+    dispatch(saveResut({ result: result }));
+  };
+  const onSave = async () => {
+    const jsonString = JSON.stringify(appState);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "data.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const onLoad = async () =>{
+    fileInputRef.current.click();
   }
+  const handleFileChange = (event) => {
+    debugger
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const json = JSON.parse(e.target.result);
+          //setData(json);
+          console.log(json)
+          dispatch(setTabSlice({data:json.blocksTabs}))
+          dispatch(setClassSlice({data:json.classes}))
+          dispatch(setCompiler({data:json.compiler}))
+          dispatch(setDraggSlice({data:json.draggableSettings}))
+          dispatch(setLanguageSlice({data:json.languageSettings}))
+          debugger
+        } catch (error) {
+          alert('Invalid JSON file');
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
   return (
     <header className="App-header">
       <div className="flex-row justify-center align-center p-8">
+        <div className="lang">
+          <div className="mr-8">
+            <Button
+              variant="outlined"
+              startIcon={<MdFileDownload />}
+              onClick={() => {
+                onSave();
+              }}
+            >
+              <span>Zapisz</span>
+            </Button>
+          </div>
+          <div>
+            <Button onClick={()=>{onLoad()}} variant="outlined" startIcon={<MdFileUpload />}>
+              <span>Wczytaj</span>
+            </Button>
+            <input
+              type="file"
+              accept=".json"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              ref={fileInputRef}
+            />
+          </div>
+        </div>
         <div style={{ position: "fixed", right: 20 }}>
           <Button
             variant="outlined"
@@ -113,7 +184,9 @@ function Header({ tabs, setTabs, onAddClass }) {
               variant="outlined"
               size="3xl"
               startIcon={<MdOutlinePlaylistPlay />}
-              onClick={()=>{onClickCompile()}}
+              onClick={() => {
+                onClickCompile();
+              }}
             >
               <span>KOMPILUJ</span>
             </Button>

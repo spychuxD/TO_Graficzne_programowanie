@@ -9,8 +9,11 @@ const languageSettingsSlice = createSlice({
     changeLanguage(state, action) {
       state.isLanguage = action.payload;
     },
+    setLanguageSlice(state,action){
+      state.isLanguage=action.payload.data.isLanguage;
+    }
   },
 });
 
-export const { changeLanguage } = languageSettingsSlice.actions;
+export const { changeLanguage,setLanguageSlice } = languageSettingsSlice.actions;
 export default languageSettingsSlice.reducer;

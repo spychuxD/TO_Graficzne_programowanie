@@ -43,8 +43,11 @@ const compilerSlice = createSlice({
       const { result } = action.payload;
       state.compileResult = result;
     },
+    setCompiler(state,action){
+      state.compileResult=action.payload.data.compileResult;
+    }
   },
 });
 
-export const { saveResut } = compilerSlice.actions;
+export const { saveResut,setCompiler } = compilerSlice.actions;
 export default compilerSlice.reducer;

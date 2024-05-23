@@ -20,6 +20,11 @@ const draggableSettingsSlice = createSlice({
       //console.log("type.payload", type.payload);
       state.variableType = type.payload;
     },
+    setDraggSlice(state,action){
+      state.disableDraggable=action.payload.data.disableDraggable;
+      state.dragOverlayData=action.payload.data.dragOverlayData;
+      state.variableType=action.payload.data.variableType;
+    }
   },
 });
 
@@ -27,5 +32,6 @@ export const {
   toggleDisableDraggable,
   changeDragOverlayData,
   setVariableType,
+  setDraggSlice
 } = draggableSettingsSlice.actions;
 export default draggableSettingsSlice.reducer;

@@ -275,6 +275,11 @@ const classesSlice = createSlice({
         }
       });
     },
+    setClassSlice(state,action){
+      state.classes=action.payload.data.classes;
+      state.paths=action.payload.data.paths;
+      state.variables=action.payload.data.variables;
+    }
   },
 });
 
@@ -292,5 +297,6 @@ export const {
   changeClassElement,
   changeClassMethodVariable,
   deleteClassElement,
+  setClassSlice
 } = classesSlice.actions;
 export default classesSlice.reducer;

@@ -15,6 +15,7 @@ import {
 } from "./redux/slices/Classes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
+import { addTab } from "./redux/slices/BlocksTabs";
 
 const theme = createTheme({
   typography: {
@@ -31,15 +32,30 @@ const theme = createTheme({
   },
 });
 
+
 function App() {
+  
   const dispatch = useDispatch();
   const tabIndex = useSelector((state) => state.blocksTabs.index);
-  const [tabs, setTabs] = useState([{ name: "Sekcja", id: 1 }]);
+  const codeTabs = useSelector(state=>state.blocksTabs.tabs);
+  //const [tabs, setTabs] = useState([{ name: "Sekcja", id: 1 }]);
+  /*const tabState = useSelector(state=>{
+    const classesArray = state.classes.classes;
+    const tmpArray = [];
+    for(let i=1;i<classesArray.length;i++)
+    {
+      tmpArray.push({name:"Sekcja",id:classesArray[i].id})
+    }
+    if(tmp)
+    setTabs(tmpArray)
+    return classesArray
+  })*/
   const handleAddClass = () => {
     const newId = uuidv4();
     console.log(newId);
     dispatch(addClass({ id: newId }));
-    setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
+    //setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
+    dispatch(addTab({tab:{ name: "Klasa", id: newId }}));
   };
   function handleDragEnd(event) {
     debugger;
@@ -56,24 +72,24 @@ function App() {
           case "order":
             break;
           default:
-            if (tabs[tabIndex].id !== null) {
+            if (codeTabs[tabIndex].id !== null) {
               dispatch(
                 inserElementToClass({
                   object: active.id,
                   to: over.id,
-                  classId: tabs[tabIndex].id,
+                  classId: codeTabs[tabIndex].id,
                 })
               );
             }
             break;
         }
       } else {
-        if (tabs[tabIndex].id !== null) {
+        if (codeTabs[tabIndex].id !== null) {
           dispatch(
             inserElementToClass({
               object: active.id,
               to: over.id,
-              classId: tabs[tabIndex].id,
+              classId: codeTabs[tabIndex].id,
             })
           );
         } 
@@ -90,13 +106,13 @@ function App() {
           <div className="max-h-vh w-80">
             <header className="App-header">
               <Header
-                tabs={tabs}
-                setTabs={setTabs}
+                tabs={codeTabs}
+                //setTabs={setTabs}
                 onAddClass={handleAddClass}
               />
             </header>
             <main className="main-content">
-              <SectionMid tabs={tabs} setTabs={setTabs}></SectionMid>
+              <SectionMid tabs={codeTabs} /*setTabs={setTabs}*/></SectionMid>
               <div className="sectionRight">
                 <SectionRight />
               </div>
