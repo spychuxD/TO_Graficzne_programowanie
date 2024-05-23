@@ -8,7 +8,7 @@ export default function SectionRight(props) {
   const pageIndex = useSelector((state) => state.blocksTabs.index);
   const jsonStructure = useSelector((state) => {
 
-      return state.classes.classes[pageIndex];
+      return state.classes;
 
   });
   const compileResult = useSelector(state=>state.compiler.compileResult)
@@ -18,7 +18,7 @@ export default function SectionRight(props) {
         language={isLanguage}
         text={
               isLanguage === "cpp"
-            ? generateCppClassFromJson(jsonStructure,variables,pageIndex)
+            ? generateCppClassFromJson(jsonStructure,pageIndex)
             : isLanguage === "js"
             ? generateJavaScriptFromJson(jsonStructure)
             : //: isLanguage === "python"

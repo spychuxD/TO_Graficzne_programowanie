@@ -23,10 +23,10 @@ export default function ClassMethodBlock(props) {
         {(!props.isDragging && !props.isOverlay) || props.palette ? (
           <div className="blocks-container">
             <div className="text-nowrap">Dla obiektu</div>
-            <MainDroppable dropId={props.id + "|9"} disabled={props.palette}>
+            <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
               <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
                 {props.children
-                  ? props.children[9].map((item, index) => blockRenderer(item))
+                  ? props.children[0].map((item, index) => blockRenderer(item))
                   : null}
               </div>
             </MainDroppable>
@@ -36,22 +36,14 @@ export default function ClassMethodBlock(props) {
             <div className="text-nowrap">
               {methodObject === undefined ? props.name : methodObject?.name}
             </div>
-            {methodObject?.children[1].map((v, i) => {
-              return (
-                <MainDroppable
-                  dropId={props.id + "|" + i}
-                  disabled={props.palette}
-                >
-                  <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
-                    {props.children
-                      ? props.children[i].map((item, index) =>
-                          blockRenderer(item)
-                        )
-                      : null}
-                  </div>
-                </MainDroppable>
-              );
-            })}
+
+            <MainDroppable dropId={props.id + "|1"} disabled={props.palette}>
+              <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
+                {props.children
+                  ? props.children[1].map((item, index) => blockRenderer(item))
+                  : null}
+              </div>
+            </MainDroppable>
           </div>
         ) : (
           <div>
