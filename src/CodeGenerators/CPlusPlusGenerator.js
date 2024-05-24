@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
-import { classDefinitionBlock, classFieldBlock, classMethodBlock, classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
+import { classDefinitionBlock, classFieldBlock, classMethodBlock, classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, listOperation, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
+import { listAllOperations, listDataType, listGetBack, listGetByIndex, listGetFront, listPopBack, listPopFront, listPushBack, listPushFront } from "../blocks/DataStructures/List/ListOperation";
 
 export function generateAllCppFromJson(json)
 {   
   debugger
     let cppClass = "#include <iostream>\n";
+  
     let page = 0;
     json.classes.forEach(element => {
       if(page!==0)
@@ -20,6 +22,7 @@ export function generateAllCppFromJson(json)
 export function generateCppClassFromJson(json,page) {
 
   let cppClass = "#include <iostream>\n";
+  cppClass += "#include <list>\n";
   if(page===0)
   {
     cppClass += "int main(int argc, char *argv[]){\n"
@@ -159,7 +162,6 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
         //zmienna jest parametrem konstruktora
         if(objectVal===undefined) objectVal = classObject.constructors.find(me=>me.id===splitElement[3])?.children[1]?.find(el=>el.id === splitElement[1])
         result+= " "+objectVal?.name
-        result+= addSemicolon?";\n":""
         break; 
       case forBlock:
         result+= generateTabs(level)
@@ -174,16 +176,14 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
         result+= element.valueType==="text"?`"`:"";
         result+= generateTabs(level)+element.value
         result+= element.valueType==="text"?`" `:"";
-        result+= addSemicolon?";\n":""
         break;
       case variableDeclarationBlock:
         result+= generateTabs(level);
-        result+= traverse(json,element.children[0],classObject,level,false,"")+" "+element.name;
+        result+= traverse(json,element.children[0],classObject,0,false,"")+" "+element.name;
         if(element.children[1].length>0)
           {
             result+="("+traverse(json,element.children[1],classObject,0,false,",")+")"
           }
-        result+= addSemicolon?";\n":""
         break;
       case variableTypesBlock:
         result+= generateTabs(level)+element.name;
@@ -191,7 +191,6 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
       case consoleLogBlock:
         result+= generateTabs(level);
         result+= "std::cout << "+ traverse(json,element.children[0],classObject,0,false,"<<")+"<< std::endl";
-        result+= addSemicolon?";\n":""
         break;
       case whileBlock:
         result+= generateTabs(level)
@@ -219,7 +218,6 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
         result+= traverse(json,element.children[0],classObject,0,false,"")+"."
         result+= findedMethod.name+"("
         result+= traverse(json,element.children[1],classObject,0,false,"")+")"
-        result+= addSemicolon?";\n":""
         break
       case classFieldBlock:
         const findedClassForField = json.classes.find(el=>el.id === element.classId);
@@ -227,12 +225,49 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
         result+= generateTabs(level)
         result+= traverse(json,element.children[0],classObject,0,false,"")+"."
         result+= findedMethodForField?.name
-        result+= addSemicolon?";\n":""
         break;
+      case listOperation:
+        debugger
+          const currentListOperation = listAllOperations.find(el=>el.id===element.subType)
+          result+= generateTabs(level)
+          switch(currentListOperation.id){
+            case listDataType.id:
+              result+= "std::list<"+traverse(json,element.children[0],classObject,0,false,"")+">"
+              break
+            case listPushFront.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+=".push_front("+traverse(json,element.children[1],classObject,0,false,"")+")"
+              break
+            case listPushBack.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+= ".push_back("+traverse(json,element.children[1],classObject,0,false,"")+")"
+              break
+            case listPopBack.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+= ".pop_back()"
+              break
+            case listPopFront.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+= ".pop_front()"
+              break
+            case listGetBack.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+= ".back()"
+              break
+            case listGetFront.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+= ".front()"
+              break
+            case listGetByIndex.id:
+              result+= traverse(json,element.children[0],classObject,0,false,"")
+              result+= "["+traverse(json,element.children[1],classObject,0,false,"")+"]"
+              break
+          }
+        break
       default:
         result += "undefined";
-        result+= addSemicolon?";\n":""
     }
+    result+= addSemicolon?";\n":""
     i++;
     if(adder&&i<obj.length)
       result+= adder;

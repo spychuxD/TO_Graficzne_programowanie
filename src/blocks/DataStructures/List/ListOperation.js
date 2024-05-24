@@ -4,6 +4,11 @@ import MainDroppable from "../../../components/MainDroppable";
 import blockRenderer from "../../../blockRenderer";
 import { Fragment } from "react";
 
+export const listDataType = {
+    id: "listDataType",
+    texts: ["Lista typu"],
+};
+
 export const listPushFront = {
   id: "listPushFront",
   texts: ["Dodaj na początku", "element"],
@@ -14,11 +19,11 @@ export const listPushBack = {
 };
 export const listPopFront = {
   id: "listPopFront",
-  texts: ["Zabierz z początku", "element"],
+  texts: ["Zabierz z początku"],
 };
 export const listPopBack = {
   id: "listPopBack",
-  texts: ["Zabierz z końca", "element"],
+  texts: ["Zabierz z końca"],
 };
 export const listGetFront = { id: "listGetFront", texts: ["Pokaż początek"] };
 export const listGetBack = { id: "listGetBack", texts: ["Pokaż koniec"] };
@@ -28,6 +33,7 @@ export const listGetByIndex = {
 };
 
 export const listAllOperations = [
+  listDataType,
   listPushFront,
   listPushBack,
   listPopFront,
@@ -67,11 +73,11 @@ export default function ListOperation(props) {
         </div>
       ) : (
         <div className="control-block-without-shadow bg-color-arithmetic">
-          <div className="m-8">
+
             <div className="text-bold text-white text-nowrap">
               Operacja na liście {props.name}
             </div>
-          </div>
+       
         </div>
       )}
     </DragHandle>
