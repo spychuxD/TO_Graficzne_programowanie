@@ -26,167 +26,98 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function GetBlockStructure(object) {
   const dataArray = object.split("|");
+  const resultJson = {
+    id: uuidv4(),
+    type: dataArray[0]
+  }
   switch (dataArray[0]) {
     case ifElseBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "ifElseBlock",
-        type: ifElseBlock,
-        children: [[], [], []],
-      };
+      resultJson.children=[[],[],[]]
+      break
     case forBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "for",
-        type: forBlock,
-        children: [[], [], [], []],
-      };
+      resultJson.children= [[],[],[],[]]
+      break
     case whileBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "while",
-        type: whileBlock,
-        children: [[], []],
-      };
+      resultJson.children= [[],[]]
+      break
     case dowhileBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "dowhile",
-        type: dowhileBlock,
-        children: [[], []],
-      };
+      resultJson.children= [[],[]]
+      break
     case variableDeclarationBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "nowa_Zmienna",
-        type: variableDeclarationBlock,
-        methodId: null,
-        children: [[], []],
-      };
+      resultJson.methodId = null
+      resultJson.children = [[],[]]
+      break
     case classVariableDeclarationBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        type: classVariableDeclarationBlock,
-        name: "nowy_parametr",
-        children: [[]],
-      };
+      resultJson.name = "nowy_parametr"
+      resultJson.children= [[]]
+      break
     case setOn:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "setOn",
-        type: setOn,
-        children: [[], []],
-        variableValue: "",
-      };
+      resultJson.children= [[],[]]
+      break
     case consoleLogBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        name: "consoleLogBlock",
-        type: consoleLogBlock,
-        children: [[]],
-      };
+      resultJson.children= [[]]
+      break
     case variableBlock:
       //dataArray = type
-      return {
-        id: dataArray[1] + "|" + uuidv4(),
-        name: "variable",
-        type: variableBlock,
-      };
+      resultJson.id = dataArray[1]+resultJson.id
+      break
     case classVariableBlock:
       //dataArray = type|parametrId lub id zmiennej|classId|methodId
-      return {
-        id:
-          uuidv4() +
-          "|" +
-          dataArray[1] +
-          "|" +
-          dataArray[2] +
-          "|" +
-          dataArray[3],
-        type: classVariableBlock,
-      };
+      resultJson.id += "|" + dataArray[1] + "|" + dataArray[2] + "|" +dataArray[3]
+      break
     case operatorsBlocks:
       //dataArray = type|operator
-      return {
-        id: uuidv4(),
-        name: dataArray[1],
-        operator: dataArray[1],
-        type: operatorsBlocks,
-        children: [[], []],
-      };
+      resultJson.name = dataArray[1];
+      resultJson.operator = dataArray[1];
+      resultJson.children = [[],[]]
+      break
     case variableTypesBlock:
       //dataArray = type|name
-      return {
-        id: uuidv4(),
-        name: dataArray[1],
-        type: variableTypesBlock,
-      };
+      resultJson.name=dataArray[1]
+      break
     case classDefinitionBlock:
       //dataArray = type|classId
-      return {
-        id: uuidv4(),
-        classId: dataArray[1],
-        type: classDefinitionBlock,
-      };
+      resultJson.classId = dataArray[1]
+      break
     case classMethodBlock:
       //dataArray = type|classId|methodId
-      return {
-        id: uuidv4(),
-        type: classMethodBlock,
-        classId: dataArray[1],
-        methodId: dataArray[2],
-        children: [[], []],
-      };
+      resultJson.classId = dataArray[1]
+      resultJson.methodId = dataArray[2]
+      resultJson.children = [[],[]]
+      break
     case classFieldBlock:
-      return {
-        id: uuidv4(),
-        type: classFieldBlock,
-        classId: dataArray[1],
-        fieldId: dataArray[2],
-        children: [[]],
-      };
+      resultJson.classId = dataArray[1]
+      resultJson.fieldId = dataArray[2]
+      resultJson.children = [[]]
+      break
     case valueBlock:
       //dataArray = type
-      return {
-        id: uuidv4(),
-        type: valueBlock,
-        value: "",
-        valueType: "integers",
-        methodId: null,
-      };
+      resultJson.value=""
+      resultJson.valueType="integers"
+      resultJson.methodId = null;
+      break
     case returnBlock:
-      return {
-        id: uuidv4(),
-        type: returnBlock,
-        children: [[]],
-      };
+      resultJson.children = [[]]
+      break
     case arrowFunctionBlock:
-      return {
-        id: uuidv4(),
-        type: arrowFunctionBlock,
-        children: [[], []],
-      };
+      resultJson.children = [[],[]]
+      break
     case methodsBlock:
-      return {
-        id: uuidv4(),
-        type: methodsBlock,
-        name: dataArray[1],
-        children: [[], []],
-      };
+      resultJson.name = dataArray[1]
+      resultJson.children= [[],[]]
+      break
     case listOperation:
-      return{
-        id: uuidv4(),
-        type: listOperation,
-        subType: dataArray[1],
-        children: [[], []],
-      }
+      resultJson.subType = dataArray[1]
+      resultJson.children = [[],[]]
+      break
   }
+  return resultJson;
 }
