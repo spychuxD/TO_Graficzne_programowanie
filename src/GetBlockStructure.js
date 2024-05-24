@@ -11,6 +11,7 @@ import {
   endBlock,
   forBlock,
   ifElseBlock,
+  listOperation,
   methodsBlock,
   operatorsBlocks,
   returnBlock,
@@ -180,5 +181,12 @@ export default function GetBlockStructure(object) {
         name: dataArray[1],
         children: [[], []],
       };
+    case listOperation:
+      return{
+        id: uuidv4(),
+        type: listOperation,
+        subType: dataArray[1],
+        children: [[], []],
+      }
   }
 }

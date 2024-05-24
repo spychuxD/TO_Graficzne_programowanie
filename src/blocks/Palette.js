@@ -40,6 +40,7 @@ import {
   variableDeclarationBlock,
   variableTypesBlock,
   whileBlock,
+  listOperation,
 } from "../blockTypes";
 import ClassFieldBlock from "./ClassBlocks/ClassFieldBlock";
 import { DragOverlay } from "@dnd-kit/core";
@@ -52,6 +53,7 @@ import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
 import ArrowFunctionBlock from "./ArrowFunctionBlock";
 import { JSMethods } from "./MethodsBlock/Methods";
 import MethodsBlock from "./MethodsBlock/MethodsBlock";
+import ListOperation, { listAllOperations } from "./DataStructures/List/ListOperation";
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes.classes);
   const tabIndex = useSelector((state) => state.blocksTabs.index);
@@ -94,7 +96,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
-              Kliknij na blok, aby go dodać
+              Przeciągnij blok, aby go dodać
             </div>
           </div>
           <div
@@ -175,7 +177,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
-              Kliknij na blok, aby go dodać
+              Przeciągnij blok, aby go dodać
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
@@ -238,7 +240,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                     <div className="flex-row align-center justify-center">
                       <MdHelp color="#e3eef2" className="m-8"></MdHelp>
                       <div className="text-center text-xx-small">
-                        Kliknij na blok, aby go dodać
+                        Przeciągnij blok, aby go dodać
                       </div>
                     </div>
                     <div className="palette-blocks-container slideDown">
@@ -299,7 +301,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
-              Kliknij na blok, aby go dodać
+              Przeciągnij blok, aby go dodać
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
@@ -347,7 +349,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
-              Kliknij na blok, aby go dodać
+              Przeciągnij blok, aby go dodać
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
@@ -379,7 +381,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
-              Kliknij na blok, aby go dodać
+              Przeciągnij blok, aby go dodać
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
@@ -413,6 +415,38 @@ export default function Palette({ blocksState, setBlocksState }) {
                 ))}
               </div>
             ))}
+          </div>
+        </div>
+      ) : null}
+      <div className="list-header flex-row align-center justify-between">
+        <Button
+          fullWidth
+          startIcon={<MdBento size={24} className="mr-8" />}
+          onClick={() => handleCategory(7)}
+        >
+          <span className="">Struktury danych</span>
+        </Button>
+      </div>
+      {category?.includes(7) ? (
+        <div>
+          <div className="flex-row align-center justify-center">
+            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+            <div className="text-center text-xx-small">
+              Przeciągnij blok, aby go dodać
+            </div>
+          </div>
+          <div className="palette-blocks-container slideDown">
+            {
+              listAllOperations.map((v,k)=>(
+                <ListOperation
+                  id={listOperation+"|"+v.id}
+                  key={k}
+                  subType={v.id}
+                  data={v}
+                  palette={true}
+                />
+              ))
+            }
           </div>
         </div>
       ) : null}
