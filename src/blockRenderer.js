@@ -4,7 +4,6 @@ import {
   ifElseBlock,
   consoleLogBlock,
   variableBlock,
-  setOn,
   classDefinitionBlock,
   variableDeclarationBlock,
   variableTypesBlock,
@@ -15,7 +14,6 @@ import {
   valueBlock,
   classVariableDeclarationBlock,
   classVariableBlock,
-  returnBlock,
   arrowFunctionBlock,
   methodsBlock,
   standardBlock,
@@ -26,8 +24,6 @@ import OperatorsBlocks from "./blocks/OperatorsBlocks/OperatorsBlocks";
 import VariableBlock from "./blocks/VariableBlocks/VariableBlock";
 import VariableDeclarationBlock from "./blocks/VariableBlocks/VariableDeclarationBlock";
 import VariableTypesBlock from "./blocks/VariableBlocks/VariableTypesBlock";
-import SetOn from "./blocks/SetOn";
-import ConsoleLogBlock from "./blocks/ConsoleLogBlock";
 import ClassDataTypeBlock from "./blocks/ClassBlocks/ClassDataTypeBlock";
 import WhileBlock from "./blocks/WhileBlock";
 import DowhileBlock from "./blocks/DowhileBlock";
@@ -36,10 +32,8 @@ import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
 import ValueBlock from "./blocks/VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./blocks/ClassBlocks/ClassVariableDeclarationBlock";
 import ClassVariableBlock from "./blocks/ClassBlocks/ClassVariableBlock";
-import ReturnBlock from "./blocks/returnBlock";
 import ArrowFunctionBlock from "./blocks/ArrowFunctionBlock";
 import MethodsBlock from "./blocks/MethodsBlock/MethodsBlock";
-import ListOperation from "./blocks/StandardBlock";
 import StandardBlock from "./blocks/StandardBlock";
 export default function blockRenderer(store, index, isOverlay = false) {
   if (store === undefined) return;
@@ -54,8 +48,6 @@ export default function blockRenderer(store, index, isOverlay = false) {
       return <OperatorsBlocks {...store} key={index} isOverlay={isOverlay} />;
     case ifElseBlock:
       return <IfElseBlock {...store} key={index} isOverlay={isOverlay} />;
-    case consoleLogBlock:
-      return <ConsoleLogBlock {...store} key={index} isOverlay={isOverlay} />;
     case variableBlock:
       return <VariableBlock {...store} key={index} isOverlay={isOverlay} />;
     case variableDeclarationBlock:
@@ -74,8 +66,6 @@ export default function blockRenderer(store, index, isOverlay = false) {
           isOverlay={isOverlay}
         />
       );
-    case setOn:
-      return <SetOn {...store} key={index} isOverlay={isOverlay} />;
     case classDefinitionBlock:
       return (
         <ClassDataTypeBlock {...store} key={index} isOverlay={isOverlay} />
@@ -94,8 +84,6 @@ export default function blockRenderer(store, index, isOverlay = false) {
       return (
         <ClassVariableBlock {...store} key={index} isOverlay={isOverlay} />
       );
-    case returnBlock:
-      return <ReturnBlock {...store} key={index} isOverlay={isOverlay} />;
     case arrowFunctionBlock:
       return (
         <ArrowFunctionBlock {...store} key={index} isOverlay={isOverlay} />

@@ -17,10 +17,14 @@ const blocksTabsSlice = createSlice({
     setTabSlice(state,action){
       state.indexe=action.payload.data.index;
       state.tabs=action.payload.data.tabs;
+    },
+    resetTabSlice(state,action){
+      state.indexe=0;
+      state.tabs=[{name: "Sekcja", id: 1}];
     }
 
   }
 });
 
-export const { changeTab,setTabSlice,addTab} = blocksTabsSlice.actions;
+export const { changeTab,setTabSlice,addTab,resetTabSlice} = blocksTabsSlice.actions;
 export default blocksTabsSlice.reducer;

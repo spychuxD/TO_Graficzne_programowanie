@@ -19,9 +19,9 @@ export default function SectionRight(props) {
         text={
               isLanguage === "cpp"
             ? generateCppClassFromJson(jsonStructure,pageIndex)
-            : isLanguage === "js"
-            ? generateJavaScriptFromJson(jsonStructure)
-            : //: isLanguage === "python"
+            : //isLanguage === "js"
+            //? //generateJavaScriptFromJson(jsonStructure)
+            //: //: isLanguage === "python"
               //? generatePythonFromJson(jsonStructure)
               JSON.stringify(jsonStructure)
         }

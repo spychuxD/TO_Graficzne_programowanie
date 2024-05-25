@@ -279,6 +279,31 @@ const classesSlice = createSlice({
       state.classes=action.payload.data.classes;
       state.paths=action.payload.data.paths;
       state.variables=action.payload.data.variables;
+    },
+    resetClassSlices(state,action){
+      state.classes=[
+        {
+          id: "mainClass",
+          name: "mainClass",
+          fields: [],
+          constructors: [],
+          methods: [
+            {
+              id: "mainMethod",
+              visibility: "public",
+              name: "mainMethod",
+              children: [[], [], []],
+            },
+          ],
+        },
+      ];
+      state.paths=[
+        {
+          id: "mainMethod",
+          path: ["classes", "mainClass|-1", "methods"],
+        },
+      ];
+      state.variables=[];
     }
   },
 });
@@ -297,6 +322,7 @@ export const {
   changeClassElement,
   changeClassMethodVariable,
   deleteClassElement,
-  setClassSlice
+  setClassSlice,
+  resetClassSlices
 } = classesSlice.actions;
 export default classesSlice.reducer;

@@ -1,3 +1,4 @@
+//< List >
 export const iterator = {
   id: "iterator",
   texts: ["Iterator"],
@@ -68,6 +69,7 @@ export const listGetBack = {
     moveText: "Ostatni"    
 };
 
+//< Stadard >
 export const consoleOut = {
     id: "consoleOut",
     texts: ["Wyświetl"],
@@ -82,6 +84,9 @@ export const returnValue = {
     structureCPlusPLus: "return ?" ,
     moveText: "Zwróć"  
 };
+
+//< Operators >
+
 export const allBlockTypes = {
   listTypes: [
     iterator,

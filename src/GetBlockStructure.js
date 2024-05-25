@@ -58,10 +58,6 @@ export default function GetBlockStructure(object) {
       resultJson.name = "nowy_parametr"
       resultJson.children= [[]]
       break
-    case setOn:
-      //dataArray = type
-      resultJson.children= [[],[]]
-      break
     case consoleLogBlock:
       //dataArray = type
       resultJson.children= [[]]

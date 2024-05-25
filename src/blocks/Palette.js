@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import ForBlock from "./ForBlock";
 import VariableDeclarationBlock from "./VariableBlocks/VariableDeclarationBlock";
-import VariableBlock from "./VariableBlocks/VariableBlock";
 import VariableTypesBlock from "./VariableBlocks/VariableTypesBlock";
 import { CommonOperators, JSOperators } from "./OperatorsBlocks/Operators";
 import {
@@ -13,8 +12,6 @@ import { MdHelp } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { MdForkRight, MdBento, MdCalculate } from "react-icons/md";
 import IfElseBlock from "./IfElseBlock";
-import ConsoleLogBlock from "./ConsoleLogBlock";
-import SetOn from "./SetOn";
 import { useSelector } from "react-redux";
 import ClassDataTypeBlock from "./ClassBlocks/ClassDataTypeBlock";
 import WhileBlock from "./WhileBlock";
@@ -27,20 +24,15 @@ import {
   classMethodBlock,
   classVariableBlock,
   classVariableDeclarationBlock,
-  consoleLogBlock,
   dowhileBlock,
   forBlock,
   methodsBlock,
   ifElseBlock,
   operatorsBlocks,
-  returnBlock,
-  setOn,
   valueBlock,
-  variableBlock,
   variableDeclarationBlock,
   variableTypesBlock,
   whileBlock,
-  listOperation,
   standardBlock,
 } from "../blockTypes";
 import ClassFieldBlock from "./ClassBlocks/ClassFieldBlock";
@@ -49,12 +41,10 @@ import { createPortal } from "react-dom";
 import blockRenderer from "../blockRenderer";
 import ValueBlock from "./VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
-import ReturnBlock from "./returnBlock";
 import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
 import ArrowFunctionBlock from "./ArrowFunctionBlock";
 import { JSMethods } from "./MethodsBlock/Methods";
 import MethodsBlock from "./MethodsBlock/MethodsBlock";
-import ListOperation, { listAllOperations } from "./StandardBlock";
 import { allBlockTypes } from "../AllBlockTypes";
 import StandardBlock from "./StandardBlock";
 export default function Palette({ blocksState, setBlocksState }) {
@@ -130,27 +120,8 @@ export default function Palette({ blocksState, setBlocksState }) {
               setBlocksState={setBlocksState}
               palette={true}
             />
-            <ConsoleLogBlock
-              id={consoleLogBlock}
-              blocksState={blocksState}
-              setBlocksState={setBlocksState}
-              palette={true}
-            />
             <VariableDeclarationBlock
               id={variableDeclarationBlock}
-              blocksState={blocksState}
-              setBlocksState={setBlocksState}
-              palette={true}
-            />
-
-            <SetOn
-              id={setOn}
-              blocksState={blocksState}
-              setBlocksState={setBlocksState}
-              palette={true}
-            />
-            <ReturnBlock
-              id={returnBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
               palette={true}
@@ -432,13 +403,14 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
+      {isLanguage === "cpp"?(<Fragment>
       <div className="list-header flex-row align-center justify-between">
         <Button
           fullWidth
           startIcon={<MdBento size={24} className="mr-8" />}
           onClick={() => handleCategory(7)}
         >
-          <span className="">Struktury danych</span>
+          <span className="">Struktury danych C++</span>
         </Button>
       </div>
       {category?.includes(7) ? (
@@ -464,6 +436,8 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
+      </Fragment>
+      ):null}
       {createPortal(
         <DragOverlay dropAnimation={null}>
           {blockRenderer(dragOverlayData, 1, true)}

@@ -10,14 +10,17 @@ import {
 } from "react-icons/md";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLanguage, setLanguageSlice } from "../redux/slices/LanguageSettings";
+import {
+  changeLanguage,
+  setLanguageSlice,
+} from "../redux/slices/LanguageSettings";
 import { saveResut, sendRequest, setCompiler } from "../redux/slices/Compiler";
 import {
   generateAllCppFromJson,
   generateCppClassFromJson,
 } from "../CodeGenerators/CPlusPlusGenerator";
-import { setTabSlice } from "../redux/slices/BlocksTabs";
-import { setClassSlice } from "../redux/slices/Classes";
+import { resetTabSlice, setTabSlice } from "../redux/slices/BlocksTabs";
+import { resetClassSlices, setClassSlice } from "../redux/slices/Classes";
 import { setDraggSlice } from "../redux/slices/DraggableSettings";
 
 function Header({ tabs, setTabs, onAddClass }) {
@@ -37,12 +40,18 @@ function Header({ tabs, setTabs, onAddClass }) {
   const appState = useSelector((state) => state);
 
   const handleLanguageClick = (language) => {
-    dispatch(changeLanguage(language));
+    const confirmed = window.confirm("Czy zmienić język programowania? Spowoduje to usunięcie postępu");
+    if (confirmed) {
+      dispatch(resetClassSlices());
+      dispatch(resetTabSlice());
+      dispatch(changeLanguage(language));
+    }
+    
   };
 
   const onClickCompile = async () => {
     const code = generateAllCppFromJson(codeStructure);
-    debugger
+    debugger;
     const result = await sendRequest(isLanguage, code);
     dispatch(saveResut({ result: result }));
   };
@@ -57,11 +66,11 @@ function Header({ tabs, setTabs, onAddClass }) {
     link.click();
     document.body.removeChild(link);
   };
-  const onLoad = async () =>{
+  const onLoad = async () => {
     fileInputRef.current.click();
-  }
+  };
   const handleFileChange = (event) => {
-    debugger
+    debugger;
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -69,15 +78,15 @@ function Header({ tabs, setTabs, onAddClass }) {
         try {
           const json = JSON.parse(e.target.result);
           //setData(json);
-          console.log(json)
-          dispatch(setTabSlice({data:json.blocksTabs}))
-          dispatch(setClassSlice({data:json.classes}))
-          dispatch(setCompiler({data:json.compiler}))
-          dispatch(setDraggSlice({data:json.draggableSettings}))
-          dispatch(setLanguageSlice({data:json.languageSettings}))
-          debugger
+          console.log(json);
+          dispatch(setTabSlice({ data: json.blocksTabs }));
+          dispatch(setClassSlice({ data: json.classes }));
+          dispatch(setCompiler({ data: json.compiler }));
+          dispatch(setDraggSlice({ data: json.draggableSettings }));
+          dispatch(setLanguageSlice({ data: json.languageSettings }));
+          debugger;
         } catch (error) {
-          alert('Invalid JSON file');
+          alert("Invalid JSON file");
         }
       };
       reader.readAsText(file);
@@ -99,7 +108,13 @@ function Header({ tabs, setTabs, onAddClass }) {
             </Button>
           </div>
           <div>
-            <Button onClick={()=>{onLoad()}} variant="outlined" startIcon={<MdFileUpload />}>
+            <Button
+              onClick={() => {
+                onLoad();
+              }}
+              variant="outlined"
+              startIcon={<MdFileUpload />}
+            >
               <span>Wczytaj</span>
             </Button>
             <input
