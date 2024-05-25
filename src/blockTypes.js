@@ -1,3 +1,4 @@
+
 export const forBlock = "forBlock";
 export const whileBlock = "whileBlock";
 export const dowhileBlock = "dowhileBlock";
@@ -18,4 +19,5 @@ export const valueBlock = "valueBlock";
 export const returnBlock = "returnBlock";
 export const arrowFunctionBlock = "arrowFunctionBlock";
 export const methodsBlock = "methodsBlock";
-export const listOperation = "listOperation"
+export const listOperation = "listOperation";
+export const standardBlock = "standardBlock"

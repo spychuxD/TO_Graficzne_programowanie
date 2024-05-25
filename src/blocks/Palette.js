@@ -41,6 +41,7 @@ import {
   variableTypesBlock,
   whileBlock,
   listOperation,
+  standardBlock,
 } from "../blockTypes";
 import ClassFieldBlock from "./ClassBlocks/ClassFieldBlock";
 import { DragOverlay } from "@dnd-kit/core";
@@ -53,7 +54,9 @@ import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
 import ArrowFunctionBlock from "./ArrowFunctionBlock";
 import { JSMethods } from "./MethodsBlock/Methods";
 import MethodsBlock from "./MethodsBlock/MethodsBlock";
-import ListOperation, { listAllOperations } from "./DataStructures/List/ListOperation";
+import ListOperation, { listAllOperations } from "./StandardBlock";
+import { allBlockTypes } from "../AllBlockTypes";
+import StandardBlock from "./StandardBlock";
 export default function Palette({ blocksState, setBlocksState }) {
   const classes = useSelector((state) => state.classes.classes);
   const tabIndex = useSelector((state) => state.blocksTabs.index);
@@ -160,6 +163,17 @@ export default function Palette({ blocksState, setBlocksState }) {
                 palette={true}
               />
             )}
+            {
+              allBlockTypes?.standardTypes?.map((v,k)=>(
+                <StandardBlock
+                  id={standardBlock+"|"+v.id}
+                  key={k}
+                  subType={v.id}
+                  data={v}
+                  palette={true}
+                />
+              ))
+            }
           </div>
         </>
       ) : null}
@@ -437,9 +451,9 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
           <div className="palette-blocks-container slideDown">
             {
-              listAllOperations.map((v,k)=>(
-                <ListOperation
-                  id={listOperation+"|"+v.id}
+              allBlockTypes?.listTypes?.map((v,k)=>(
+                <StandardBlock
+                  id={standardBlock+"|"+v.id}
                   key={k}
                   subType={v.id}
                   data={v}

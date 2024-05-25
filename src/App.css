@@ -553,6 +553,10 @@ div {
   background-color: #c62828;
 }
 
+/* LIST */
+.bg-color-list{
+  background-color: #ad2a24;
+}
 /* ============================== Animacje ======================= */
 .slideDown {
   animation: slideDownAnimation 0.5s ease-out forwards;

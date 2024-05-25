@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
-import { classDefinitionBlock, classFieldBlock, classMethodBlock, classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, listOperation, operatorsBlocks, returnBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
-import { listAllOperations, listDataType, listGetBack, listGetByIndex, listGetFront, listPopBack, listPopFront, listPushBack, listPushFront } from "../blocks/DataStructures/List/ListOperation";
+import { classDefinitionBlock, classFieldBlock, classMethodBlock, classVariableBlock, consoleLogBlock, dowhileBlock, forBlock, ifElseBlock, listOperation, operatorsBlocks, returnBlock, standardBlock, valueBlock, variableDeclarationBlock, variableTypesBlock, whileBlock } from "../blockTypes";
+import { allBlockTypes,consoleOut,iterator, iteratorBegin, iteratorEnd, listDataType, listGetBack, listGetByIndex, listGetFront, listPopBack, listPopFront, listPushBack, listPushFront } from "../AllBlockTypes";;
 
 export function generateAllCppFromJson(json)
 {   
@@ -226,43 +225,21 @@ function traverse(json,obj,classObject,level,addSemicolon,adder) {
         result+= traverse(json,element.children[0],classObject,0,false,"")+"."
         result+= findedMethodForField?.name
         break;
-      case listOperation:
+      case standardBlock:
         debugger
-          const currentListOperation = listAllOperations.find(el=>el.id===element.subType)
+          const allElements = [...allBlockTypes.listTypes, ...allBlockTypes.standardTypes];
+          const elementStructre = allElements.find(el=>el.id===element.subType)
           result+= generateTabs(level)
-          switch(currentListOperation.id){
-            case listDataType.id:
-              result+= "std::list<"+traverse(json,element.children[0],classObject,0,false,"")+">"
-              break
-            case listPushFront.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+=".push_front("+traverse(json,element.children[1],classObject,0,false,"")+")"
-              break
-            case listPushBack.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+= ".push_back("+traverse(json,element.children[1],classObject,0,false,"")+")"
-              break
-            case listPopBack.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+= ".pop_back()"
-              break
-            case listPopFront.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+= ".pop_front()"
-              break
-            case listGetBack.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+= ".back()"
-              break
-            case listGetFront.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+= ".front()"
-              break
-            case listGetByIndex.id:
-              result+= traverse(json,element.children[0],classObject,0,false,"")
-              result+= "["+traverse(json,element.children[1],classObject,0,false,"")+"]"
-              break
-          }
+          const splitedCode = elementStructre.structureCPlusPLus.split("?");
+          let i = 0;
+          splitedCode.forEach((el=>{
+            result+=el;
+            if(elementStructre.id===consoleOut.id)
+              result+=traverse(json,element.children[i],classObject,0,false,"<<")
+            else
+              result+=traverse(json,element.children[i],classObject,0,false,"")
+            i++;
+          }))
         break
       default:
         result += "undefined";

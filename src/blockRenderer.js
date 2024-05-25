@@ -18,7 +18,7 @@ import {
   returnBlock,
   arrowFunctionBlock,
   methodsBlock,
-  listOperation,
+  standardBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
 import ForBlock from "./blocks/ForBlock";
@@ -39,7 +39,8 @@ import ClassVariableBlock from "./blocks/ClassBlocks/ClassVariableBlock";
 import ReturnBlock from "./blocks/returnBlock";
 import ArrowFunctionBlock from "./blocks/ArrowFunctionBlock";
 import MethodsBlock from "./blocks/MethodsBlock/MethodsBlock";
-import ListOperation from "./blocks/DataStructures/List/ListOperation";
+import ListOperation from "./blocks/StandardBlock";
+import StandardBlock from "./blocks/StandardBlock";
 export default function blockRenderer(store, index, isOverlay = false) {
   if (store === undefined) return;
   switch (store.type) {
@@ -101,8 +102,8 @@ export default function blockRenderer(store, index, isOverlay = false) {
       );
     case methodsBlock:
       return <MethodsBlock {...store} key={index} isOverlay={isOverlay} />;
-    case listOperation:
-      return <ListOperation {...store} key={index} isOverlay={isOverlay}/>
+    case standardBlock:
+      return <StandardBlock {...store} key={index} isOverlay={isOverlay}/>
       default:
       break;
   }

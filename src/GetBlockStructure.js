@@ -16,6 +16,7 @@ import {
   operatorsBlocks,
   returnBlock,
   setOn,
+  standardBlock,
   valueBlock,
   variableBlock,
   variableDeclarationBlock,
@@ -114,9 +115,9 @@ export default function GetBlockStructure(object) {
       resultJson.name = dataArray[1]
       resultJson.children= [[],[]]
       break
-    case listOperation:
+    case standardBlock:
       resultJson.subType = dataArray[1]
-      resultJson.children = [[],[]]
+      resultJson.children = [[],[],[],[],[],[],[],[]]
       break
   }
   return resultJson;
