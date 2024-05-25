@@ -554,8 +554,12 @@ div {
 }
 
 /* LIST */
-.bg-color-list{
+.bg-color-list {
   background-color: #ad2a24;
+}
+
+.bg-color-js-array {
+  background-color: #e0c71e;
 }
 /* ============================== Animacje ======================= */
 .slideDown {

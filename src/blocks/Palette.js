@@ -18,7 +18,6 @@ import WhileBlock from "./WhileBlock";
 import DowhileBlock from "./DowhileBlock";
 import ClassMethodBlock from "./ClassBlocks/ClassMethodBlock";
 import {
-  arrowFunctionBlock,
   classDefinitionBlock,
   classFieldBlock,
   classMethodBlock,
@@ -42,9 +41,6 @@ import blockRenderer from "../blockRenderer";
 import ValueBlock from "./VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
 import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
-import ArrowFunctionBlock from "./ArrowFunctionBlock";
-import { JSMethods } from "./MethodsBlock/Methods";
-import MethodsBlock from "./MethodsBlock/MethodsBlock";
 import { allBlockTypes } from "../AllBlockTypes";
 import StandardBlock from "./StandardBlock";
 export default function Palette({ blocksState, setBlocksState }) {
@@ -126,25 +122,26 @@ export default function Palette({ blocksState, setBlocksState }) {
               setBlocksState={setBlocksState}
               palette={true}
             />
-            {isLanguage === "js" && (
-              <ArrowFunctionBlock
-                id={arrowFunctionBlock}
-                blocksState={blocksState}
-                setBlocksState={setBlocksState}
+            {isLanguage === "js"
+              ? allBlockTypes?.js?.map((v, k) => (
+                  <StandardBlock
+                    id={standardBlock + "|" + v.id}
+                    subType={v.id}
+                    data={v}
+                    palette={true}
+                    key={k}
+                  />
+                ))
+              : null}
+            {allBlockTypes?.standardTypes?.map((v, k) => (
+              <StandardBlock
+                id={standardBlock + "|" + v.id}
+                key={k}
+                subType={v.id}
+                data={v}
                 palette={true}
               />
-            )}
-            {
-              allBlockTypes?.standardTypes?.map((v,k)=>(
-                <StandardBlock
-                  id={standardBlock+"|"+v.id}
-                  key={k}
-                  subType={v.id}
-                  data={v}
-                  palette={true}
-                />
-              ))
-            }
+            ))}
           </div>
         </>
       ) : null}
@@ -320,37 +317,6 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-      <div className="list-header">
-        <Button
-          fullWidth
-          startIcon={<MdCalculate size={24} className="mr-8" />}
-          onClick={() => handleCategory(5)}
-        >
-          <span className="">Funkcje</span>
-        </Button>
-      </div>
-      {category?.includes(5) ? (
-        <div>
-          <div className="flex-row align-center justify-center">
-            <MdHelp color="#e3eef2" className="m-8"></MdHelp>
-            <div className="text-center text-xx-small">
-              Przeciągnij blok, aby go dodać
-            </div>
-          </div>
-          <div className="palette-blocks-container slideDown">
-            {isLanguage === "js"
-              ? Object.keys(JSMethods).map((name, index) => (
-                  <MethodsBlock
-                    id={methodsBlock + "|" + name}
-                    palette={true}
-                    name={name}
-                    key={index}
-                  />
-                ))
-              : null}
-          </div>
-        </div>
-      ) : null}
 
       <div className="list-header flex-row align-center justify-between">
         <Button
@@ -403,17 +369,52 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-      {isLanguage === "cpp"?(<Fragment>
-      <div className="list-header flex-row align-center justify-between">
-        <Button
-          fullWidth
-          startIcon={<MdBento size={24} className="mr-8" />}
-          onClick={() => handleCategory(7)}
-        >
-          <span className="">Struktury danych C++</span>
-        </Button>
-      </div>
-      {category?.includes(7) ? (
+      {isLanguage === "cpp" ? (
+        <Fragment>
+          <div className="list-header flex-row align-center justify-between">
+            <Button
+              fullWidth
+              startIcon={<MdBento size={24} className="mr-8" />}
+              onClick={() => handleCategory(7)}
+            >
+              <span className="">Struktury danych C++</span>
+            </Button>
+          </div>
+          {category?.includes(7) ? (
+            <div>
+              <div className="flex-row align-center justify-center">
+                <MdHelp color="#e3eef2" className="m-8"></MdHelp>
+                <div className="text-center text-xx-small">
+                  Przeciągnij blok, aby go dodać
+                </div>
+              </div>
+              <div className="palette-blocks-container slideDown">
+                {allBlockTypes?.listTypes?.map((v, k) => (
+                  <StandardBlock
+                    id={standardBlock + "|" + v.id}
+                    key={k}
+                    subType={v.id}
+                    data={v}
+                    palette={true}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </Fragment>
+      ) : null}
+      {isLanguage === "js" ? (
+        <div className="list-header">
+          <Button
+            fullWidth
+            startIcon={<MdBento size={24} className="mr-8" />}
+            onClick={() => handleCategory(8)}
+          >
+            <span className="">Metody</span>
+          </Button>
+        </div>
+      ) : null}
+      {category?.includes(8) ? (
         <div>
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
@@ -422,22 +423,20 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {
-              allBlockTypes?.listTypes?.map((v,k)=>(
-                <StandardBlock
-                  id={standardBlock+"|"+v.id}
-                  key={k}
-                  subType={v.id}
-                  data={v}
-                  palette={true}
-                />
-              ))
-            }
+            {isLanguage === "js"
+              ? allBlockTypes?.arrayMethods?.map((v, index) => (
+                  <StandardBlock
+                    id={standardBlock + "|" + v.id}
+                    palette={true}
+                    key={index}
+                    data={v}
+                    subType={v.id}
+                  />
+                ))
+              : null}
           </div>
         </div>
       ) : null}
-      </Fragment>
-      ):null}
       {createPortal(
         <DragOverlay dropAnimation={null}>
           {blockRenderer(dragOverlayData, 1, true)}

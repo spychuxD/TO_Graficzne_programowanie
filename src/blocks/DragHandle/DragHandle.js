@@ -25,6 +25,8 @@ function DragHandle(props) {
         variableName: props.variableName,
         classId: props.classId,
         methodId: props.methodId,
+        data: props.data,
+        subType: props.subType,
       })
     );
   }, [dispatch, isDragging]);

@@ -3,7 +3,7 @@ import DragHandle from "./DragHandle/DragHandle";
 import MainDroppable from "../components/MainDroppable";
 import blockRenderer from "../blockRenderer";
 import { Fragment } from "react";
-import { allBlockTypes } from "../AllBlockTypes";
+import { allBlockTypes, nextLine } from "../AllBlockTypes";
 
 /*export const iterator = {
   id: "iterator",
@@ -59,43 +59,49 @@ export const listGetByIndex = {
 ];
 */
 export default function StandardBlock(props) {
-  const allElements = [...allBlockTypes.listTypes, ...allBlockTypes.standardTypes];
+  const allElements = [
+    ...allBlockTypes.listTypes,
+    ...allBlockTypes.standardTypes,
+    ...allBlockTypes.arrayMethods,
+    ...allBlockTypes.js,
+  ];
   const objectType = allElements.find((el) => el.id === props.subType);
 
   return (
     <DragHandle
       {...props}
       type={standardBlock}
-      className={"control-block "+objectType?.styleClass}
+      className={"control-block " + objectType?.styleClass}
     >
       {(!props.isDragging && !props.isOverlay) || props.palette ? (
         <div className="control-block-without-shadow  text-nowrap">
           {objectType?.texts?.map((v, k) => (
             <Fragment>
               &nbsp;{v}&nbsp;
-              <MainDroppable
-                dropId={props.id + "|" + k}
-                disabled={props.palette}
-              >
-                <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">
-                  {props.children
-                    ? props.children[k]?.map((item, index) =>
-                        blockRenderer(item, index)
-                      )
-                    : null}
-                </div>
-              </MainDroppable>
+              {objectType.id !== nextLine.id ? (
+                <MainDroppable
+                  dropId={props.id + "|" + k}
+                  disabled={props.palette}
+                >
+                  <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">
+                    {props.children
+                      ? props.children[k]?.map((item, index) =>
+                          blockRenderer(item, index)
+                        )
+                      : null}
+                  </div>
+                </MainDroppable>
+              ) : null}
             </Fragment>
           ))}
         </div>
       ) : (
-        <div className={"control-block-without-shadow "+objectType?.styleClass}>
-
-            <div className="text-bold text-white text-nowrap">
-              Element
-              {objectType?.moveText}
-            </div>
-       
+        <div
+          className={"control-block-without-shadow " + objectType?.styleClass}
+        >
+          <div className="text-bold text-white text-nowrap">
+            {objectType?.moveText}
+          </div>
         </div>
       )}
     </DragHandle>

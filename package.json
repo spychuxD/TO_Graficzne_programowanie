@@ -48,5 +48,15 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://api.jdoodle.com"
+  "devServer": {
+    "proxy": {
+      "/api": {
+        "target": "https://api.jdoodle.com",
+        "secure": false
+      }
+    },
+    "allowedHosts": [
+      ""
+    ]
+  }
 }

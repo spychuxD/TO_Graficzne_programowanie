@@ -14,6 +14,8 @@ function ClassEditorBlock({ reduxClassId }) {
   const classObjest = useSelector((state) =>
     state.classes.classes.find((c) => c.id === reduxClassId)
   );
+  const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+
   const dispatch = useDispatch();
 
   const onAddField = () => {
@@ -22,9 +24,10 @@ function ClassEditorBlock({ reduxClassId }) {
   const onAddMethods = () => {
     dispatch(createMethod({ id: reduxClassId }));
   };
-  const onAddContructor = () =>{
-    dispatch(createConstructor({id:reduxClassId}));
-  }
+  const onAddContructor = () => {
+    if (isLanguage === "js" && classObjest.constructors.length > 0) return;
+    dispatch(createConstructor({ id: reduxClassId }));
+  };
   return (
     <div className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10">
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
@@ -56,10 +59,19 @@ function ClassEditorBlock({ reduxClassId }) {
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
         {classObjest.constructors.map((item, index) => (
           <div className="item-container p-8" key={index}>
-            <ClassMethodBodyBlock constructor={true} {...item} classObject={classObjest} />
+            <ClassMethodBodyBlock
+              constructor={true}
+              {...item}
+              classObject={classObjest}
+            />
           </div>
         ))}
         <button
+          disabled={
+            isLanguage === "js" && classObjest.constructors.length > 0
+              ? true
+              : false
+          }
           className="button"
           style={{ position: "relative" }}
           onClick={() => onAddContructor()}

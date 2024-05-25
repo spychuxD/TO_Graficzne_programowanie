@@ -19,6 +19,8 @@ export default function ClassMethodBodyBlock(props) {
       changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
     );
   };
+  const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+
   const classFields = useSelector((state) => state.classes.classes);
   const variables = useSelector((state) => state.classes.variables);
   const [isVisable, setIsVisable] = useState(false);
@@ -43,20 +45,26 @@ export default function ClassMethodBodyBlock(props) {
           <option value="public">
             {props.constructor == true ? "publiczny" : "publiczna"}
           </option>
-          <option value="protected">
-            {props.constructor == true ? "chroniony" : "chroniona"}
-          </option>
+          {isLanguage != "js" ? (
+            <option value="protected">
+              {props.constructor == true ? "chroniony" : "chroniona"}
+            </option>
+          ) : null}
         </select>
         {props.constructor == true ? null : (
           <Fragment>
-            &nbsp;typu&nbsp;
-            <MainDroppable dropId={props.id + "|0"}>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
-                {props.children[0].map((item, index) =>
-                  blockRenderer(item, index)
-                )}
-              </div>
-            </MainDroppable>
+            {isLanguage != "js" ? (
+              <>
+                &nbsp;typu&nbsp;
+                <MainDroppable dropId={props.id + "|0"}>
+                  <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+                    {props.children[0].map((item, index) =>
+                      blockRenderer(item, index)
+                    )}
+                  </div>
+                </MainDroppable>
+              </>
+            ) : null}
             &nbsp;o nazwie&nbsp;
             <input
               value={props.name}
@@ -98,7 +106,7 @@ export default function ClassMethodBodyBlock(props) {
                 deleteMethod({
                   classId: props.classObject.id,
                   methodId: props.id,
-                  isConstructor: props.constructor
+                  isConstructor: props.constructor,
                 })
               );
             }}

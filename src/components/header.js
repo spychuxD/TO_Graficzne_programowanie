@@ -22,7 +22,7 @@ import {
 import { resetTabSlice, setTabSlice } from "../redux/slices/BlocksTabs";
 import { resetClassSlices, setClassSlice } from "../redux/slices/Classes";
 import { setDraggSlice } from "../redux/slices/DraggableSettings";
-
+import { generateJSFromJson } from "../CodeGenerators/JavaScriptGenerator";
 function Header({ tabs, setTabs, onAddClass }) {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
@@ -40,19 +40,27 @@ function Header({ tabs, setTabs, onAddClass }) {
   const appState = useSelector((state) => state);
 
   const handleLanguageClick = (language) => {
-    const confirmed = window.confirm("Czy zmienić język programowania? Spowoduje to usunięcie postępu");
+    const confirmed = window.confirm(
+      "Czy zmienić język programowania? Spowoduje to usunięcie postępu"
+    );
     if (confirmed) {
       dispatch(resetClassSlices());
       dispatch(resetTabSlice());
       dispatch(changeLanguage(language));
     }
-    
   };
 
   const onClickCompile = async () => {
-    const code = generateAllCppFromJson(codeStructure);
-    debugger;
-    const result = await sendRequest(isLanguage, code);
+    let code;
+    if (isLanguage === "cpp") code = generateAllCppFromJson(codeStructure);
+    else if (isLanguage === "js") code = generateJSFromJson(codeStructure);
+    console.log(code);
+    //debugger;
+    const result = await sendRequest(
+      isLanguage === "js" ? "node" + isLanguage : isLanguage,
+      code,
+      isLanguage === "js" ? "4" : isLanguage === "cpp" ? "0" : ""
+    );
     dispatch(saveResut({ result: result }));
   };
   const onSave = async () => {

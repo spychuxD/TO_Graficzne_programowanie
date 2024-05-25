@@ -2,7 +2,6 @@ import {
   operatorsBlocks,
   forBlock,
   ifElseBlock,
-  consoleLogBlock,
   variableBlock,
   classDefinitionBlock,
   variableDeclarationBlock,
@@ -14,8 +13,6 @@ import {
   valueBlock,
   classVariableDeclarationBlock,
   classVariableBlock,
-  arrowFunctionBlock,
-  methodsBlock,
   standardBlock,
 } from "./blockTypes";
 import IfElseBlock from "./blocks/IfElseBlock";
@@ -32,8 +29,6 @@ import ClassFieldBlock from "./blocks/ClassBlocks/ClassFieldBlock";
 import ValueBlock from "./blocks/VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./blocks/ClassBlocks/ClassVariableDeclarationBlock";
 import ClassVariableBlock from "./blocks/ClassBlocks/ClassVariableBlock";
-import ArrowFunctionBlock from "./blocks/ArrowFunctionBlock";
-import MethodsBlock from "./blocks/MethodsBlock/MethodsBlock";
 import StandardBlock from "./blocks/StandardBlock";
 export default function blockRenderer(store, index, isOverlay = false) {
   if (store === undefined) return;
@@ -84,15 +79,9 @@ export default function blockRenderer(store, index, isOverlay = false) {
       return (
         <ClassVariableBlock {...store} key={index} isOverlay={isOverlay} />
       );
-    case arrowFunctionBlock:
-      return (
-        <ArrowFunctionBlock {...store} key={index} isOverlay={isOverlay} />
-      );
-    case methodsBlock:
-      return <MethodsBlock {...store} key={index} isOverlay={isOverlay} />;
     case standardBlock:
-      return <StandardBlock {...store} key={index} isOverlay={isOverlay}/>
-      default:
+      return <StandardBlock {...store} key={index} isOverlay={isOverlay} />;
+    default:
       break;
   }
 }
