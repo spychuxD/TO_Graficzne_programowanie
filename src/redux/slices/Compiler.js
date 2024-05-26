@@ -29,14 +29,14 @@ export async function sendRequest(lang, code, versionIndex) {
     return response.data;
   } catch (error) {
     console.error("Error executing code:", error);
-    return error.response;
+    return error.message;
   }
 }
 
 const compilerSlice = createSlice({
   name: "compiler",
   initialState: {
-    compileResult: "test",
+    compileResult: "",
   },
   reducers: {
     saveResut(state, action) {

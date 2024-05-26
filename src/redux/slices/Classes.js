@@ -9,15 +9,9 @@ import {
   updateObjectPath,
   updateRelatedPaths,
   findRelatedPaths,
-  updateElementByIdRecursive,
 } from "../PathOperationsLib";
 import GetBlockStructure from "../../GetBlockStructure";
-import {
-  classVariableBlock,
-  classVariableDeclarationBlock,
-  valueBlock,
-  variableDeclarationBlock,
-} from "../../blockTypes";
+import { classVariableBlock, variableDeclarationBlock } from "../../blockTypes";
 
 function findById(startState, classId) {
   return startState.find((cl) => cl.id === classId);
@@ -215,8 +209,7 @@ const classesSlice = createSlice({
         });
         //
         if (
-          (objectValue.type === variableDeclarationBlock ||
-            objectValue.type === valueBlock) &&
+          objectValue.type === variableDeclarationBlock &&
           (pathTo[2] === "methods" || pathTo[2] === "constructors")
         ) {
           objectValue.methodId = pathTo[3].split("|")[0];
@@ -275,13 +268,13 @@ const classesSlice = createSlice({
         }
       });
     },
-    setClassSlice(state,action){
-      state.classes=action.payload.data.classes;
-      state.paths=action.payload.data.paths;
-      state.variables=action.payload.data.variables;
+    setClassSlice(state, action) {
+      state.classes = action.payload.data.classes;
+      state.paths = action.payload.data.paths;
+      state.variables = action.payload.data.variables;
     },
-    resetClassSlices(state,action){
-      state.classes=[
+    resetClassSlices(state, action) {
+      state.classes = [
         {
           id: "mainClass",
           name: "mainClass",
@@ -297,14 +290,14 @@ const classesSlice = createSlice({
           ],
         },
       ];
-      state.paths=[
+      state.paths = [
         {
           id: "mainMethod",
           path: ["classes", "mainClass|-1", "methods"],
         },
       ];
-      state.variables=[];
-    }
+      state.variables = [];
+    },
   },
 });
 
@@ -323,6 +316,6 @@ export const {
   changeClassMethodVariable,
   deleteClassElement,
   setClassSlice,
-  resetClassSlices
+  resetClassSlices,
 } = classesSlice.actions;
 export default classesSlice.reducer;

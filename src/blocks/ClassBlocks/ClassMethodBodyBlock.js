@@ -30,33 +30,36 @@ export default function ClassMethodBodyBlock(props) {
         className="w-full flex-row text-nowrap"
         style={{ overflow: "auto", alignItems: "center" }}
       >
-        <p>{props.constructor == true ? "Konstruktor" : "Metoda"}</p>
+        <p>{props.constructor === true ? "Konstruktor" : "Metoda"}</p>
         &nbsp;
-        <select
-          className="block-input"
-          onMouseEnter={() => {
-            if (!props.palette) dispatch(toggleDisableDraggable());
-          }}
-          onMouseLeave={() => {
-            if (!props.palette) dispatch(toggleDisableDraggable());
-          }}
-          onChange={(e) => onChangeElement("visibility", e)}
-        >
-          <option value="private">
-            {props.constructor == true ? "prywatny" : "prywatna"}
-          </option>
-          <option value="public">
-            {props.constructor == true ? "publiczny" : "publiczna"}
-          </option>
-          {isLanguage != "js" ? (
-            <option value="protected">
-              {props.constructor == true ? "chroniony" : "chroniona"}
+        {(props.constructor !== true && isLanguage === "js") ||
+        isLanguage !== "js" ? (
+          <select
+            className="block-input"
+            onMouseEnter={() => {
+              if (!props.palette) dispatch(toggleDisableDraggable());
+            }}
+            onMouseLeave={() => {
+              if (!props.palette) dispatch(toggleDisableDraggable());
+            }}
+            onChange={(e) => onChangeElement("visibility", e)}
+          >
+            <option value="private">
+              {props.constructor === true ? "prywatny" : "prywatna"}
             </option>
-          ) : null}
-        </select>
-        {props.constructor == true ? null : (
+            <option value="public">
+              {props.constructor === true ? "publiczny" : "publiczna"}
+            </option>
+            {isLanguage !== "js" ? (
+              <option value="protected">
+                {props.constructor === true ? "chroniony" : "chroniona"}
+              </option>
+            ) : null}
+          </select>
+        ) : null}
+        {props.constructor === true ? null : (
           <Fragment>
-            {isLanguage != "js" ? (
+            {isLanguage !== "js" ? (
               <>
                 &nbsp;typu&nbsp;
                 <MainDroppable dropId={props.id + "|0"}>

@@ -1,9 +1,9 @@
 import "../../App.css";
 import { valueBlock } from "../../blockTypes";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import DragHandle from "../DragHandle/DragHandle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeClassElement } from "../../redux/slices/Classes";
 
 export default function ValueBlock(props) {
@@ -13,6 +13,8 @@ export default function ValueBlock(props) {
       changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
     );
   };
+  const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+
   return (
     <Fragment>
       <DragHandle
@@ -29,7 +31,7 @@ export default function ValueBlock(props) {
               placeholder="Podaj wartość"
               className="block-input"
               type="text"
-              defaultValue={props.name}
+              defaultValue={props.value}
               onMouseEnter={() => {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}
@@ -48,10 +50,19 @@ export default function ValueBlock(props) {
               }}
               onChange={(e) => onChangeElement("valueType", e)}
             >
-              <option value="integers">całkowitego</option>
-              <option value="rationals">rzeczywisego</option>
-              <option value="boolean">logicznego</option>
-              <option value="text">tekstowego</option>
+              {isLanguage === "js" ? (
+                <>
+                  <option value="integers">inne</option>
+                  <option value="text">tekstowego</option>
+                </>
+              ) : (
+                <>
+                  <option value="integers">całkowitego</option>
+                  <option value="rationals">rzeczywistego</option>
+                  <option value="boolean">logicznego</option>
+                  <option value="text">tekstowego</option>
+                </>
+              )}
             </select>
           </Fragment>
         ) : (

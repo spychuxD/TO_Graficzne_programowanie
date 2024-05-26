@@ -16,6 +16,11 @@ function ClassFieldBodyBlock(props) {
       changeClassElement({ id: props.id, fieldToModify, value: e.target.value })
     );
   };
+  const fieldObject = useSelector((state) =>
+    state.classes.classes
+      .find((cl) => cl.id === props.classObject.id)
+      ?.fields.find((fi) => fi.id === props.id)
+  );
   return (
     <div className="blocks-container control-block bg-color-7 w-full text-nowrap">
       &nbsp;Pole&nbsp;
@@ -28,14 +33,15 @@ function ClassFieldBodyBlock(props) {
           if (!props.palette) dispatch(toggleDisableDraggable());
         }}
         onChange={(e) => onChangeElement("visibility", e)}
+        value={fieldObject.visibility}
       >
         <option value="private">prywatne</option>
         <option value="public">publiczne</option>
-        {isLanguage != "js" ? (
+        {isLanguage !== "js" ? (
           <option value="protected">chronione</option>
         ) : null}
       </select>
-      {isLanguage != "js" ? (
+      {isLanguage !== "js" ? (
         <>
           &nbsp;typu&nbsp;
           <MainDroppable dropId={props.id + "|0"}>
@@ -63,7 +69,7 @@ function ClassFieldBodyBlock(props) {
         placeholder="Nazwa Zmiennej"
         className="block-input"
         type="text"
-        defaultValue={props.variableName}
+        defaultValue={fieldObject.name}
       />
       &nbsp;
       <Button
