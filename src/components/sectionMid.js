@@ -8,6 +8,7 @@ import MainDroppable from "./MainDroppable";
 import { useSelector } from "react-redux";
 import OrderDroppable from "./OrderDroppable";
 import { useDispatch } from "react-redux";
+import { FaTrashCan } from "react-icons/fa6";
 
 import blockRenderer from "../blockRenderer";
 import ClassEditorBlock from "../blocks/ClassBlocks/ClassEditorBlock";
@@ -24,7 +25,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box>
           <Typography component={"span"}>{children}</Typography>
         </Box>
       )}
@@ -59,21 +60,56 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
 
   return (
     <div className="sectionMid">
-      <div sx={{ width: "100%" }}>
-        <div sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={tabIndex}
-            onChange={handleChange}
-            aria-label="basic tabs example"
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+          }}
+        >
+          <div
+            style={{
+              borderBottom: 1,
+              borderColor: "divider",
+              width: "90%",
+            }}
           >
-            {tabs.map((item, index) => (
-              <Tab
-                key={index}
-                label={`${item.name} ${index}`}
-                {...a11yProps(index)}
-              />
-            ))}
-          </Tabs>
+            <Tabs
+              value={tabIndex}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              variant="scrollable"
+              scrollButtons
+            >
+              {tabs.map((item, index) => (
+                <Tab
+                  key={index}
+                  label={`${item.name} ${index}`}
+                  {...a11yProps(index)}
+                />
+              ))}
+            </Tabs>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignSelf: "flex-end",
+              width: "10%",
+            }}
+          >
+            <MainDroppable dropId={"deleteId"}>
+              <FaTrashCan color="#e3eef2" size={42}></FaTrashCan>
+              <div className="text-center text-xx-small">
+                Przenieś aby usunąć
+              </div>
+            </MainDroppable>
+          </div>
         </div>
         {tabs.map((item, index) => (
           <CustomTabPanel value={tabIndex} index={index} key={index}>
@@ -83,27 +119,11 @@ function SectionMid({ stores, setStores, tabs, setTabs }) {
                   {mainMethod.children[2].map((store, index) =>
                     blockRenderer(store)
                   )}
-                  test
                 </MainDroppable>
               </Fragment>
             ) : (
               <ClassEditorBlock reduxClassId={item.id} />
             )}
-            <div style={{ position: "absolute", right: 30, top: 30 }}>
-              <MainDroppable dropId={"deleteId"}>
-                <div
-                  className="blocks-container"
-                  style={{
-                    width: 90,
-                    height: 70,
-                    backgroundColor: "red",
-                    borderRadius: 10,
-                  }}
-                >
-                  Przenieś aby usunąć
-                </div>
-              </MainDroppable>
-            </div>
           </CustomTabPanel>
         ))}
       </div>

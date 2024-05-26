@@ -77,6 +77,7 @@ export const consoleOut = {
   structureCPlusPLus: "std::cout<< ? <<std::endl",
   structureJS: "console.log( ? )",
   moveText: "Wyświetl",
+  appendBeforeTraverseInJSGenerator: true,
 };
 export const returnValue = {
   id: "returnValue",
@@ -85,6 +86,7 @@ export const returnValue = {
   structureCPlusPLus: "return ?",
   structureJS: "return ?",
   moveText: "Zwróć",
+  appendBeforeTraverseInJSGenerator: true,
 };
 export const push = {
   id: "push",
@@ -176,6 +178,7 @@ export const arrowFunction = {
   styleClass: "bg-color-js-array",
   structureJS: "( ? )=>( ? )",
   moveText: "funkcja strzałkowa",
+  appendBeforeTraverseInJSGenerator: true,
 };
 export const nextLine = {
   id: "nextLine",
@@ -183,6 +186,7 @@ export const nextLine = {
   styleClass: "bg-color-js-array",
   structureJS: '"\\n"',
   moveText: "następna linia",
+  disableMainDroppable: true,
 };
 
 //< Operators >

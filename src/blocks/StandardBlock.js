@@ -59,13 +59,9 @@ export const listGetByIndex = {
 ];
 */
 export default function StandardBlock(props) {
-  const allElements = [
-    ...allBlockTypes.listTypes,
-    ...allBlockTypes.standardTypes,
-    ...allBlockTypes.arrayMethods,
-    ...allBlockTypes.js,
-  ];
-  const objectType = allElements.find((el) => el.id === props.subType);
+  const objectType = Object.values(allBlockTypes)
+    .flat()
+    .find((el) => el.id === props.subType);
 
   return (
     <DragHandle
@@ -78,7 +74,7 @@ export default function StandardBlock(props) {
           {objectType?.texts?.map((v, k) => (
             <Fragment>
               &nbsp;{v}&nbsp;
-              {objectType.id !== nextLine.id ? (
+              {!objectType?.disableMainDroppable ? (
                 <MainDroppable
                   dropId={props.id + "|" + k}
                   disabled={props.palette}

@@ -350,24 +350,14 @@ function traverse(json, obj, classObject, level, addSemicolon, adder) {
         result += findedMethodForField?.name;
         break;
       case standardBlock:
-        const allElements = [
-          ...allBlockTypes.standardTypes,
-          ...allBlockTypes.arrayMethods,
-          ...allBlockTypes.js,
-        ];
-
-        const elementStructure = allElements.find(
-          (el) => el.id === element.subType
-        );
+        const elementStructure = Object.values(allBlockTypes)
+          .flat()
+          .find((el) => el.id === element.subType);
         result += generateTabs(level);
         const splitedCode = elementStructure.structureJS.split("?");
         let i = 0;
         splitedCode.forEach((el) => {
-          if (
-            elementStructure.id === consoleOut.id ||
-            elementStructure.id === arrowFunction.id ||
-            elementStructure.id === returnValue.id
-          ) {
+          if (elementStructure.appendBeforeTraverseInJSGenerator === true) {
             result += el;
 
             result += traverse(

@@ -86,7 +86,7 @@ function Header({ tabs, setTabs, onAddClass }) {
         try {
           const json = JSON.parse(e.target.result);
           //setData(json);
-          console.log(json);
+          //console.log(json);
           dispatch(setTabSlice({ data: json.blocksTabs }));
           dispatch(setClassSlice({ data: json.classes }));
           dispatch(setCompiler({ data: json.compiler }));

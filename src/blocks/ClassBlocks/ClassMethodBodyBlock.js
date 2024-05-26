@@ -26,8 +26,11 @@ export default function ClassMethodBodyBlock(props) {
   const [isVisable, setIsVisable] = useState(false);
   return (
     <div className="blocks-container control-block bg-color-13 flex-col">
-      <div className="w-full flex-row center text-nowrap">
-        {props.constructor == true ? "Konstruktor" : "Metoda"}
+      <div
+        className="w-full flex-row text-nowrap"
+        style={{ overflow: "auto", alignItems: "center" }}
+      >
+        <p>{props.constructor == true ? "Konstruktor" : "Metoda"}</p>
         &nbsp;
         <select
           className="block-input"
@@ -162,7 +165,10 @@ export default function ClassMethodBodyBlock(props) {
           <div style={{ width: "75%" }}>
             Ciało metody
             <MainDroppable dropId={props.id + "|2"}>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
+              <div
+                className="w-min-50px w-full bg-color-if-condition h-20px b-r-10"
+                style={{ overflow: "auto" }}
+              >
                 {props.children[2].map((item, index) =>
                   blockRenderer(item, index)
                 )}

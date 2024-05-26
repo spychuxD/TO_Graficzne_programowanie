@@ -29,7 +29,10 @@ function ClassEditorBlock({ reduxClassId }) {
     dispatch(createConstructor({ id: reduxClassId }));
   };
   return (
-    <div className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10">
+    <div
+      className="border-r-10 bg-color-class blocks-container flex-col p-16 gap-10"
+      //style={{ backgroundColor: "red", width: "100%" }}
+    >
       <div style={{ display: "flex", padding: 10, gap: 10 }}>
         <div className="text-bold text-white">Klasa</div>
         <input
@@ -58,7 +61,11 @@ function ClassEditorBlock({ reduxClassId }) {
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
         {classObjest.constructors.map((item, index) => (
-          <div className="item-container p-8" key={index}>
+          <div
+            className="item-container p-8"
+            key={index}
+            style={{ width: "100%" }}
+          >
             <ClassMethodBodyBlock
               constructor={true}
               {...item}
@@ -81,7 +88,11 @@ function ClassEditorBlock({ reduxClassId }) {
       </div>
       <div className="border-r-10 blocks-container bg-color-classButton w-full align-center justify-center flex-col p-8">
         {classObjest.methods.map((item, index) => (
-          <div className="item-container p-8" key={index}>
+          <div
+            className="item-container p-8"
+            style={{ width: "100%" }}
+            key={index}
+          >
             <ClassMethodBodyBlock {...item} classObject={classObjest} />
           </div>
         ))}
