@@ -8,7 +8,7 @@ function IfElseBlock(props) {
   return (
     <Fragment>
       <DragHandle {...props} type={ifElseBlock}>
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="control-block bg-color-if">
             <div className="flex-col gap-10 center w-full">
               <div className="flex-row center w-full">

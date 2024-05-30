@@ -208,6 +208,11 @@
   border-radius: 10px;
   padding: 5px 10px 5px 10px;
 }
+.reflect-input {
+  width: clamp(1px, 10rem, 80%);
+  border-radius: 10px;
+  padding: 5px 10px 5px 10px;
+}
 .block-input-blocked {
   border-radius: 10px;
   padding: 5px 10px 5px 10px;

@@ -1,6 +1,6 @@
 import "../../App.css";
 import { valueBlock } from "../../blockTypes";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { toggleDisableDraggable } from "../../redux/slices/DraggableSettings";
 import DragHandle from "../DragHandle/DragHandle";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,7 @@ export default function ValueBlock(props) {
         type={valueBlock}
         className={"control-block bg-color-start"}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <Fragment>
             <div className="text-bold text-small text-white">Wartość</div>
             <input

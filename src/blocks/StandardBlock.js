@@ -1,9 +1,10 @@
-import { listOperation, standardBlock } from "../blockTypes";
+import { standardBlock } from "../blockTypes";
 import DragHandle from "./DragHandle/DragHandle";
 import MainDroppable from "../components/MainDroppable";
 import blockRenderer from "../blockRenderer";
 import { Fragment } from "react";
-import { allBlockTypes, nextLine } from "../AllBlockTypes";
+import { allBlockTypes } from "../AllBlockTypes";
+import { useSelector } from "react-redux";
 
 /*export const iterator = {
   id: "iterator",
@@ -59,9 +60,14 @@ export const listGetByIndex = {
 ];
 */
 export default function StandardBlock(props) {
-  const objectType = Object.values(allBlockTypes)
-    .flat()
-    .find((el) => el.id === props.subType);
+  // let objectType = Object.values(allBlockTypes)
+  //   .flat()
+  //   .find((el) => el.id === props.subType);
+  const objectType = useSelector((state) =>
+    Object.values(state.languageSettings.blockTypes)
+      .flat()
+      .find((el) => el.id === props.subType)
+  );
 
   return (
     <DragHandle
@@ -69,8 +75,11 @@ export default function StandardBlock(props) {
       type={standardBlock}
       className={"control-block " + objectType?.styleClass}
     >
-      {(!props.isDragging && !props.isOverlay) || props.palette ? (
-        <div className="control-block-without-shadow  text-nowrap">
+      {!props.isOverlay ? (
+        <div
+          key={props.k}
+          className="control-block-without-shadow  text-nowrap"
+        >
           {objectType?.texts?.map((v, k) => (
             <Fragment>
               &nbsp;{v}&nbsp;

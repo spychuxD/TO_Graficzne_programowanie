@@ -12,7 +12,7 @@ function OperatorsBlocks(props) {
         type={operatorsBlocks}
         className={"control-block bg-color-arithmetic"}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="control-block-without-shadow bg-color-arithmetic">
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
               <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { generateCppClassFromJson } from "../CodeGenerators/CPlusPlusGenerator";
-import { generateJSClassFromJson } from "../CodeGenerators/JavaScriptGenerator";
+//import { generateJSClassFromJson } from "../CodeGenerators/JavaScriptGenerator";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 export default function SectionRight(props) {
@@ -11,6 +11,7 @@ export default function SectionRight(props) {
     return state.classes;
   });
   const compileResult = useSelector((state) => state.compiler.compileResult);
+
   return (
     <div
       style={{
@@ -28,7 +29,7 @@ export default function SectionRight(props) {
         {isLanguage === "cpp"
           ? generateCppClassFromJson(jsonStructure, pageIndex)
           : isLanguage === "js"
-          ? generateJSClassFromJson(jsonStructure, pageIndex)
+          ? props.generateJSClassFromJson(jsonStructure, pageIndex)
           : //: //: isLanguage === "python"
             //? generatePythonClassFromJson(jsonStructure)
             JSON.stringify(jsonStructure)}

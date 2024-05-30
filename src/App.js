@@ -16,7 +16,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { addTab } from "./redux/slices/BlocksTabs";
-
+import JavaScriptGenerator from "./CodeGenerators/JavaScriptGenerator";
 const theme = createTheme({
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
@@ -32,12 +32,10 @@ const theme = createTheme({
   },
 });
 
-
 function App() {
-  
   const dispatch = useDispatch();
   const tabIndex = useSelector((state) => state.blocksTabs.index);
-  const codeTabs = useSelector(state=>state.blocksTabs.tabs);
+  const codeTabs = useSelector((state) => state.blocksTabs.tabs);
   //const [tabs, setTabs] = useState([{ name: "Sekcja", id: 1 }]);
   /*const tabState = useSelector(state=>{
     const classesArray = state.classes.classes;
@@ -55,7 +53,7 @@ function App() {
     console.log(newId);
     dispatch(addClass({ id: newId }));
     //setTabs((currentTabs) => [...currentTabs, { name: "Klasa", id: newId }]);
-    dispatch(addTab({tab:{ name: "Klasa", id: newId }}));
+    dispatch(addTab({ tab: { name: "Klasa", id: newId } }));
   };
   function handleDragEnd(event) {
     debugger;
@@ -92,7 +90,7 @@ function App() {
               classId: codeTabs[tabIndex].id,
             })
           );
-        } 
+        }
       }
     }
   }
@@ -105,16 +103,27 @@ function App() {
           </div>
           <div className="max-h-vh w-80">
             <header className="App-header">
-              <Header
-                tabs={codeTabs}
-                //setTabs={setTabs}
-                onAddClass={handleAddClass}
-              />
+              <JavaScriptGenerator>
+                {(generateJSFromJson) => (
+                  <Header
+                    tabs={codeTabs}
+                    //setTabs={setTabs}
+                    onAddClass={handleAddClass}
+                    generateJSFromJson={generateJSFromJson}
+                  />
+                )}
+              </JavaScriptGenerator>
             </header>
             <main className="main-content">
               <SectionMid tabs={codeTabs} /*setTabs={setTabs}*/></SectionMid>
               <div className="sectionRight">
-                <SectionRight />
+                <JavaScriptGenerator>
+                  {(generateJSFromJson, generateJSClassFromJson) => (
+                    <SectionRight
+                      generateJSClassFromJson={generateJSClassFromJson}
+                    />
+                  )}
+                </JavaScriptGenerator>
               </div>
             </main>
           </div>

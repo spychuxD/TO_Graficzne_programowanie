@@ -12,7 +12,7 @@ function WhileBlock(props) {
         type={dowhileBlock}
         className={"control-block bg-color-for"}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="">
             <div style={{ border: "none" }} className="control-block">
               <div className="text-bold text-white text-nowrap">Do</div>

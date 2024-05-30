@@ -43,7 +43,12 @@ import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclaratio
 import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
 import { allBlockTypes } from "../AllBlockTypes";
 import StandardBlock from "./StandardBlock";
+import { updateRetrievedMethods } from "../redux/slices/LanguageSettings";
+import { useDispatch } from "react-redux";
+
 export default function Palette({ blocksState, setBlocksState }) {
+  const dispatch = useDispatch();
+
   const classes = useSelector((state) => state.classes.classes);
   const tabIndex = useSelector((state) => state.blocksTabs.index);
   const mainMethodVariables = useSelector((state) =>
@@ -69,6 +74,30 @@ export default function Palette({ blocksState, setBlocksState }) {
     (state) => state.draggableSettings.dragOverlayData
   );
   const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+  const currentClassName = useSelector(
+    (state) => state.languageSettings.currentClassName
+  );
+  const blockTypes = useSelector((state) => state.languageSettings.blockTypes);
+
+  function getArrayMethods(e) {
+    let methods = [];
+
+    let foundClass = window[e.target.value];
+    if (foundClass && typeof foundClass === "function") {
+      let proto = foundClass.prototype;
+
+      const names = Object.getOwnPropertyNames(proto);
+      for (let name of names) {
+        if (typeof proto[name] === "function") {
+          methods.push(name);
+        }
+      }
+    }
+    dispatch(
+      updateRetrievedMethods({ methods: methods, name: e.target.value })
+    );
+  }
+
   return (
     <>
       <div className="list-header">
@@ -123,7 +152,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               palette={true}
             />
             {isLanguage === "js"
-              ? allBlockTypes?.js?.map((v, k) => (
+              ? blockTypes?.js?.map((v, k) => (
                   <StandardBlock
                     id={standardBlock + "|" + v.id}
                     subType={v.id}
@@ -133,7 +162,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                   />
                 ))
               : null}
-            {allBlockTypes?.standardTypes?.map((v, k) => (
+            {blockTypes?.standardTypes?.map((v, k) => (
               <StandardBlock
                 id={standardBlock + "|" + v.id}
                 key={k}
@@ -317,7 +346,6 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-
       <div className="list-header flex-row align-center justify-between">
         <Button
           fullWidth
@@ -389,7 +417,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                 </div>
               </div>
               <div className="palette-blocks-container slideDown">
-                {allBlockTypes?.listTypes?.map((v, k) => (
+                {blockTypes?.listTypes?.map((v, k) => (
                   <StandardBlock
                     id={standardBlock + "|" + v.id}
                     key={k}
@@ -410,21 +438,38 @@ export default function Palette({ blocksState, setBlocksState }) {
             startIcon={<MdBento size={24} className="mr-8" />}
             onClick={() => handleCategory(8)}
           >
-            <span className="">Metody</span>
+            <span className="">Metody klas JavaScript</span>
           </Button>
         </div>
       ) : null}
-      {category?.includes(8) ? (
+      {category?.includes(8) && isLanguage === "js" ? (
         <div>
+          <input
+            onChange={(e) => getArrayMethods(e)}
+            placeholder="Nazwa klasy"
+            className="reflect-input"
+            type="text"
+            defaultValue={currentClassName}
+          />
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
             <div className="text-center text-xx-small">
               Przeciągnij blok, aby go dodać
             </div>
           </div>
+
           <div className="palette-blocks-container slideDown">
-            {isLanguage === "js"
-              ? allBlockTypes?.arrayMethods?.map((v, index) => (
+            {blockTypes.currentRetrievedMethods?.map((v, k) => (
+              <StandardBlock
+                id={standardBlock + "|" + v.id}
+                key={k}
+                subType={v.id}
+                data={v}
+                palette={true}
+              />
+            ))}
+            {/* {isLanguage === "js"
+              ? blockTypes?.arrayMethods?.map((v, index) => (
                   <StandardBlock
                     id={standardBlock + "|" + v.id}
                     palette={true}
@@ -433,7 +478,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                     subType={v.id}
                   />
                 ))
-              : null}
+              : null} */}
           </div>
         </div>
       ) : null}

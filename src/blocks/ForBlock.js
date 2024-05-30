@@ -13,7 +13,7 @@ function ForBlock(props) {
         type={forBlock}
         className={"control-block bg-color-for"}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="">
             <div className="" style={{ padding: 10 }}>
               <div

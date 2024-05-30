@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   changeLanguage,
   setLanguageSlice,
+  resetRetrievedMethods,
 } from "../redux/slices/LanguageSettings";
 import { saveResut, sendRequest, setCompiler } from "../redux/slices/Compiler";
 import {
@@ -22,8 +23,9 @@ import {
 import { resetTabSlice, setTabSlice } from "../redux/slices/BlocksTabs";
 import { resetClassSlices, setClassSlice } from "../redux/slices/Classes";
 import { setDraggSlice } from "../redux/slices/DraggableSettings";
-import { generateJSFromJson } from "../CodeGenerators/JavaScriptGenerator";
-function Header({ tabs, setTabs, onAddClass }) {
+
+//import { generateJSFromJson } from "../CodeGenerators/JavaScriptGenerator";
+function Header({ tabs, setTabs, onAddClass, generateJSFromJson }) {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [isHoverPython, setIsHoverPython] = useState(false);
@@ -46,6 +48,7 @@ function Header({ tabs, setTabs, onAddClass }) {
     if (confirmed) {
       dispatch(resetClassSlices());
       dispatch(resetTabSlice());
+      dispatch(resetRetrievedMethods());
       dispatch(changeLanguage(language));
     }
   };
@@ -54,7 +57,6 @@ function Header({ tabs, setTabs, onAddClass }) {
     let code;
     if (isLanguage === "cpp") code = generateAllCppFromJson(codeStructure);
     else if (isLanguage === "js") code = generateJSFromJson(codeStructure);
-    console.log(code);
     //debugger;
     const result = await sendRequest(
       isLanguage === "js" ? "node" + isLanguage : isLanguage,
@@ -92,9 +94,12 @@ function Header({ tabs, setTabs, onAddClass }) {
           dispatch(setCompiler({ data: json.compiler }));
           dispatch(setDraggSlice({ data: json.draggableSettings }));
           dispatch(setLanguageSlice({ data: json.languageSettings }));
-          debugger;
+          // dispatch(
+          //   setRetrievedMethods({ data: json.blockTypes.retrievedMethods })
+          // );
+          //debugger;
         } catch (error) {
-          alert("Invalid JSON file");
+          alert("Invalid JSON file", error);
         }
       };
       reader.readAsText(file);

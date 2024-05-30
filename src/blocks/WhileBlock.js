@@ -5,27 +5,14 @@ import blockRenderer from "../blockRenderer";
 import { whileBlock } from "../blockTypes";
 import DragHandle from "./DragHandle/DragHandle";
 function WhileBlock(props) {
-  // const dispatch = useDispatch();
-
-  // const onAddElement = () => {
-  //   const newElement = {
-  //     id: uuidv4(),
-  //     name: "while",
-  //     type: whileBlock,
-  //     children: [[], []],
-  //   };
-  //   dispatch(addElement(newElement));
-  // };
-
   return (
     <Fragment>
-      {/* {props.id !== undefined ? ( */}
       <DragHandle
         {...props}
         type={whileBlock}
         className={"control-block bg-color-for"}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="">
             <div className="">
               <div style={{ border: "none" }} className="control-block">
@@ -68,24 +55,6 @@ function WhileBlock(props) {
           <div className="text-nowrap">Pętla while</div>
         )}
       </DragHandle>
-      {/* ) : (
-        <div onClick={onAddElement} className="control-block bg-color-for">
-          <div>
-            <div style={{ border: "none" }} className="control-block">
-              <div className="text-bold text-small text-white text-nowrap m-4">
-                While
-              </div>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10" />
-            </div>
-            <div style={{ border: "none" }} className="control-block flex-col">
-              <span className="text-bold text-small text-white text-nowrap mr-4">
-                wykonaj
-              </span>
-              <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10" />
-            </div>
-          </div>
-        </div>
-      )} */}
     </Fragment>
   );
 }

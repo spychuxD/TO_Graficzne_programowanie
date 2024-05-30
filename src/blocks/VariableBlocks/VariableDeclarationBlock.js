@@ -50,7 +50,7 @@ function VariableDeclarationBlock(props) {
         type={variableDeclarationBlock}
         className="blocks-container control-block bg-color-7 text-nowrap"
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <Fragment>
             Zmienna&nbsp;
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>

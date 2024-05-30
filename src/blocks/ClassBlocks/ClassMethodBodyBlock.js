@@ -24,6 +24,7 @@ export default function ClassMethodBodyBlock(props) {
   const classFields = useSelector((state) => state.classes.classes);
   const variables = useSelector((state) => state.classes.variables);
   const [isVisable, setIsVisable] = useState(false);
+  console.log(props);
   return (
     <div className="blocks-container control-block bg-color-13 flex-col">
       <div
@@ -36,6 +37,7 @@ export default function ClassMethodBodyBlock(props) {
         isLanguage !== "js" ? (
           <select
             className="block-input"
+            defaultValue={props.visibility}
             onMouseEnter={() => {
               if (!props.palette) dispatch(toggleDisableDraggable());
             }}

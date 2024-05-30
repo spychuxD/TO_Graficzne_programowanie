@@ -19,7 +19,7 @@ export default function ClassFieldBlock(props) {
         className="blocks-container control-block bg-color-console"
         type={classFieldBlock}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="blocks-container">
             <div className="text-nowrap">
               {methodObject === undefined ? props.name : methodObject?.name}

@@ -176,7 +176,7 @@ export const arrowFunction = {
   id: "arrowFunction",
   texts: ["", "=>"],
   styleClass: "bg-color-js-array",
-  structureJS: "( ? )=>( ? )",
+  structureJS: "( ? )=>{ ? }",
   moveText: "funkcja strzałkowa",
   appendBeforeTraverseInJSGenerator: true,
 };

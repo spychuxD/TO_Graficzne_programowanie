@@ -20,7 +20,7 @@ export default function ClassMethodBlock(props) {
         className="blocks-container control-block bg-color-console"
         type={classMethodBlock}
       >
-        {(!props.isDragging && !props.isOverlay) || props.palette ? (
+        {!props.isOverlay ? (
           <div className="blocks-container">
             <div className="text-nowrap">Dla obiektu</div>
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
