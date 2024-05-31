@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { addTab } from "./redux/slices/BlocksTabs";
 import JavaScriptGenerator from "./CodeGenerators/JavaScriptGenerator";
+import CPlusPlusGenerator from "./CodeGenerators/CPlusPlusGenerator";
 const theme = createTheme({
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
@@ -101,32 +102,33 @@ function App() {
           <div className="display-flex w-20 ">
             <SectionLeft></SectionLeft>
           </div>
-          <div className="max-h-vh w-80">
-            <header className="App-header">
+          <CPlusPlusGenerator>
+            {(generateAllCppFromJson, generateCppClassFromJson) => (
               <JavaScriptGenerator>
-                {(generateJSFromJson) => (
-                  <Header
-                    tabs={codeTabs}
-                    //setTabs={setTabs}
-                    onAddClass={handleAddClass}
-                    generateJSFromJson={generateJSFromJson}
-                  />
+                {(generateJSFromJson, generateJSClassFromJson) => (
+                  <div className="max-h-vh w-80">
+                    <header className="App-header">
+                      <Header
+                        tabs={codeTabs}
+                        onAddClass={handleAddClass}
+                        generateJSFromJson={generateJSFromJson}
+                        generateAllCppFromJson={generateAllCppFromJson}
+                      />
+                    </header>
+                    <main className="main-content">
+                      <SectionMid tabs={codeTabs}></SectionMid>
+                      <div className="sectionRight">
+                        <SectionRight
+                          generateJSClassFromJson={generateJSClassFromJson}
+                          generateCppClassFromJson={generateCppClassFromJson}
+                        />
+                      </div>
+                    </main>
+                  </div>
                 )}
               </JavaScriptGenerator>
-            </header>
-            <main className="main-content">
-              <SectionMid tabs={codeTabs} /*setTabs={setTabs}*/></SectionMid>
-              <div className="sectionRight">
-                <JavaScriptGenerator>
-                  {(generateJSFromJson, generateJSClassFromJson) => (
-                    <SectionRight
-                      generateJSClassFromJson={generateJSClassFromJson}
-                    />
-                  )}
-                </JavaScriptGenerator>
-              </div>
-            </main>
-          </div>
+            )}
+          </CPlusPlusGenerator>
         </DndContext>
       </div>
       {/* <Footer/> */}

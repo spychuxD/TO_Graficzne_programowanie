@@ -14,7 +14,6 @@ import {
   variableTypesBlock,
   whileBlock,
 } from "../blockTypes";
-import { allBlockTypes } from "../AllBlockTypes";
 import { useSelector } from "react-redux";
 
 function JavaScriptGenerator(props) {
@@ -343,10 +342,6 @@ function JavaScriptGenerator(props) {
           result += findedMethodForField?.name;
           break;
         case standardBlock:
-          // let elementStructure = Object.values(allBlockTypes)
-          //   .flat()
-          //   .find((el) => el.id === element.subType);
-
           let elementStructure = blockTypes.find(
             (el) => el.id === element.subType
           );

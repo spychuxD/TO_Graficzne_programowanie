@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ForBlock from "./ForBlock";
 import VariableDeclarationBlock from "./VariableBlocks/VariableDeclarationBlock";
 import VariableTypesBlock from "./VariableBlocks/VariableTypesBlock";
@@ -41,10 +41,13 @@ import blockRenderer from "../blockRenderer";
 import ValueBlock from "./VariableBlocks/VlaueBlock";
 import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclarationBlock";
 import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
-import { allBlockTypes } from "../AllBlockTypes";
 import StandardBlock from "./StandardBlock";
-import { updateRetrievedMethods } from "../redux/slices/LanguageSettings";
+import {
+  updateRetrievedMethods,
+  setClassNames,
+} from "../redux/slices/LanguageSettings";
 import { useDispatch } from "react-redux";
+import Select from "react-select";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const dispatch = useDispatch();
@@ -74,29 +77,15 @@ export default function Palette({ blocksState, setBlocksState }) {
     (state) => state.draggableSettings.dragOverlayData
   );
   const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
+  const classNames = useSelector((state) => state.languageSettings.classNames);
   const currentClassName = useSelector(
     (state) => state.languageSettings.currentClassName
   );
   const blockTypes = useSelector((state) => state.languageSettings.blockTypes);
 
-  function getArrayMethods(e) {
-    let methods = [];
-
-    let foundClass = window[e.target.value];
-    if (foundClass && typeof foundClass === "function") {
-      let proto = foundClass.prototype;
-
-      const names = Object.getOwnPropertyNames(proto);
-      for (let name of names) {
-        if (typeof proto[name] === "function") {
-          methods.push(name);
-        }
-      }
-    }
-    dispatch(
-      updateRetrievedMethods({ methods: methods, name: e.target.value })
-    );
-  }
+  useEffect(() => {
+    dispatch(setClassNames());
+  }, [dispatch]);
 
   return (
     <>
@@ -444,12 +433,23 @@ export default function Palette({ blocksState, setBlocksState }) {
       ) : null}
       {category?.includes(8) && isLanguage === "js" ? (
         <div>
-          <input
-            onChange={(e) => getArrayMethods(e)}
-            placeholder="Nazwa klasy"
-            className="reflect-input"
-            type="text"
-            defaultValue={currentClassName}
+          <Select
+            className="basic-single"
+            classNamePrefix="select"
+            defaultValue={
+              Object.keys(currentClassName).length !== 0
+                ? currentClassName
+                : null
+            }
+            placeholder="Wpisz nazwę klasy"
+            options={classNames}
+            isClearable={true}
+            onChange={(e) => {
+              dispatch(updateRetrievedMethods({ name: e?.value }));
+            }}
+            onInputChange={(e) => {
+              dispatch(setClassNames(e));
+            }}
           />
           <div className="flex-row align-center justify-center">
             <MdHelp color="#e3eef2" className="m-8"></MdHelp>
@@ -468,17 +468,6 @@ export default function Palette({ blocksState, setBlocksState }) {
                 palette={true}
               />
             ))}
-            {/* {isLanguage === "js"
-              ? blockTypes?.arrayMethods?.map((v, index) => (
-                  <StandardBlock
-                    id={standardBlock + "|" + v.id}
-                    palette={true}
-                    key={index}
-                    data={v}
-                    subType={v.id}
-                  />
-                ))
-              : null} */}
           </div>
         </div>
       ) : null}

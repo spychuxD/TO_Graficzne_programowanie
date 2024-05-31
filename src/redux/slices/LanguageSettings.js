@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { allBlockTypes } from "../../AllBlockTypes";
+import { blockTypesInit } from "../../AllBlockTypes";
 const languageSettingsSlice = createSlice({
   name: "languageSettings",
   initialState: {
     isLanguage: "js",
-    currentClassName: "",
+    currentClassName: {},
+    classNames: [
+      //{ value: "Object", label: "Object" },
+    ],
     blockTypes: {
-      ...allBlockTypes,
+      ...blockTypesInit,
       retrievedMethods: [],
       currentRetrievedMethods: [],
     },
@@ -20,38 +23,86 @@ const languageSettingsSlice = createSlice({
       state.blockTypes.retrievedMethods =
         action.payload.data.blockTypes.retrievedMethods;
     },
+    setClassNames(state, action) {
+      state.classNames = Object.getOwnPropertyNames(window)
+        .filter((className) => {
+          const matchesFilter =
+            action.payload === "" ||
+            !action.payload ||
+            className.toLowerCase().includes(action.payload.toLowerCase());
+
+          const foundClass = global[className];
+          if (!foundClass && typeof foundClass !== "function") return false;
+          const proto = foundClass.prototype;
+          if (proto === undefined) return false;
+          const methodNames = Object.getOwnPropertyNames(proto);
+          let hasMethods = false;
+          methodNames.forEach((methodName) => {
+            let descriptor = Object.getOwnPropertyDescriptor(proto, methodName);
+            if (
+              descriptor &&
+              (typeof descriptor.value === "function" ||
+                typeof descriptor.get === "function" ||
+                typeof descriptor.set === "function") &&
+              methodName !== "constructor"
+            ) {
+              hasMethods = true;
+            }
+          });
+          return matchesFilter && hasMethods;
+        })
+        .map((name) => ({
+          value: name,
+          label: name,
+        }));
+    },
+
     updateRetrievedMethods(state, action) {
       state.blockTypes.currentRetrievedMethods = [];
-      state.currentClassName = action.payload.name;
+      state.currentClassName = {
+        value: action.payload.name,
+        label: action.payload.name,
+      };
+      const foundClass = global[action.payload.name];
+      if (!foundClass || typeof foundClass !== "function") return;
+      const proto = foundClass.prototype;
+      if (proto === undefined) return false;
 
-      action?.payload.methods.forEach((methodName) => {
-        if (methodName === "constructor") return;
-        const newObject = {
-          id: methodName,
-          texts: ["", methodName],
-          styleClass: "bg-color-js-array",
-          structureJS: "." + methodName + "( ? )",
-          moveText: methodName,
-          disableMainDroppable: false,
-        };
-
-        state.blockTypes.currentRetrievedMethods.push(newObject);
-
+      const methodNames = Object.getOwnPropertyNames(proto);
+      methodNames.forEach((methodName) => {
+        let descriptor = Object.getOwnPropertyDescriptor(proto, methodName);
         if (
-          state.blockTypes.retrievedMethods.find(
-            (object) => object.id === methodName
-          )
+          descriptor &&
+          (typeof descriptor.value === "function" ||
+            typeof descriptor.get === "function" ||
+            typeof descriptor.set === "function") &&
+          methodName !== "constructor"
         ) {
-          return;
-        }
+          const newObject = {
+            id: methodName,
+            texts: ["", methodName],
+            styleClass: "bg-color-js-array",
+            structureJS: "." + methodName + "( ? )",
+            moveText: methodName,
+            disableMainDroppable: false,
+          };
 
-        state.blockTypes.retrievedMethods.push(newObject);
+          state.blockTypes.currentRetrievedMethods.push(newObject);
+
+          if (
+            state.blockTypes.retrievedMethods.find(
+              (object) => object.id === methodName
+            )
+          )
+            return;
+          state.blockTypes.retrievedMethods.push(newObject);
+        }
       });
     },
     resetRetrievedMethods(state) {
       state.blockTypes.retrievedMethods = [];
       state.blockTypes.currentRetrievedMethods = [];
-      state.currentClassName = "";
+      state.currentClassName = {};
     },
   },
 });
@@ -59,6 +110,7 @@ const languageSettingsSlice = createSlice({
 export const {
   changeLanguage,
   setLanguageSlice,
+  setClassNames,
   updateRetrievedMethods,
   resetRetrievedMethods,
 } = languageSettingsSlice.actions;

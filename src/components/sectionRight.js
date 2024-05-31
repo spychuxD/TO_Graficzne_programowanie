@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-import { generateCppClassFromJson } from "../CodeGenerators/CPlusPlusGenerator";
-//import { generateJSClassFromJson } from "../CodeGenerators/JavaScriptGenerator";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 export default function SectionRight(props) {
@@ -27,7 +25,7 @@ export default function SectionRight(props) {
         customStyle={{ width: `calc(100% - 20px)`, height: "50%" }}
       >
         {isLanguage === "cpp"
-          ? generateCppClassFromJson(jsonStructure, pageIndex)
+          ? props.generateCppClassFromJson(jsonStructure, pageIndex)
           : isLanguage === "js"
           ? props.generateJSClassFromJson(jsonStructure, pageIndex)
           : //: //: isLanguage === "python"
