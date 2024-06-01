@@ -103,6 +103,24 @@ export const nextLine = {
   moveText: "następna linia",
   disableMainDroppable: true,
 };
+export const object = {
+  id: "object",
+  texts: ["{ ? }"],
+  styleClass: "bg-color-js-array",
+  structureJS: "{ ? }",
+  moveText: "{}",
+  appendBeforeTraverseInJSGenerator: true,
+  disableMainDroppable: false,
+};
+export const array = {
+  id: "array",
+  texts: ["[ ? ]"],
+  styleClass: "bg-color-js-array",
+  structureJS: "[ ? ]",
+  moveText: "[]",
+  appendBeforeTraverseInJSGenerator: true,
+  disableMainDroppable: false,
+};
 
 export const blockTypesInit = {
   js: [arrowFunction, nextLine],

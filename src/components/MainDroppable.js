@@ -7,10 +7,10 @@ function MainDroppable(props) {
     disabled: props.disabled,
   });
   const style = {
-    width: "100%",
+    width: `calc(100%)`,
     transition: "0.1s",
     borderStyle: isOver && !props.hide ? "solid" : undefined,
-    height: props.children.length < 1 ? 100 : undefined,
+    minHeight: props.dropId !== "mainId" ? `calc(100% - 8px)` : undefined,
     borderRadius: 20,
   };
 

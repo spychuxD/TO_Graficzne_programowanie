@@ -24,17 +24,17 @@ const languageSettingsSlice = createSlice({
         action.payload.data.blockTypes.retrievedMethods;
     },
     setClassNames(state, action) {
-      state.classNames = Object.getOwnPropertyNames(window)
-        .filter((className) => {
+      state.classNames = Object.getOwnPropertyNames(window).reduce(
+        (acc, className) => {
           const matchesFilter =
             action.payload === "" ||
             !action.payload ||
             className.toLowerCase().includes(action.payload.toLowerCase());
 
           const foundClass = global[className];
-          if (!foundClass && typeof foundClass !== "function") return false;
+          if (!foundClass && typeof foundClass !== "function") return acc;
           const proto = foundClass.prototype;
-          if (proto === undefined) return false;
+          if (proto === undefined) return acc;
           const methodNames = Object.getOwnPropertyNames(proto);
           let hasMethods = false;
           methodNames.forEach((methodName) => {
@@ -49,12 +49,16 @@ const languageSettingsSlice = createSlice({
               hasMethods = true;
             }
           });
-          return matchesFilter && hasMethods;
-        })
-        .map((name) => ({
-          value: name,
-          label: name,
-        }));
+          if (!matchesFilter && !hasMethods) return acc;
+          acc.push({
+            value: className,
+            label: className,
+          });
+
+          return acc;
+        },
+        []
+      );
     },
 
     updateRetrievedMethods(state, action) {

@@ -405,7 +405,13 @@ function CPlusPlusGenerator(props) {
         default:
           result += "undefined";
       }
-      result += addSemicolon ? ";\n" : "";
+      if (
+        ![forBlock, whileBlock, dowhileBlock, ifElseBlock].includes(
+          element.type
+        )
+      ) {
+        result += addSemicolon ? ";\n" : "";
+      }
       i++;
       if (adder && i < obj.length) result += adder;
     });
