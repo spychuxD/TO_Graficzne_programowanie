@@ -181,6 +181,18 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
+            {isLanguage === "cpp"?
+              blockTypes?.referenceTypes?.map((v, k) => (
+                <StandardBlock
+                  id={standardBlock + "|" + v.id}
+                  key={k}
+                  subType={v.id}
+                  data={v}
+                  palette={true}
+                />
+              ))
+            :null}
+
             {tabIndex === 0
               ? mainMethodVariables?.map((v, k) => (
                   <ClassVariableBlock

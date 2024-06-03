@@ -8,6 +8,7 @@ export const CPPVariableTypes = {
   char: "char",
   void: "void",
   int: "int",
+  auto: "auto"
 };
 export const JSVariableTypes = {
   let: "let",
