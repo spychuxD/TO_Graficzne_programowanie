@@ -427,6 +427,15 @@ export default function Palette({ blocksState, setBlocksState }) {
                     palette={true}
                   />
                 ))}
+                {blockTypes?.vectorTypes?.map((v, k) => (
+                  <StandardBlock
+                    id={standardBlock + "|" + v.id}
+                    key={k}
+                    subType={v.id}
+                    data={v}
+                    palette={true}
+                  />
+                ))}
               </div>
             </div>
           ) : null}

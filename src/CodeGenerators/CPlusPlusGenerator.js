@@ -39,6 +39,7 @@ function CPlusPlusGenerator(props) {
   function generateCppClassFromJson(json, page) {
     let cppClass = "#include <iostream>\n";
     cppClass += "#include <list>\n";
+    cppClass += "#include <vector>\n";
     if (page === 0) {
       cppClass += "int main(int argc, char *argv[]){\n";
       cppClass += traverse(

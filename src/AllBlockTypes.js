@@ -97,6 +97,48 @@ export const listAtIndex = {
   moveText: "At index",
 };
 
+export const vectorDataType = {
+  id: "vectorDataType",
+  texts: ["Wektor"],
+  styleClass: "bg-color-vector",
+  structureCPlusPLus: "std::vector<?>",
+  moveText: "Wektor",
+};
+
+export const vectorPushBack = {
+  id: "vectorPushBack",
+  texts: ["Push back", "element"],
+  styleClass: "bg-color-vector",
+  structureCPlusPLus: "?.push_back(?)",
+  moveText: "Dodaj na końcu",
+};
+
+export const vectorPopBack = {
+  id: "vectorPopBack",
+  texts: ["Pop back"],
+  styleClass: "bg-color-vector",
+  structureCPlusPLus: "?.pop_back()",
+  moveText: "Zabierz z końca",
+};
+
+export const vectorAtIndex = {
+  id: "vectorAtIndex",
+  texts: ["Wektor", "na pozycji"],
+  styleClass: "bg-color-vector",
+  structureCPlusPLus: "?.at(?)",
+  moveText: "Element na pozycji",
+};
+
+export const vectorSize = {
+  id: "vectorSize",
+  texts: ["Size"],
+  styleClass: "bg-color-vector",
+  structureCPlusPLus: "?.size()",
+  moveText: "Rozmiar",
+};
+
+
+
 export const consoleOut = {
   id: "consoleOut",
   texts: ["Wyświetl"],
@@ -181,6 +223,13 @@ export const blockTypesInit = {
     listGetSize,
     listIsEmpty,
     listAtIndex
+  ],
+  vectorTypes:[
+    vectorDataType,
+    vectorPushBack,
+    vectorPopBack,
+    vectorAtIndex,
+    vectorSize
   ],
   standardTypes: [consoleOut, returnValue],
   referenceTypes:[referenceEt,referenceStart]
