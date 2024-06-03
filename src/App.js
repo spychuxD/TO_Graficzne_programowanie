@@ -124,7 +124,7 @@ function App() {
                         <SectionRight
                           generateJSClassFromJson={generateJSClassFromJson}
                           generateCppClassFromJson={generateCppClassFromJson}
-                          generatePythonFromJson={generatePythonFromJson}
+                          generatePythonClassFromJson={generatePythonFromJson}
                         />
                       </div>
                     </main>
