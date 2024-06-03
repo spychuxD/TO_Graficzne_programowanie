@@ -16,16 +16,18 @@ import {
   resetRetrievedMethods,
 } from "../redux/slices/LanguageSettings";
 import { saveResut, sendRequest, setCompiler } from "../redux/slices/Compiler";
-import {
-  generateAllCppFromJson,
-  generateCppClassFromJson,
-} from "../CodeGenerators/CPlusPlusGenerator";
 import { resetTabSlice, setTabSlice } from "../redux/slices/BlocksTabs";
 import { resetClassSlices, setClassSlice } from "../redux/slices/Classes";
 import { setDraggSlice } from "../redux/slices/DraggableSettings";
 
 //import { generateJSFromJson } from "../CodeGenerators/JavaScriptGenerator";
-function Header({ tabs, setTabs, onAddClass, generateJSFromJson, generatePythonFromJson }) {
+function Header({
+  tabs,
+  setTabs,
+  onAddClass,
+  generateJSFromJson, generatePythonFromJson,
+  generateAllCppFromJson,
+}) {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [isHoverPython, setIsHoverPython] = useState(false);

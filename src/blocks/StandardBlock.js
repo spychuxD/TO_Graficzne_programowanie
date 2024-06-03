@@ -82,21 +82,26 @@ export default function StandardBlock(props) {
         >
           {objectType?.texts?.map((v, k) => (
             <Fragment>
-              &nbsp;{v}&nbsp;
-              {!objectType?.disableMainDroppable ? (
-                <MainDroppable
-                  dropId={props.id + "|" + k}
-                  disabled={props.palette}
-                >
-                  <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">
-                    {props.children
-                      ? props.children[k]?.map((item, index) =>
-                          blockRenderer(item, index)
-                        )
-                      : null}
-                  </div>
-                </MainDroppable>
-              ) : null}
+              {
+                <Fragment>
+                  &nbsp;{v.split("?")[0]}&nbsp;
+                  {!objectType?.disableMainDroppable ? (
+                    <MainDroppable
+                      dropId={props.id + "|" + k}
+                      disabled={props.palette}
+                    >
+                      <div className="w-min-50px  bg-color-if-condition h-20px b-r-10">
+                        {props.children
+                          ? props.children[k]?.map((item, index) =>
+                              blockRenderer(item, index)
+                            )
+                          : null}
+                      </div>
+                    </MainDroppable>
+                  ) : null}
+                  &nbsp;{v.split("?")[1]}&nbsp;
+                </Fragment>
+              }
             </Fragment>
           ))}
         </div>

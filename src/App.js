@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { addTab } from "./redux/slices/BlocksTabs";
 import JavaScriptGenerator from "./CodeGenerators/JavaScriptGenerator";
+import CPlusPlusGenerator from "./CodeGenerators/CPlusPlusGenerator";
 import PythonGenerator from "./CodeGenerators/PythonGenerator";
 const theme = createTheme({
   typography: {
@@ -102,51 +103,38 @@ function App() {
           <div className="display-flex w-20 ">
             <SectionLeft></SectionLeft>
           </div>
-          <div className="max-h-vh w-80">
-            <header className="App-header">
-            <PythonGenerator>
+          <PythonGenerator>
                   {(generatePythonFromJson, generatePythonClassFromJson) => (
+          <CPlusPlusGenerator>
+            {(generateAllCppFromJson, generateCppClassFromJson) => (
               <JavaScriptGenerator>
-                {(generateJSFromJson) => (
-                  <Header
-                    tabs={codeTabs}
-                    //setTabs={setTabs}
-                    onAddClass={handleAddClass}
-                    generateJSFromJson={generateJSFromJson}
-                    generatePythonFromJson={
-                      generatePythonFromJson
-                          }
-                  />
+                {(generateJSFromJson, generateJSClassFromJson) => (
+                  <div className="max-h-vh w-80">
+                    <header className="App-header">
+                      <Header
+                        tabs={codeTabs}
+                        onAddClass={handleAddClass}
+                        generateJSFromJson={generateJSFromJson}
+                        generateAllCppFromJson={generateAllCppFromJson}
+                      />
+                    </header>
+                    <main className="main-content">
+                      <SectionMid tabs={codeTabs}></SectionMid>
+                      <div className="sectionRight">
+                        <SectionRight
+                          generateJSClassFromJson={generateJSClassFromJson}
+                          generateCppClassFromJson={generateCppClassFromJson}
+                          generatePythonFromJson={generatePythonFromJson}
+                        />
+                      </div>
+                    </main>
+                  </div>
                 )}
               </JavaScriptGenerator>
             )}
-                </PythonGenerator>
-            </header>
-            <main className="main-content">
-              <SectionMid tabs={codeTabs} /*setTabs={setTabs}*/></SectionMid>
-              <div className="sectionRight">
-                <PythonGenerator>
-                  {(generatePythonFromJson, generatePythonClassFromJson) => (
-                    <JavaScriptGenerator>
-                      {(
-                        generateJSFromJson,
-                        generateJSClassFromJson
-                      ) => (
-                        <SectionRight
-                          generateJSClassFromJson={
-                            generateJSClassFromJson
-                          }
-                          generatePythonClassFromJson={
-                            generatePythonClassFromJson
-                          }
-                        />
-                      )}
-                    </JavaScriptGenerator>
-                  )}
-                </PythonGenerator>
-              </div>
-            </main>
-          </div>
+          </CPlusPlusGenerator>
+        )}
+        </PythonGenerator>
         </DndContext>
       </div>
       {/* <Footer/> */}

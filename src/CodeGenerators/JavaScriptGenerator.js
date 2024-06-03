@@ -14,7 +14,6 @@ import {
   variableTypesBlock,
   whileBlock,
 } from "../blockTypes";
-import { allBlockTypes } from "../AllBlockTypes";
 import { useSelector } from "react-redux";
 
 function JavaScriptGenerator(props) {
@@ -91,16 +90,16 @@ function JavaScriptGenerator(props) {
         if (counter < classObject.constructors[0].children[1].length)
           result += ",";
       });
-      result += `) {\n`;
+      result += `){\n`;
       result += Traverse(
         json,
         classObject.constructors[0].children[2],
         classObject,
-        2,
+        3,
         true,
         ""
       );
-      result += `    }\n`;
+      result += `\n  }\n`;
     }
     return result;
   }
@@ -123,9 +122,9 @@ function JavaScriptGenerator(props) {
           counter++;
           if (counter < method.children[1].length) result += ",";
         });
-        result += `) {\n`;
-        result += Traverse(json, method.children[2], classObject, 2, true, "");
-        result += `\n   }\n`;
+        result += `){\n`;
+        result += Traverse(json, method.children[2], classObject, 3, true, "");
+        result += `\n  }\n`;
       });
     }
     return result;
@@ -144,7 +143,6 @@ function JavaScriptGenerator(props) {
     obj?.forEach((element) => {
       switch (element?.type) {
         case ifElseBlock:
-          addSemicolon = false;
           result += generateTabs(level) + "if(";
           result += Traverse(
             json,
@@ -234,7 +232,7 @@ function JavaScriptGenerator(props) {
             element.children[3],
             classObject,
             level + 1,
-            false,
+            true,
             ""
           );
           result += "\n" + generateTabs(level) + "}\n";
@@ -242,7 +240,8 @@ function JavaScriptGenerator(props) {
           break;
         case valueBlock:
           result += element.valueType === "text" ? `"` : "";
-          result += generateTabs(level) + element.value;
+          result += generateTabs(level);
+          result += element.value;
           result += element.valueType === "text" ? `" ` : "";
           break;
         case variableDeclarationBlock:
@@ -258,18 +257,22 @@ function JavaScriptGenerator(props) {
               Traverse(json, element.children[1], classObject, 0, false, ",") +
               ")";
           } else {
-            result +=
-              Traverse(json, element.children[0], classObject, 0, false, "") +
-              " " +
-              element.name;
+            result += Traverse(
+              json,
+              element.children[0],
+              classObject,
+              0,
+              false,
+              ""
+            );
+            if (!element.children[0].length <= 0) result += " ";
+            if (element?.name !== undefined) result += element?.name;
           }
           break;
         case variableTypesBlock:
           result += generateTabs(level) + element.name;
           break;
         case whileBlock:
-          addSemicolon = false;
-
           result += generateTabs(level);
           result += "while(";
           result += Traverse(
@@ -292,8 +295,6 @@ function JavaScriptGenerator(props) {
           result += generateTabs(level) + "}\n";
           break;
         case dowhileBlock:
-          addSemicolon = false;
-
           result += generateTabs(level);
           result += "do{\n";
           result += Traverse(
@@ -311,6 +312,7 @@ function JavaScriptGenerator(props) {
             ");\n";
           break;
         case classDefinitionBlock:
+          result += generateTabs(level);
           result += json.classes.find((el) => el.id === element.classId)?.name;
           break;
         case classMethodBlock:
@@ -343,10 +345,6 @@ function JavaScriptGenerator(props) {
           result += findedMethodForField?.name;
           break;
         case standardBlock:
-          // let elementStructure = Object.values(allBlockTypes)
-          //   .flat()
-          //   .find((el) => el.id === element.subType);
-
           let elementStructure = blockTypes.find(
             (el) => el.id === element.subType
           );
@@ -383,7 +381,13 @@ function JavaScriptGenerator(props) {
         default:
           result += "";
       }
-      result += addSemicolon ? ";\n" : "";
+      if (
+        ![forBlock, whileBlock, dowhileBlock, ifElseBlock].includes(
+          element.type
+        )
+      ) {
+        result += addSemicolon ? ";\n" : "";
+      }
 
       i++;
       if (adder && i < obj.length) result += adder;

@@ -1,9 +1,9 @@
-//< List >
 export const iterator = {
   id: "iterator",
   texts: ["Iterator"],
   styleClass: "bg-color-list",
   structureCPlusPLus: "?::iterator",
+  moveText: "Iterator",
 };
 export const iteratorBegin = {
   id: "iteratorBegin",
@@ -69,7 +69,6 @@ export const listGetBack = {
   moveText: "Ostatni",
 };
 
-//< Stadard >
 export const consoleOut = {
   id: "consoleOut",
   texts: ["Wyświetl"],
@@ -89,90 +88,6 @@ export const returnValue = {
   moveText: "Zwróć",
   appendBeforeTraverseInJSGenerator: true,
 };
-export const push = {
-  id: "push",
-  texts: ["", "dodaj"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".push( ? )",
-  moveText: "dodaj",
-};
-export const pop = {
-  id: "pop",
-  texts: ["", "usuń z końca"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".pop( ? )",
-  moveText: "usuń z końca",
-};
-export const shift = {
-  id: "shift",
-  texts: ["", "usuń z początku"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".shift( ? )",
-  moveText: "usuń z początku",
-};
-export const unshift = {
-  id: "unshift",
-  texts: ["", "dodaj na początek"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".unshift( ? )",
-  moveText: "dodaj na początek",
-};
-export const concat = {
-  id: "concat",
-  texts: ["", "złącz"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".concat( ? )",
-  moveText: "złącz",
-};
-export const slice = {
-  id: "slice",
-  texts: ["", "wybrana część"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".slice( ? )",
-  moveText: "wybrana część",
-};
-export const splice = {
-  id: "splice",
-  texts: ["", "splice"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".splice( ? )",
-  moveText: "splice",
-};
-export const map = {
-  id: "map",
-  texts: ["", "map"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".map( ? )",
-  moveText: "map",
-};
-export const filter = {
-  id: "filter",
-  texts: ["", "filter"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".filter( ? )",
-  moveText: "filter",
-};
-export const forEach = {
-  id: "forEach",
-  texts: ["", "forEach"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".forEach( ? )",
-  moveText: "forEach",
-};
-export const reduce = {
-  id: "reduce",
-  texts: ["", "reduce"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".reduce( ? )",
-  moveText: "reduce",
-};
-export const sort = {
-  id: "sort",
-  texts: ["", "sortuj"],
-  styleClass: "bg-color-js-array",
-  structureJS: ".sort( ? )",
-  moveText: "sortuj",
-};
 export const arrowFunction = {
   id: "arrowFunction",
   texts: ["", "=>"],
@@ -189,10 +104,26 @@ export const nextLine = {
   moveText: "następna linia",
   disableMainDroppable: true,
 };
+export const object = {
+  id: "object",
+  texts: ["{ ? }"],
+  styleClass: "bg-color-js-array",
+  structureJS: "{ ? }",
+  moveText: "{}",
+  appendBeforeTraverseInJSGenerator: true,
+  disableMainDroppable: false,
+};
+export const array = {
+  id: "array",
+  texts: ["[ ? ]"],
+  styleClass: "bg-color-js-array",
+  structureJS: "[ ? ]",
+  moveText: "[]",
+  appendBeforeTraverseInJSGenerator: true,
+  disableMainDroppable: false,
+};
 
-//< Operators >
-
-export const allBlockTypes = {
+export const blockTypesInit = {
   js: [arrowFunction, nextLine],
   listTypes: [
     iterator,
@@ -205,20 +136,6 @@ export const allBlockTypes = {
     listPopBack,
     listGetFront,
     listGetBack,
-  ],
-  arrayMethods: [
-    push,
-    pop,
-    shift,
-    unshift,
-    concat,
-    slice,
-    splice,
-    map,
-    filter,
-    forEach,
-    reduce,
-    sort,
   ],
   standardTypes: [consoleOut, returnValue],
 };
