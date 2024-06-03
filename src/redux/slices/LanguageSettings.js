@@ -3,7 +3,7 @@ import { allBlockTypes } from "../../AllBlockTypes";
 const languageSettingsSlice = createSlice({
   name: "languageSettings",
   initialState: {
-    isLanguage: "js",
+    isLanguage: "python",
     currentClassName: "",
     blockTypes: {
       ...allBlockTypes,

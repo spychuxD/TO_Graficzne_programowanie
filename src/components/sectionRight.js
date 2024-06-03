@@ -30,9 +30,9 @@ export default function SectionRight(props) {
           ? generateCppClassFromJson(jsonStructure, pageIndex)
           : isLanguage === "js"
           ? props.generateJSClassFromJson(jsonStructure, pageIndex)
-          : //: //: isLanguage === "python"
-            //? generatePythonClassFromJson(jsonStructure)
-            JSON.stringify(jsonStructure)}
+          : isLanguage === "python"
+          ? props.generatePythonClassFromJson(jsonStructure, pageIndex)
+          :  JSON.stringify(jsonStructure)}
       </SyntaxHighlighter>
       <div style={{ marginTop: "auto", height: "50%", overflow: "auto" }}>
         Wynik z konsoli:

@@ -139,12 +139,12 @@ export default function Palette({ blocksState, setBlocksState }) {
               setBlocksState={setBlocksState}
               palette={true}
             />
-            <DowhileBlock
+            {isLanguage !== "python"? <DowhileBlock
               id={dowhileBlock}
               blocksState={blocksState}
               setBlocksState={setBlocksState}
               palette={true}
-            />
+            /> : null}
             <VariableDeclarationBlock
               id={variableDeclarationBlock}
               blocksState={blocksState}
@@ -298,7 +298,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-      <div className="list-header">
+      {isLanguage !== "python" ? <div className="list-header">
         <Button
           fullWidth
           startIcon={<MdCalculate size={24} className="mr-8" />}
@@ -306,7 +306,7 @@ export default function Palette({ blocksState, setBlocksState }) {
         >
           <span className="">Typy zmiennych</span>
         </Button>
-      </div>
+      </div> : null}
       {category?.includes(4) ? (
         <div>
           <div className="flex-row align-center justify-center">

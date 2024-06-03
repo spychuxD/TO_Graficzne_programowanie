@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { addTab } from "./redux/slices/BlocksTabs";
 import JavaScriptGenerator from "./CodeGenerators/JavaScriptGenerator";
+import PythonGenerator from "./CodeGenerators/PythonGenerator";
 const theme = createTheme({
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
@@ -103,6 +104,8 @@ function App() {
           </div>
           <div className="max-h-vh w-80">
             <header className="App-header">
+            <PythonGenerator>
+                  {(generatePythonFromJson, generatePythonClassFromJson) => (
               <JavaScriptGenerator>
                 {(generateJSFromJson) => (
                   <Header
@@ -110,20 +113,37 @@ function App() {
                     //setTabs={setTabs}
                     onAddClass={handleAddClass}
                     generateJSFromJson={generateJSFromJson}
+                    generatePythonFromJson={
+                      generatePythonFromJson
+                          }
                   />
                 )}
               </JavaScriptGenerator>
+            )}
+                </PythonGenerator>
             </header>
             <main className="main-content">
               <SectionMid tabs={codeTabs} /*setTabs={setTabs}*/></SectionMid>
               <div className="sectionRight">
-                <JavaScriptGenerator>
-                  {(generateJSFromJson, generateJSClassFromJson) => (
-                    <SectionRight
-                      generateJSClassFromJson={generateJSClassFromJson}
-                    />
+                <PythonGenerator>
+                  {(generatePythonFromJson, generatePythonClassFromJson) => (
+                    <JavaScriptGenerator>
+                      {(
+                        generateJSFromJson,
+                        generateJSClassFromJson
+                      ) => (
+                        <SectionRight
+                          generateJSClassFromJson={
+                            generateJSClassFromJson
+                          }
+                          generatePythonClassFromJson={
+                            generatePythonClassFromJson
+                          }
+                        />
+                      )}
+                    </JavaScriptGenerator>
                   )}
-                </JavaScriptGenerator>
+                </PythonGenerator>
               </div>
             </main>
           </div>

@@ -76,6 +76,7 @@ export const consoleOut = {
   styleClass: "bg-color-list",
   structureCPlusPLus: "std::cout<< ? <<std::endl",
   structureJS: "console.log( ? )",
+  structurePython: "print( ? )",
   moveText: "Wyświetl",
   appendBeforeTraverseInJSGenerator: true,
 };

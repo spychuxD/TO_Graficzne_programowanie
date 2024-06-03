@@ -13,8 +13,10 @@ import {
   changeClassElement,
   changeClassMethodVariable,
 } from "../../redux/slices/Classes";
+import { useSelector } from "react-redux";
 
 function VariableDeclarationBlock(props) {
+  const isLanguage = useSelector((state) => state.languageSettings.isLanguage);
   const dispatch = useDispatch();
   const onChangeElement = (fieldToModify, e) => {
     dispatch(
@@ -53,7 +55,7 @@ function VariableDeclarationBlock(props) {
         {!props.isOverlay ? (
           <Fragment>
             Zmienna&nbsp;
-            <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
+            {isLanguage !== "python" ? <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
               <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                 {props.children
                   ? props.children[0]?.map((item, index) =>
@@ -61,7 +63,7 @@ function VariableDeclarationBlock(props) {
                     )
                   : null}
               </div>
-            </MainDroppable>
+            </MainDroppable> : null }
             &nbsp;o nazwie&nbsp;
             <input
               disabled={props.palette}

@@ -25,7 +25,7 @@ import { resetClassSlices, setClassSlice } from "../redux/slices/Classes";
 import { setDraggSlice } from "../redux/slices/DraggableSettings";
 
 //import { generateJSFromJson } from "../CodeGenerators/JavaScriptGenerator";
-function Header({ tabs, setTabs, onAddClass, generateJSFromJson }) {
+function Header({ tabs, setTabs, onAddClass, generateJSFromJson, generatePythonFromJson }) {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [isHoverPython, setIsHoverPython] = useState(false);
@@ -57,11 +57,12 @@ function Header({ tabs, setTabs, onAddClass, generateJSFromJson }) {
     let code;
     if (isLanguage === "cpp") code = generateAllCppFromJson(codeStructure);
     else if (isLanguage === "js") code = generateJSFromJson(codeStructure);
+    else if (isLanguage === "python") code = generatePythonFromJson(codeStructure);
     //debugger;
     const result = await sendRequest(
-      isLanguage === "js" ? "node" + isLanguage : isLanguage,
+      isLanguage === "js" ? "node" + isLanguage : isLanguage === "python" ? isLanguage + "3" : isLanguage,
       code,
-      isLanguage === "js" ? "4" : isLanguage === "cpp" ? "0" : ""
+      isLanguage === "js" ? "4" : isLanguage === "cpp" ? "0" : isLanguage === "python" ? "4" : ""
     );
     dispatch(saveResut({ result: result }));
   };
