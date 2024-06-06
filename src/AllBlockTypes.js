@@ -91,7 +91,7 @@ export const listClear = {
 };
 export const listAtIndex = {
   id: "listAtIndex",
-  texts: ["List","at Index"],
+  texts: ["List", "at Index"],
   styleClass: "bg-color-list",
   structureCPlusPLus: "?.[?]",
   moveText: "At index",
@@ -137,8 +137,6 @@ export const vectorSize = {
   moveText: "Rozmiar",
 };
 
-
-
 export const consoleOut = {
   id: "consoleOut",
   texts: ["Wyświetl"],
@@ -175,7 +173,7 @@ export const referenceEt = {
 export const arrowFunction = {
   id: "arrowFunction",
   texts: ["", "=>"],
-  styleClass: "bg-color-js-array",
+  styleClass: "bg-color-js-first-variant",
   structureJS: "( ? )=>{ ? }",
   moveText: "funkcja strzałkowa",
   appendBeforeTraverseInJSGenerator: true,
@@ -183,24 +181,24 @@ export const arrowFunction = {
 export const nextLine = {
   id: "nextLine",
   texts: ["następna linia"],
-  styleClass: "bg-color-js-array",
+  styleClass: "bg-color-js-first-variant",
   structureJS: '"\\n"',
   moveText: "następna linia",
   disableMainDroppable: true,
 };
 export const object = {
-  id: "object",
+  id: "Object;js;declaration3",
   texts: ["{ ? }"],
-  styleClass: "bg-color-js-array",
+  styleClass: "bg-color-js-first-variant",
   structureJS: "{ ? }",
   moveText: "{}",
   appendBeforeTraverseInJSGenerator: true,
   disableMainDroppable: false,
 };
 export const array = {
-  id: "array",
+  id: "Array;js;declaration3",
   texts: ["[ ? ]"],
-  styleClass: "bg-color-js-array",
+  styleClass: "bg-color-js-first-variant",
   structureJS: "[ ? ]",
   moveText: "[]",
   appendBeforeTraverseInJSGenerator: true,
@@ -208,7 +206,7 @@ export const array = {
 };
 
 export const blockTypesInit = {
-  js: [arrowFunction, nextLine],
+  js: [arrowFunction, nextLine, object, array],
   listTypes: [
     iterator,
     iteratorBegin,
@@ -222,15 +220,15 @@ export const blockTypesInit = {
     listGetBack,
     listGetSize,
     listIsEmpty,
-    listAtIndex
+    listAtIndex,
   ],
-  vectorTypes:[
+  vectorTypes: [
     vectorDataType,
     vectorPushBack,
     vectorPopBack,
     vectorAtIndex,
-    vectorSize
+    vectorSize,
   ],
   standardTypes: [consoleOut, returnValue],
-  referenceTypes:[referenceEt,referenceStart]
+  referenceTypes: [referenceEt, referenceStart],
 };

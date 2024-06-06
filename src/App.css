@@ -584,9 +584,13 @@ div {
   background-color: #3fad24;
 }
 
-.bg-color-js-array {
-  background-color: #e0c71e;
+.bg-color-js-first-variant {
+  background-color: #c2a800;
 }
+.bg-color-js-second-variant {
+  background-color: #e69500;
+}
+
 /* ============================== Animacje ======================= */
 .slideDown {
   animation: slideDownAnimation 0.5s ease-out forwards;

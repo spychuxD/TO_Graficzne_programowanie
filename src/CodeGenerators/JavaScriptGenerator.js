@@ -14,9 +14,11 @@ import {
   variableTypesBlock,
   whileBlock,
 } from "../blockTypes";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { updateUsedMethodsFromRefection } from "../redux/slices/LanguageSettings";
 function JavaScriptGenerator(props) {
+  const dispatch = useDispatch();
+
   const blockTypes = useSelector((state) =>
     Object.values(state.languageSettings.blockTypes).flat()
   );
@@ -348,6 +350,8 @@ function JavaScriptGenerator(props) {
           let elementStructure = blockTypes.find(
             (el) => el.id === element.subType
           );
+          if (elementStructure === undefined) console.log(element);
+          dispatch(updateUsedMethodsFromRefection(elementStructure));
           result += generateTabs(level);
           const splitedCode = elementStructure.structureJS.split("?");
           let i = 0;
@@ -360,7 +364,11 @@ function JavaScriptGenerator(props) {
                 classObject,
                 0,
                 false,
-                elementStructure.id === "arrowFunction" ? ";\n" : " "
+                elementStructure.id === "arrowFunction"
+                  ? ";\n"
+                  : elementStructure.disableComma === true
+                  ? ""
+                  : ", "
               );
             } else {
               result += Traverse(
@@ -369,7 +377,7 @@ function JavaScriptGenerator(props) {
                 classObject,
                 0,
                 false,
-                ","
+                ", "
               );
 
               result += el;

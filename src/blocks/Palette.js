@@ -43,7 +43,7 @@ import ClassVariableDeclarationBlock from "./ClassBlocks/ClassVariableDeclaratio
 import ClassVariableBlock from "./ClassBlocks/ClassVariableBlock";
 import StandardBlock from "./StandardBlock";
 import {
-  updateRetrievedMethods,
+  setCurrentMethodsFromReflection,
   setClassNames,
 } from "../redux/slices/LanguageSettings";
 import { useDispatch } from "react-redux";
@@ -128,12 +128,14 @@ export default function Palette({ blocksState, setBlocksState }) {
               setBlocksState={setBlocksState}
               palette={true}
             />
-            {isLanguage !== "python"? <DowhileBlock
-              id={dowhileBlock}
-              blocksState={blocksState}
-              setBlocksState={setBlocksState}
-              palette={true}
-            /> : null}
+            {isLanguage !== "python" ? (
+              <DowhileBlock
+                id={dowhileBlock}
+                blocksState={blocksState}
+                setBlocksState={setBlocksState}
+                palette={true}
+              />
+            ) : null}
             <VariableDeclarationBlock
               id={variableDeclarationBlock}
               blocksState={blocksState}
@@ -181,17 +183,17 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {isLanguage === "cpp"?
-              blockTypes?.referenceTypes?.map((v, k) => (
-                <StandardBlock
-                  id={standardBlock + "|" + v.id}
-                  key={k}
-                  subType={v.id}
-                  data={v}
-                  palette={true}
-                />
-              ))
-            :null}
+            {isLanguage === "cpp"
+              ? blockTypes?.referenceTypes?.map((v, k) => (
+                  <StandardBlock
+                    id={standardBlock + "|" + v.id}
+                    key={k}
+                    subType={v.id}
+                    data={v}
+                    palette={true}
+                  />
+                ))
+              : null}
 
             {tabIndex === 0
               ? mainMethodVariables?.map((v, k) => (
@@ -299,15 +301,17 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-      {isLanguage !== "python" ? <div className="list-header">
-        <Button
-          fullWidth
-          startIcon={<MdCalculate size={24} className="mr-8" />}
-          onClick={() => handleCategory(4)}
-        >
-          <span className="">Typy zmiennych</span>
-        </Button>
-      </div> : null}
+      {isLanguage !== "python" ? (
+        <div className="list-header">
+          <Button
+            fullWidth
+            startIcon={<MdCalculate size={24} className="mr-8" />}
+            onClick={() => handleCategory(4)}
+          >
+            <span className="">Typy zmiennych</span>
+          </Button>
+        </div>
+      ) : null}
       {category?.includes(4) ? (
         <div>
           <div className="flex-row align-center justify-center">
@@ -460,13 +464,14 @@ export default function Palette({ blocksState, setBlocksState }) {
             defaultValue={
               Object.keys(currentClassName).length !== 0
                 ? currentClassName
-                : null
+                : undefined
             }
+            clearValue
             placeholder="Wpisz nazwę klasy"
             options={classNames}
             isClearable={true}
             onChange={(e) => {
-              dispatch(updateRetrievedMethods({ name: e?.value }));
+              dispatch(setCurrentMethodsFromReflection({ name: e?.value }));
             }}
             onInputChange={(e) => {
               dispatch(setClassNames(e));
@@ -480,7 +485,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
 
           <div className="palette-blocks-container slideDown">
-            {blockTypes.currentRetrievedMethods?.map((v, k) => (
+            {blockTypes.currentMethodsFromReflection?.map((v, k) => (
               <StandardBlock
                 id={standardBlock + "|" + v.id}
                 key={k}

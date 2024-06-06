@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   changeLanguage,
   setLanguageSlice,
-  resetRetrievedMethods,
+  resetUsedMethodsFromRefection,
 } from "../redux/slices/LanguageSettings";
 import { saveResut, sendRequest, setCompiler } from "../redux/slices/Compiler";
 import { resetTabSlice, setTabSlice } from "../redux/slices/BlocksTabs";
@@ -25,7 +25,8 @@ function Header({
   tabs,
   setTabs,
   onAddClass,
-  generateJSFromJson, generatePythonFromJson,
+  generateJSFromJson,
+  generatePythonFromJson,
   generateAllCppFromJson,
 }) {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ function Header({
     if (confirmed) {
       dispatch(resetClassSlices());
       dispatch(resetTabSlice());
-      dispatch(resetRetrievedMethods());
+      dispatch(resetUsedMethodsFromRefection());
       dispatch(changeLanguage(language));
     }
   };
@@ -59,12 +60,23 @@ function Header({
     let code;
     if (isLanguage === "cpp") code = generateAllCppFromJson(codeStructure);
     else if (isLanguage === "js") code = generateJSFromJson(codeStructure);
-    else if (isLanguage === "python") code = generatePythonFromJson(codeStructure);
+    else if (isLanguage === "python")
+      code = generatePythonFromJson(codeStructure);
     //debugger;
     const result = await sendRequest(
-      isLanguage === "js" ? "node" + isLanguage : isLanguage === "python" ? isLanguage + "3" : isLanguage,
+      isLanguage === "js"
+        ? "node" + isLanguage
+        : isLanguage === "python"
+        ? isLanguage + "3"
+        : isLanguage,
       code,
-      isLanguage === "js" ? "4" : isLanguage === "cpp" ? "0" : isLanguage === "python" ? "4" : ""
+      isLanguage === "js"
+        ? "4"
+        : isLanguage === "cpp"
+        ? "0"
+        : isLanguage === "python"
+        ? "4"
+        : ""
     );
     dispatch(saveResut({ result: result }));
   };
