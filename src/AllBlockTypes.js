@@ -141,7 +141,7 @@ export const consoleOut = {
   id: "consoleOut",
   texts: ["Wyświetl"],
   styleClass: "bg-color-list",
-  structureCPlusPLus: "std::cout<< ? <<std::endl",
+  structureCPlusPLus: "Console.Write(?)",
   structureJS: "console.log( ? )",
   structurePython: "print( ? )",
   moveText: "Wyświetl",

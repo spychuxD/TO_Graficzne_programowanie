@@ -17,7 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { addTab } from "./redux/slices/BlocksTabs";
 import JavaScriptGenerator from "./CodeGenerators/JavaScriptGenerator";
-import CPlusPlusGenerator from "./CodeGenerators/CPlusPlusGenerator";
+import CSharpGenerator from "./CodeGenerators/CSharpGenerator";
 import PythonGenerator from "./CodeGenerators/PythonGenerator";
 const theme = createTheme({
   typography: {
@@ -105,8 +105,8 @@ function App() {
           </div>
           <PythonGenerator>
                   {(generatePythonFromJson, generatePythonClassFromJson) => (
-          <CPlusPlusGenerator>
-            {(generateAllCppFromJson, generateCppClassFromJson) => (
+          <CSharpGenerator>
+            {(generateAllCSharpFromJson, generateCSharpClassFromJson) => (
               <JavaScriptGenerator>
                 {(generateJSFromJson, generateJSClassFromJson) => (
                   <div className="max-h-vh w-80">
@@ -115,7 +115,7 @@ function App() {
                         tabs={codeTabs}
                         onAddClass={handleAddClass}
                         generateJSFromJson={generateJSFromJson}
-                        generateAllCppFromJson={generateAllCppFromJson}
+                        generateAllCSharpFromJson={generateAllCSharpFromJson}
                       />
                     </header>
                     <main className="main-content">
@@ -123,7 +123,7 @@ function App() {
                       <div className="sectionRight">
                         <SectionRight
                           generateJSClassFromJson={generateJSClassFromJson}
-                          generateCppClassFromJson={generateCppClassFromJson}
+                          generateCSharpClassFromJson={generateCSharpClassFromJson}
                           generatePythonClassFromJson={generatePythonFromJson}
                         />
                       </div>
@@ -132,7 +132,7 @@ function App() {
                 )}
               </JavaScriptGenerator>
             )}
-          </CPlusPlusGenerator>
+          </CSharpGenerator>
         )}
         </PythonGenerator>
         </DndContext>

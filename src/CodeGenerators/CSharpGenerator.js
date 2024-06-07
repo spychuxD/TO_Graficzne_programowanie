@@ -18,30 +18,31 @@ import {
 import { consoleOut } from "../AllBlockTypes";
 import { useSelector } from "react-redux";
 
-function CPlusPlusGenerator(props) {
+function CSharpGenerator(props) {
   const blockTypes = useSelector((state) =>
     Object.values(state.languageSettings.blockTypes).flat()
   );
-  function generateAllCppFromJson(json) {
-    let cppClass = "#include <iostream>\n";
+  function generateAllCSharpFromJson(json) {
+    let cppClass = "";
 
     let page = 0;
     json.classes.forEach((element) => {
       if (page !== 0) {
-        cppClass += generateCppClassFromJson(json, page);
+        cppClass += generateCSharpClassFromJson(json, page);
       }
       page++;
     });
-    cppClass += generateCppClassFromJson(json, 0);
+    cppClass += generateCSharpClassFromJson(json, 0);
     return cppClass;
   }
 
-  function generateCppClassFromJson(json, page) {
-    let cppClass = "#include <iostream>\n";
-    cppClass += "#include <list>\n";
-    cppClass += "#include <vector>\n";
+  function generateCSharpClassFromJson(json, page) {
+    let cppClass = "using System;\n";
+
     if (page === 0) {
-      cppClass += "int main(int argc, char *argv[]){\n";
+      cppClass += "class Program\n";
+      cppClass += "{\n";
+      cppClass += `        `+"static void Main(){\n";
       cppClass += traverse(
         json,
         json.classes[page].methods[0].children[2],
@@ -50,11 +51,12 @@ function CPlusPlusGenerator(props) {
         true,
         ""
       );
-      cppClass += "}";
+      cppClass += '    '+"}\n";
+      cppClass += "}\n";
       return cppClass;
     }
 
-    cppClass = `class ${json.classes[page].name.replace(/ /g, "_")} {\n`;
+    cppClass = `public class ${json.classes[page].name.replace(/ /g, "_")} {\n`;
 
     cppClass += getFields("private", json.classes[page]);
     cppClass += getConstructor("private", json, page);
@@ -73,11 +75,11 @@ function CPlusPlusGenerator(props) {
     return cppClass;
   }
   function getFields(visibility, json) {
-    let result = `\n` + visibility + `:\n`;
+    let result = "";
     if (json.fields && json.fields.length > 0) {
       json.fields.forEach((field) => {
         if (field.visibility === visibility)
-          result += `    ${
+          result += generateTabs(1)+visibility+" "+`${
             field.children[0].length > 0 ? field.children[0][0].name : undefined
           } ${field.name.replace(/ /g, "_")};\n`;
       });
@@ -90,7 +92,7 @@ function CPlusPlusGenerator(props) {
     if (classObject.constructors && classObject.constructors.length > 0) {
       classObject.constructors.forEach((constructor) => {
         if (visibility === constructor.visibility) {
-          result += `    ${classObject.name.replace(/ /g, "_")}(`;
+          result += generateTabs(1)+visibility+" "+`${classObject.name.replace(/ /g, "_")}(`;
           let counter = 0;
           constructor.children[1].forEach((parametr) => {
             result +=
@@ -123,7 +125,7 @@ function CPlusPlusGenerator(props) {
     if (classObject.methods && classObject.methods.length > 0) {
       classObject.methods.forEach((method) => {
         if (visibility === method.visibility) {
-          result += `    `;
+          result += generateTabs(1)+visibility+" ";
           result +=
             method.children[0].length > 0
               ? method.children[0][0].name
@@ -298,9 +300,9 @@ function CPlusPlusGenerator(props) {
         case consoleLogBlock:
           result += generateTabs(level);
           result +=
-            "std::cout << " +
-            traverse(json, element.children[0], classObject, 0, false, "<<") +
-            "<< std::endl";
+            "Console.Write(" +
+            traverse(json, element.children[0], classObject, 0, false, "+") +
+            ")";
           break;
         case whileBlock:
           result += generateTabs(level);
@@ -426,7 +428,7 @@ function CPlusPlusGenerator(props) {
     return result;
   }
   return (
-    <>{props.children(generateAllCppFromJson, generateCppClassFromJson)}</>
+    <>{props.children(generateAllCSharpFromJson,generateCSharpClassFromJson)}</>
   );
 }
-export default CPlusPlusGenerator;
+export default CSharpGenerator;

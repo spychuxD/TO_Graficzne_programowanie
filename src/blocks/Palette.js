@@ -183,7 +183,7 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {isLanguage === "cpp"
+            {isLanguage === "csharp"
               ? blockTypes?.referenceTypes?.map((v, k) => (
                   <StandardBlock
                     id={standardBlock + "|" + v.id}
@@ -321,7 +321,7 @@ export default function Palette({ blocksState, setBlocksState }) {
             </div>
           </div>
           <div className="palette-blocks-container slideDown">
-            {isLanguage === "cpp" || isLanguage === "python"
+            {isLanguage === "csharp" || isLanguage === "python"
               ? Object.keys(CPPVariableTypes).map((variableType, index) => (
                   <VariableTypesBlock
                     id={
@@ -402,7 +402,7 @@ export default function Palette({ blocksState, setBlocksState }) {
           </div>
         </div>
       ) : null}
-      {isLanguage === "cpp" ? (
+      {isLanguage === "csharp" ? (
         <Fragment>
           <div className="list-header flex-row align-center justify-between">
             <Button

@@ -27,7 +27,7 @@ function Header({
   onAddClass,
   generateJSFromJson,
   generatePythonFromJson,
-  generateAllCppFromJson,
+  generateAllCSharpFromJson,
 }) {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
@@ -58,7 +58,7 @@ function Header({
 
   const onClickCompile = async () => {
     let code;
-    if (isLanguage === "cpp") code = generateAllCppFromJson(codeStructure);
+    if (isLanguage === "csharp") code = generateAllCSharpFromJson(codeStructure);
     else if (isLanguage === "js") code = generateJSFromJson(codeStructure);
     else if (isLanguage === "python")
       code = generatePythonFromJson(codeStructure);
@@ -72,7 +72,7 @@ function Header({
       code,
       isLanguage === "js"
         ? "4"
-        : isLanguage === "cpp"
+        : isLanguage === "csharp"
         ? "0"
         : isLanguage === "python"
         ? "4"
@@ -190,12 +190,12 @@ function Header({
           </div>
           <div className="mr-8">
             <Button
-              variant={isLanguage === "cpp" ? "contained" : "outlined"}
-              onClick={() => handleLanguageClick("cpp")}
+              variant={isLanguage === "csharp" ? "contained" : "outlined"}
+              onClick={() => handleLanguageClick("csharp")}
             >
               <img
                 src={
-                  isLanguage === "cpp"
+                  isLanguage === "csharp"
                     ? `${process.env.PUBLIC_URL}/logo_cpp_dark.png`
                     : `${process.env.PUBLIC_URL}/logo_cpp.png`
                 }

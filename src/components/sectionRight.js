@@ -24,8 +24,8 @@ export default function SectionRight(props) {
         style={dracula}
         customStyle={{ width: `calc(100% - 20px)`, height: "50%" }}
       >
-        {isLanguage === "cpp"
-          ? props.generateCppClassFromJson(jsonStructure, pageIndex)
+        {isLanguage === "csharp"
+          ? props.generateCSharpClassFromJson(jsonStructure, pageIndex)
           : isLanguage === "js"
           ? props.generateJSClassFromJson(jsonStructure, pageIndex)
           : isLanguage === "python"
