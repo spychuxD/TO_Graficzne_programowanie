@@ -8,9 +8,6 @@ const languageSettingsSlice = createSlice({
     classNames: [
       //{ value: "Object", label: "Object" },
     ],
-    csClassNames:[
-      //{ value: "Object", label: "Object" },
-    ],
     blockTypes: {
       ...blockTypesInit,
       usedMethodsFromReflection: [],
@@ -51,9 +48,32 @@ const languageSettingsSlice = createSlice({
       );
     },
     setCsClassNames(state,action){
+      state.classNames=[];
       JSON.parse(action.payload.result).forEach(e=>{
-        state.csClassNames.push({ value: e, label: e })
+        state.classNames.push({ value: e, label: e })
       })
+    },
+    setCurrentCsMethodsFromReflection(state,action)
+    {
+      state.blockTypes.currentMethodsFromReflection = [];
+      state.currentClassName = {
+        value: action.payload.name,
+        label: action.payload.name,
+      };
+      JSON.parse(action.payload.result).forEach(e=>{
+        const declaration = {
+          id: e + ";csharp;reflection;method",
+          texts: [e],
+          styleClass: "bg-color-js-second-variant",
+          //structureJS: action.payload.name + "? ",
+          moveText: e,
+          //disableMainDroppable: false,
+          //appendBeforeTraverseInJSGenerator: true,
+          //disableComma: true,
+        };
+        state.blockTypes.currentMethodsFromReflection.push(declaration);
+      })
+      
     },
 
     setCurrentMethodsFromReflection(state, action) {
@@ -156,6 +176,7 @@ export const {
   setCurrentMethodsFromReflection,
   updateUsedMethodsFromRefection,
   resetUsedMethodsFromRefection,
-  setCsClassNames
+  setCsClassNames,
+  setCurrentCsMethodsFromReflection
 } = languageSettingsSlice.actions;
 export default languageSettingsSlice.reducer;

@@ -46,11 +46,12 @@ import {
   setCurrentMethodsFromReflection,
   setClassNames,
   setCsClassNames,
+  setCurrentCsMethodsFromReflection,
 } from "../redux/slices/LanguageSettings";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { Input, TextField } from "@mui/material";
-import { generateReflectionCode } from "../CodeGenerators/CSharpGenerator";
+import { generateReflectionCode, generateReflectionCodeMethod } from "../CodeGenerators/CSharpGenerator";
 import { sendRequest } from "../redux/slices/Compiler";
 
 export default function Palette({ blocksState, setBlocksState }) {
@@ -87,7 +88,6 @@ export default function Palette({ blocksState, setBlocksState }) {
   );
   const blockTypes = useSelector((state) => state.languageSettings.blockTypes);
   const [nameSpace,setNameSpace] = useState("");
-  const csharpObjects = useSelector(state=>state.languageSettings.csClassNames);
   useEffect(() => {
     dispatch(setClassNames());
   }, [dispatch]);
@@ -445,15 +445,28 @@ export default function Palette({ blocksState, setBlocksState }) {
                   }
                   clearValue
                   placeholder="Wpisz nazwę klasy"
-                  options={csharpObjects}
+                  options={classNames}
                   isClearable={true}
-                  onChange={(e) => {
+                  onChange={async(e) => {
                     //dispatch(setCurrentMethodsFromReflection({ name: e?.value }));
+                    const result = await sendRequest("csharp",generateReflectionCodeMethod(nameSpace,e.value))
+                    dispatch(setCurrentCsMethodsFromReflection({result:result.output}))
                   }}
                   onInputChange={(e) => {
                     //dispatch(setClassNames(e));
                   }}
                 />
+                <div className="palette-blocks-container slideDown">
+            {blockTypes.currentMethodsFromReflection?.map((v, k) => (
+              <StandardBlock
+                id={standardBlock + "|" + v.id}
+                key={k}
+                subType={v.id}
+                data={v}
+                palette={true}
+              />
+            ))}
+          </div>
               </div>
             </div>
           ) : null}

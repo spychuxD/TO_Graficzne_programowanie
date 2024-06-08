@@ -507,6 +507,72 @@ export function generateReflectionCode(nameSpace) {
                 }`;
   return result;
 }
+export function generateReflectionCodeMethod(namespaceName, className) {
+  let result = `
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string namespaceName = "${namespaceName}";
+        string className = "${className}";
+
+        if (!string.IsNullOrEmpty(namespaceName) && !string.IsNullOrEmpty(className))
+        {
+            string jsonResult = GetPublicMethodsInClassAsJson(namespaceName, className);
+            Console.WriteLine(jsonResult);
+        }
+        else
+        {
+            Console.WriteLine("Podana nazwa przestrzeni nazw lub nazwa klasy jest pusta.");
+        }
+    }
+
+    static string GetPublicMethodsInClassAsJson(string namespaceName, string className)
+    {
+        // Pobieramy wszystkie załadowane zestawy (assemblies)
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        // Przechodzimy przez każdy zestaw, aby znaleźć typ z określonej przestrzeni nazw i nazwy klasy
+        var type = assemblies.SelectMany(a => a.GetTypes())
+                             .FirstOrDefault(t => t.IsClass && t.Namespace == namespaceName && t.Name == className);
+
+        List<string> methods = new List<string>();
+
+        if (type != null)
+        {
+            var methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+
+            foreach (var methodInfo in methodInfos)
+            {
+                methods.Add(methodInfo.Name);
+            }
+        }
+
+        // Tworzymy ręcznie format JSON
+        string jsonResult = "[";
+        for (int i = 0; i < methods.Count; i++)
+        {
+            jsonResult += '"'+methods[i]+'"';
+            if (i < methods.Count - 1)
+            {
+                jsonResult += ",";
+            }
+        }
+        jsonResult += "]";
+
+        return jsonResult;
+    }
+}
+`;
+
+  return result;
+}
+
 
 
 export default CSharpGenerator;
