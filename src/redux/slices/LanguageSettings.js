@@ -65,7 +65,7 @@ const languageSettingsSlice = createSlice({
           id: e + ";csharp;reflection;method",
           texts: [e],
           styleClass: "bg-color-js-second-variant",
-          //structureJS: action.payload.name + "? ",
+          structureCS: "."+e + "(?)",
           moveText: e,
           //disableMainDroppable: false,
           //appendBeforeTraverseInJSGenerator: true,

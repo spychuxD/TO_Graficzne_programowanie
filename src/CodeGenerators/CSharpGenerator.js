@@ -17,8 +17,11 @@ import {
 } from "../blockTypes";
 import { consoleOut } from "../AllBlockTypes";
 import { useSelector } from "react-redux";
+import { updateUsedMethodsFromRefection } from "../redux/slices/LanguageSettings";
+import { useDispatch } from "react-redux";
 
 function CSharpGenerator(props) {
+  const dispatch = useDispatch()
   const blockTypes = useSelector((state) =>
     Object.values(state.languageSettings.blockTypes).flat()
   );
@@ -376,7 +379,8 @@ function CSharpGenerator(props) {
           result += findedMethodForField?.name;
           break;
         case standardBlock:
-          let elementStructure = blockTypes.find(
+          debugger
+          /*let elementStructure = blockTypes.find(
             (el) => el.id === element.subType
           );
           result += generateTabs(level);
@@ -402,6 +406,45 @@ function CSharpGenerator(props) {
                 false,
                 ""
               );
+            i++;
+          });
+          break;*/
+          let elementStructure = blockTypes.find(
+            (el) => el.id === element.subType
+          );
+          if (elementStructure === undefined) console.log(element);
+          dispatch(updateUsedMethodsFromRefection(elementStructure));
+          result += generateTabs(level);
+          const splitedCode = elementStructure.structureCS.split("?");
+          let i = 0;
+          splitedCode.forEach((el) => {
+            if (elementStructure.appendBeforeTraverseInJSGenerator === true) {
+              result += el;
+              result += traverse(
+                json,
+                element.children[i],
+                classObject,
+                0,
+                false,
+                elementStructure.id === "arrowFunction"
+                  ? ";\n"
+                  : elementStructure.disableComma === true
+                  ? ""
+                  : ", "
+              );
+            } else {
+              result += traverse(
+                json,
+                element.children[i],
+                classObject,
+                0,
+                false,
+                ", "
+              );
+
+              result += el;
+            }
+
             i++;
           });
           break;
