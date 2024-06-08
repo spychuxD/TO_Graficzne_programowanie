@@ -45,9 +45,13 @@ import StandardBlock from "./StandardBlock";
 import {
   setCurrentMethodsFromReflection,
   setClassNames,
+  setCsClassNames,
 } from "../redux/slices/LanguageSettings";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
+import { Input, TextField } from "@mui/material";
+import { generateReflectionCode } from "../CodeGenerators/CSharpGenerator";
+import { sendRequest } from "../redux/slices/Compiler";
 
 export default function Palette({ blocksState, setBlocksState }) {
   const dispatch = useDispatch();
@@ -82,7 +86,8 @@ export default function Palette({ blocksState, setBlocksState }) {
     (state) => state.languageSettings.currentClassName
   );
   const blockTypes = useSelector((state) => state.languageSettings.blockTypes);
-
+  const [nameSpace,setNameSpace] = useState("");
+  const csharpObjects = useSelector(state=>state.languageSettings.csClassNames);
   useEffect(() => {
     dispatch(setClassNames());
   }, [dispatch]);
@@ -410,7 +415,7 @@ export default function Palette({ blocksState, setBlocksState }) {
               startIcon={<MdBento size={24} className="mr-8" />}
               onClick={() => handleCategory(7)}
             >
-              <span className="">Struktury danych C++</span>
+              <span className="">Struktury danych C#</span>
             </Button>
           </div>
           {category?.includes(7) ? (
@@ -421,25 +426,34 @@ export default function Palette({ blocksState, setBlocksState }) {
                   Przeciągnij blok, aby go dodać
                 </div>
               </div>
-              <div className="palette-blocks-container slideDown">
-                {blockTypes?.listTypes?.map((v, k) => (
-                  <StandardBlock
-                    id={standardBlock + "|" + v.id}
-                    key={k}
-                    subType={v.id}
-                    data={v}
-                    palette={true}
-                  />
-                ))}
-                {blockTypes?.vectorTypes?.map((v, k) => (
-                  <StandardBlock
-                    id={standardBlock + "|" + v.id}
-                    key={k}
-                    subType={v.id}
-                    data={v}
-                    palette={true}
-                  />
-                ))}
+              <div className="palette-blocks-container slideDown w-full">
+                <input type="text" className="w-80" placeholder="Przestrzeń nazw" value={nameSpace} onChange={e=>setNameSpace(e.target.value)}/>
+                <Button onClick={async()=>{
+                  const result = await sendRequest("csharp",generateReflectionCode(nameSpace))
+                  dispatch(setCsClassNames({result:result.output}))
+                }}>
+                  Pobierz
+                </Button>
+                <Select
+                  classNames={"w-full"}
+                  className="basic-single"
+                  classNamePrefix="select"
+                  defaultValue={
+                    Object.keys(currentClassName).length !== 0
+                      ? currentClassName
+                      : undefined
+                  }
+                  clearValue
+                  placeholder="Wpisz nazwę klasy"
+                  options={csharpObjects}
+                  isClearable={true}
+                  onChange={(e) => {
+                    //dispatch(setCurrentMethodsFromReflection({ name: e?.value }));
+                  }}
+                  onInputChange={(e) => {
+                    //dispatch(setClassNames(e));
+                  }}
+                />
               </div>
             </div>
           ) : null}

@@ -431,4 +431,82 @@ function CSharpGenerator(props) {
     <>{props.children(generateAllCSharpFromJson,generateCSharpClassFromJson)}</>
   );
 }
+
+export function generateReflectionCode(nameSpace) {
+  let result = `using System;
+                using System.Linq;
+                using System.Reflection;
+                using System.Collections.Generic;
+                using System.Text;
+
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        string namespaceName = "${nameSpace}";
+
+                        if (!string.IsNullOrEmpty(namespaceName))
+                        {
+                            PrintClassesAndMethodsInNamespace(namespaceName);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Podana nazwa przestrzeni nazw jest pusta.");
+                        }
+                    }
+
+                    static void PrintClassesAndMethodsInNamespace(string namespaceName)
+                    {
+                        // Pobieramy wszystkie załadowane zestawy (assemblies)
+                        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+                        // Przechodzimy przez każdy zestaw, aby znaleźć typy z określonej przestrzeni nazw
+                        var types = assemblies.SelectMany(a => a.GetTypes())
+                                              .Where(t => t.IsClass && t.Namespace == namespaceName)
+                                              .OrderBy(t => t.Name);
+
+                        var result = new Dictionary<string, List<string>>();
+
+                        if (types.Any())
+                        {
+                            foreach (var type in types)
+                            {
+                                var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
+                                                  .OrderBy(m => m.Name)
+                                                  .Select(m => m.Name)
+                                                  .ToList();
+
+                                result[type.Name] = methods;
+                            }
+
+                            string jsonResult = ConvertToJson(result);
+                            Console.WriteLine(jsonResult);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Brak klas w przestrzeni nazw {namespaceName} lub przestrzeń nazw nie istnieje.");
+                        }
+                    }
+
+                    static string ConvertToJson(Dictionary<string, List<string>> data)
+                    {
+                        var stringBuilder = new StringBuilder();
+                        stringBuilder.Append("[\\n");
+                        bool first = true;
+                        foreach (var kvp in data)
+                        {
+                            if(first == true)
+                              first = false;
+                            else
+                              stringBuilder.Append(", ");
+                            stringBuilder.Append($"  \\"{kvp.Key}\\"\\n");
+                        }
+                        stringBuilder.Append("]");
+                        return stringBuilder.ToString();
+                    }
+                }`;
+  return result;
+}
+
+
 export default CSharpGenerator;

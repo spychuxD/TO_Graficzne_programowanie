@@ -8,6 +8,9 @@ const languageSettingsSlice = createSlice({
     classNames: [
       //{ value: "Object", label: "Object" },
     ],
+    csClassNames:[
+      //{ value: "Object", label: "Object" },
+    ],
     blockTypes: {
       ...blockTypesInit,
       usedMethodsFromReflection: [],
@@ -46,6 +49,11 @@ const languageSettingsSlice = createSlice({
         },
         []
       );
+    },
+    setCsClassNames(state,action){
+      JSON.parse(action.payload.result).forEach(e=>{
+        state.csClassNames.push({ value: e, label: e })
+      })
     },
 
     setCurrentMethodsFromReflection(state, action) {
@@ -148,5 +156,6 @@ export const {
   setCurrentMethodsFromReflection,
   updateUsedMethodsFromRefection,
   resetUsedMethodsFromRefection,
+  setCsClassNames
 } = languageSettingsSlice.actions;
 export default languageSettingsSlice.reducer;
