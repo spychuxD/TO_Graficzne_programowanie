@@ -78,7 +78,8 @@ function Header({
         ? "4"
         : ""
     );
-    dispatch(saveResut({ result: result }));
+    if(result)
+      dispatch(saveResut({ result: result }));
   };
   const onSave = async () => {
     const jsonString = JSON.stringify(appState);
@@ -232,11 +233,6 @@ function Header({
               }}
             >
               <span>KOMPILUJ</span>
-            </Button>
-          </div>
-          <div>
-            <Button variant="outlined" startIcon={<MdOutlineNotStarted />}>
-              <span>GENERUJ</span>
             </Button>
           </div>
         </div>

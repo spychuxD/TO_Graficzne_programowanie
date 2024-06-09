@@ -29,7 +29,8 @@ export async function sendRequest(lang, code, versionIndex) {
     return response.data;
   } catch (error) {
     console.error("Error executing code:", error);
-    return error.message;
+    alert("Aktywuj usługe cors-anywhere.herokuapp");
+    return undefined;
   }
 }
 
@@ -47,8 +48,11 @@ const compilerSlice = createSlice({
     setCompiler(state, action) {
       state.compileResult = action.payload.data.compileResult;
     },
+    compileCSharpReflection(state,action){
+
+    }
   },
 });
 
-export const { saveResut, setCompiler } = compilerSlice.actions;
+export const { saveResut, setCompiler,compileCSharpReflection } = compilerSlice.actions;
 export default compilerSlice.reducer;

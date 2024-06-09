@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { blockTypesInit } from "../../AllBlockTypes";
+function removeAfterBacktick(str) {
+  const index = str.indexOf('`');
+  if (index !== -1) {
+      return str.substring(0, index);
+  }
+  return str;
+}
 const languageSettingsSlice = createSlice({
   name: "languageSettings",
   initialState: {
@@ -49,29 +56,74 @@ const languageSettingsSlice = createSlice({
     },
     setCsClassNames(state,action){
       state.classNames=[];
+      let lastName = "";
       JSON.parse(action.payload.result).forEach(e=>{
-        state.classNames.push({ value: e, label: e })
+        const corectName = removeAfterBacktick(e);
+        //if(lastName!==corectName)
+        //{
+          state.classNames.push({ value: e, label: e})
+          lastName=corectName;
+       // }
+        
       })
     },
     setCurrentCsMethodsFromReflection(state,action)
     {
+      const clearName = removeAfterBacktick(action.payload.className);
+      const isGeneric = action.payload.className.indexOf('`')===-1?false:true;
       state.blockTypes.currentMethodsFromReflection = [];
       state.currentClassName = {
         value: action.payload.name,
         label: action.payload.name,
       };
+      const dataType = {
+        id: clearName + ";csharp;reflection;dataType",
+        texts: ["Datatype "+clearName],
+        styleClass: "bg-color-js-second-variant",
+        structureCS: clearName,
+        moveText: clearName,
+        disableMainDroppable: true,
+        appendBeforeTraverseInJSGenerator:true
+      };
+      state.blockTypes.currentMethodsFromReflection.push(dataType);
+      const tmp = action.payload.className+isGeneric?"<?>":""
+      const constructor = {
+        id: clearName + ";csharp;reflection;constructor",
+        texts: ["Constructor "+clearName,""],
+        styleClass: "bg-color-js-second-variant",
+        structureCS: "new "+clearName+tmp+"(?)",
+        moveText: clearName,
+        disableMainDroppable: false,
+        appendBeforeTraverseInJSGenerator:true
+      };
+      state.blockTypes.currentMethodsFromReflection.push(constructor);
+      const declaration = {
+        id: clearName + ";csharp;reflection;declaration",
+        texts: ["Declaration "+clearName],
+        styleClass: "bg-color-js-second-variant",
+        structureCS: clearName+tmp,
+        moveText: clearName,
+        disableMainDroppable: false,
+        appendBeforeTraverseInJSGenerator:true
+      };
+      state.blockTypes.currentMethodsFromReflection.push(declaration);
+      let lastMethod="";
       JSON.parse(action.payload.result).forEach(e=>{
-        const declaration = {
-          id: e + ";csharp;reflection;method",
-          texts: [e],
-          styleClass: "bg-color-js-second-variant",
-          structureCS: "."+e + "(?)",
-          moveText: e,
-          //disableMainDroppable: false,
-          //appendBeforeTraverseInJSGenerator: true,
-          //disableComma: true,
-        };
-        state.blockTypes.currentMethodsFromReflection.push(declaration);
+        if(e!==lastMethod)
+        {
+          const method = {
+            id: e + ";csharp;reflection;method",
+            texts: ["",e],
+            styleClass: "bg-color-js-second-variant",
+            structureCS: "?."+e + "(?)",
+            moveText: e,
+            disableMainDroppable: false,
+            appendBeforeTraverseInJSGenerator:true
+          };
+          state.blockTypes.currentMethodsFromReflection.push(method);
+        }
+        
+        lastMethod = e;
       })
       
     },

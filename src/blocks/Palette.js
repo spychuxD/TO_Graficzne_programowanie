@@ -430,7 +430,8 @@ export default function Palette({ blocksState, setBlocksState }) {
                 <input type="text" className="w-80" placeholder="Przestrzeń nazw" value={nameSpace} onChange={e=>setNameSpace(e.target.value)}/>
                 <Button onClick={async()=>{
                   const result = await sendRequest("csharp",generateReflectionCode(nameSpace))
-                  dispatch(setCsClassNames({result:result.output}))
+                  if(result)
+                    dispatch(setCsClassNames({result:result.output}))
                 }}>
                   Pobierz
                 </Button>
@@ -450,7 +451,8 @@ export default function Palette({ blocksState, setBlocksState }) {
                   onChange={async(e) => {
                     //dispatch(setCurrentMethodsFromReflection({ name: e?.value }));
                     const result = await sendRequest("csharp",generateReflectionCodeMethod(nameSpace,e.value))
-                    dispatch(setCurrentCsMethodsFromReflection({result:result.output}))
+                    if(result)
+                      dispatch(setCurrentCsMethodsFromReflection({result:result.output,className:e.value}))
                   }}
                   onInputChange={(e) => {
                     //dispatch(setClassNames(e));
