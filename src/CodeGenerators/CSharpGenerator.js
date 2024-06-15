@@ -25,22 +25,35 @@ function CSharpGenerator(props) {
   const blockTypes = useSelector((state) =>
     Object.values(state.languageSettings.blockTypes).flat()
   );
+  const allNameSpaces = useSelector(state=>state.languageSettings.csNamespaces);
+  function generateNameSpaces()
+  {
+    let result = ""
+    allNameSpaces.forEach(el=>{
+      result+= "using "+el+";\n"
+    })
+    return result;
+  }
   function generateAllCSharpFromJson(json) {
-    let cppClass = "";
+    let cppClass = generateNameSpaces();
 
     let page = 0;
     json.classes.forEach((element) => {
       if (page !== 0) {
-        cppClass += generateCSharpClassFromJson(json, page);
+        cppClass += generateCSharpClassFromJson(json, page,true);
       }
       page++;
     });
-    cppClass += generateCSharpClassFromJson(json, 0);
+    cppClass += generateCSharpClassFromJson(json, 0,true);
     return cppClass;
   }
 
-  function generateCSharpClassFromJson(json, page) {
-    let cppClass = "using System;\n";
+  function generateCSharpClassFromJson(json, page,notAddUsings) {
+    let cppClass = "";
+    if(notAddUsings!==true)
+    {
+      cppClass= generateNameSpaces()
+    }
 
     if (page === 0) {
       cppClass += "class Program\n";
@@ -59,7 +72,7 @@ function CSharpGenerator(props) {
       return cppClass;
     }
 
-    cppClass = `public class ${json.classes[page].name.replace(/ /g, "_")} {\n`;
+    cppClass += `public class ${json.classes[page].name.replace(/ /g, "_")} {\n`;
 
     cppClass += getFields("private", json.classes[page]);
     cppClass += getConstructor("private", json, page);
@@ -527,7 +540,7 @@ export function generateReflectionCode(nameSpace) {
                         }
                         else
                         {
-                            Console.WriteLine($"Brak klas w przestrzeni nazw {namespaceName} lub przestrzeń nazw nie istnieje.");
+                            Console.WriteLine("[]");
                         }
                     }
 

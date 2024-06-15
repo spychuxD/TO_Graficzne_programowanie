@@ -20,6 +20,7 @@ const languageSettingsSlice = createSlice({
       usedMethodsFromReflection: [],
       currentMethodsFromReflection: [],
     },
+    csNamespaces: []
   },
   reducers: {
     changeLanguage(state, action) {
@@ -27,8 +28,8 @@ const languageSettingsSlice = createSlice({
     },
     setLanguageSlice(state, action) {
       state.isLanguage = action.payload.data.isLanguage;
-      state.blockTypes.usedMethodsFromReflection =
-        action.payload.data.blockTypes.usedMethodsFromReflection;
+      state.blockTypes.usedMethodsFromReflection =action.payload.data.blockTypes.usedMethodsFromReflection;
+      state.csNamespaces = action.payload.data.csNamespaces
     },
     setClassNames(state, action) {
       state.classNames = Object.getOwnPropertyNames(window).reduce(
@@ -76,13 +77,14 @@ const languageSettingsSlice = createSlice({
         value: action.payload.name,
         label: action.payload.name,
       };
+      debugger
       const dataType = {
         id: clearName + ";csharp;reflection;dataType",
         texts: ["Datatype "+clearName],
         styleClass: "bg-color-js-second-variant",
-        structureCS: clearName,
+        structureCS: clearName+(isGeneric?"<?>":""),
         moveText: clearName,
-        disableMainDroppable: true,
+        disableMainDroppable: !isGeneric,
         appendBeforeTraverseInJSGenerator:true
       };
       state.blockTypes.currentMethodsFromReflection.push(dataType);
@@ -217,7 +219,16 @@ const languageSettingsSlice = createSlice({
       state.blockTypes.usedMethodsFromReflection = [];
       state.blockTypes.currentMethodsFromReflection = [];
       state.currentClassName = {};
+      state.csNamespaces = []
     },
+    addCsNamespace(state,action)
+    {
+      state.csNamespaces.push(action.payload.value)
+    },
+    deleteCsNameSpace(state,action)
+    {
+      state.csNamespaces = state.csNamespaces.filter(el=>el !== action.payload.value)
+    }
   },
 });
 
@@ -229,6 +240,8 @@ export const {
   updateUsedMethodsFromRefection,
   resetUsedMethodsFromRefection,
   setCsClassNames,
-  setCurrentCsMethodsFromReflection
+  setCurrentCsMethodsFromReflection,
+  addCsNamespace,
+  deleteCsNameSpace
 } = languageSettingsSlice.actions;
 export default languageSettingsSlice.reducer;

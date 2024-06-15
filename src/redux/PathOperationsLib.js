@@ -27,8 +27,7 @@ export const findPath = (state, id) => {
   return state.paths.find((el) => el.id === id)?.path;
 };
 export const findObject = (state, id, path) => {
-  debugger;
-  return JSON.parse(JSON.stringify(findLocationByPath(state, path))).find(
+  return findLocationByPath(state, path).find(
     (el) => el.id === id
   );
 };

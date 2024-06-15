@@ -47,6 +47,8 @@ import {
   setClassNames,
   setCsClassNames,
   setCurrentCsMethodsFromReflection,
+  addCsNamespace,
+  deleteCsNameSpace,
 } from "../redux/slices/LanguageSettings";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
@@ -88,6 +90,7 @@ export default function Palette({ blocksState, setBlocksState }) {
   );
   const blockTypes = useSelector((state) => state.languageSettings.blockTypes);
   const [nameSpace,setNameSpace] = useState("");
+  const allNameSpaces = useSelector(state => state.languageSettings.csNamespaces);
   useEffect(() => {
     dispatch(setClassNames());
   }, [dispatch]);
@@ -426,50 +429,101 @@ export default function Palette({ blocksState, setBlocksState }) {
                   Przeciągnij blok, aby go dodać
                 </div>
               </div>
-              <div className="palette-blocks-container slideDown w-full">
-                <input type="text" className="w-80" placeholder="Przestrzeń nazw" value={nameSpace} onChange={e=>setNameSpace(e.target.value)}/>
-                <Button onClick={async()=>{
-                  const result = await sendRequest("csharp",generateReflectionCode(nameSpace))
-                  if(result)
-                    dispatch(setCsClassNames({result:result.output}))
-                }}>
-                  Pobierz
-                </Button>
-                <Select
-                  classNames={"w-full"}
-                  className="basic-single"
-                  classNamePrefix="select"
-                  defaultValue={
-                    Object.keys(currentClassName).length !== 0
-                      ? currentClassName
-                      : undefined
-                  }
-                  clearValue
-                  placeholder="Wpisz nazwę klasy"
-                  options={classNames}
-                  isClearable={true}
-                  onChange={async(e) => {
-                    //dispatch(setCurrentMethodsFromReflection({ name: e?.value }));
-                    const result = await sendRequest("csharp",generateReflectionCodeMethod(nameSpace,e.value))
-                    if(result)
-                      dispatch(setCurrentCsMethodsFromReflection({result:result.output,className:e.value}))
-                  }}
-                  onInputChange={(e) => {
-                    //dispatch(setClassNames(e));
-                  }}
-                />
-                <div className="palette-blocks-container slideDown">
-            {blockTypes.currentMethodsFromReflection?.map((v, k) => (
-              <StandardBlock
-                id={standardBlock + "|" + v.id}
-                key={k}
-                subType={v.id}
-                data={v}
-                palette={true}
-              />
-            ))}
-          </div>
+              Lista dodanych przestrzeni nazw:
+              <div className="palette-blocks-container slideDown">
+                
+                {
+                    allNameSpaces.length===0?"Brak":""
+                }
+                {
+                  allNameSpaces.map((v,k)=>(
+                    <div style={{backgroundColor: "#32a852",padding:10,borderRadius:10,gap:10,display:"flex"}}>
+                      {v}
+                      <button onClick={()=>{dispatch(deleteCsNameSpace({value:v}))}} style={{backgroundColor:"#0a4d1c",color:"white",border:"none",borderRadius:5}}>Usuń</button>
+                    </div>
+                  ))
+                }
               </div>
+              <div className="palette-blocks-container slideDown w-full">
+                Nazwa przestrzeni nazw:
+                <input type="text" className="w-80" placeholder="Przestrzeń nazw" value={nameSpace} onChange={e=>setNameSpace(e.target.value)} style={{borderRadius:5,padding:10,width:"93%"}}/>
+                <div style={{width:"100%"}}>
+                  <Button onClick={async()=>{
+                    const result = await sendRequest("csharp",generateReflectionCode(nameSpace))
+                    if(result)
+                      dispatch(setCsClassNames({result:result.output}))
+                  }}>
+                    Pobierz
+                  </Button>
+                  <Button onClick={async()=>{
+                      dispatch(addCsNamespace({value:nameSpace}))
+                  }}>
+                    Dodaj
+                  </Button>
+                </div>
+                Lista klas w przestrzni nazw:
+                <Select
+    styles={{
+      container: (provided) => ({
+        ...provided,
+        width: '100%',
+      }),
+      control: (provided) => ({
+        ...provided,
+        width: '100%',
+      }),
+      menu: (provided) => ({
+        ...provided,
+        zIndex: 9999
+      }),
+      menuPortal: (provided) => ({
+        ...provided,
+        zIndex: 9999
+      })
+    }}
+    className="w-full basic-single"
+    classNamePrefix="select"
+    defaultValue={
+      Object.keys(currentClassName).length !== 0
+        ? currentClassName
+        : ""
+    }
+    clearValue
+    placeholder="Wpisz nazwę klasy"
+    options={classNames}
+    isClearable={true}
+    menuPortalTarget={document.body}
+    onChange={async (e) => {
+      if (e !== null) {
+        const result = await sendRequest("csharp", generateReflectionCodeMethod(nameSpace, e.value));
+        if (result) {
+          dispatch(setCurrentCsMethodsFromReflection({ result: result.output, className: e.value }));
+        }
+      }
+    }}
+    onInputChange={(e) => {
+      //dispatch(setClassNames(e));
+    }}
+  />
+
+
+                
+              </div>
+              Lista metod wybranej klasy:
+              <div className="palette-blocks-container slideDown" style={{zIndex:"1"}}>
+                  {blockTypes.currentMethodsFromReflection?.map((v, k) => (
+                    <StandardBlock
+                      id={standardBlock + "|" + v.id}
+                      key={k}
+                      subType={v.id}
+                      data={v}
+                      palette={true}
+                    />
+                  ))}
+                  {
+                    blockTypes.currentMethodsFromReflection.length===0?"Brak":""
+                  }
+                </div>
             </div>
           ) : null}
         </Fragment>
