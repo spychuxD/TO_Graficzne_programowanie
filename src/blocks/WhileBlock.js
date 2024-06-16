@@ -34,7 +34,7 @@ function WhileBlock(props) {
                 style={{ border: "none" }}
                 className="control-block flex-col"
               >
-                <div className="text-bold text-white ">wykonaj</div>
+                <div className="text-bold text-white ">do</div>
                 <MainDroppable
                   dropId={props.id + "|1"}
                   disabled={props.palette}

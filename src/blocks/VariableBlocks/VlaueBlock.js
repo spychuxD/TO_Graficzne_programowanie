@@ -24,7 +24,7 @@ export default function ValueBlock(props) {
       >
         {!props.isOverlay ? (
           <Fragment>
-            <div className="text-bold text-small text-white">Wartość</div>
+            <div className="text-bold text-small text-white">Value</div>
             <input
               disabled={props.palette}
               onChange={(e) => onChangeElement("value", e)}
@@ -39,7 +39,7 @@ export default function ValueBlock(props) {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}
             />
-            <div className="text-bold text-small text-white">typu</div>
+            <div className="text-bold text-small text-white">type</div>
             <select
               className="block-input"
               onMouseEnter={() => {
@@ -52,15 +52,15 @@ export default function ValueBlock(props) {
             >
               {isLanguage === "js" ? (
                 <>
-                  <option value="integers">inne</option>
-                  <option value="text">tekstowego</option>
+                  <option value="integers">other</option>
+                  <option value="text">text</option>
                 </>
               ) : (
                 <>
-                  <option value="integers">całkowitego</option>
-                  <option value="rationals">rzeczywistego</option>
-                  <option value="boolean">logicznego</option>
-                  <option value="text">tekstowego</option>
+                  <option value="integers">integet</option>
+                  <option value="rationals">rationals</option>
+                  <option value="boolean">logic</option>
+                  <option value="text">text</option>
                 </>
               )}
             </select>

@@ -55,7 +55,7 @@ function VariableDeclarationBlock(props) {
       >
         {!props.isOverlay ? (
           <Fragment>
-            Zmienna&nbsp;
+            Variable&nbsp;
             {isLanguage !== "python" ? <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
               <div className="w-min-50px w-full bg-color-if-condition h-20px b-r-10">
                 {props.children
@@ -65,7 +65,7 @@ function VariableDeclarationBlock(props) {
                   : null}
               </div>
             </MainDroppable> : null }
-            &nbsp;o nazwie&nbsp;
+            &nbsp;with name&nbsp;
             <input
               disabled={props.palette}
               onChange={(e) => onChangeElement("name", e)}

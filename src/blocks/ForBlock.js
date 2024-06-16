@@ -22,7 +22,7 @@ function ForBlock(props) {
               >
                 <div>
                   <div className="text-bold text-white text-nowrap">
-                    Powtarzaj dla
+                    for
                   </div>
                   <MainDroppable
                     dropId={props.id + "|0"}
@@ -38,7 +38,7 @@ function ForBlock(props) {
                   </MainDroppable>
                 </div>
                 <div>
-                  <div className="text-bold text-white text-nowrap">dopóki</div>
+                  <div className="text-bold text-white text-nowrap">until</div>
                   <MainDroppable
                     dropId={props.id + "|1"}
                     disabled={props.palette}
@@ -54,7 +54,7 @@ function ForBlock(props) {
                 </div>
                 <div>
                   <div className="text-bold text-white text-nowrap">
-                    a potem
+                    after
                   </div>
                   <MainDroppable
                     dropId={props.id + "|2"}
@@ -74,7 +74,7 @@ function ForBlock(props) {
                 style={{ border: "none" }}
                 className="control-block flex-col"
               >
-                <div className="text-bold text-white ">wykonaj</div>
+                <div className="text-bold text-white ">do</div>
                 <MainDroppable
                   dropId={props.id + "|3"}
                   disabled={props.palette}

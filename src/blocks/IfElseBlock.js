@@ -13,7 +13,7 @@ function IfElseBlock(props) {
             <div className="flex-col gap-10 center w-full">
               <div className="flex-row center w-full">
                 <div className="text-bold text-small text-white mr-8 flex-row align-center">
-                  Jeżeli
+                &nbsp;If&nbsp;
                   <MainDroppable
                     dropId={props.id + "|0"}
                     disabled={props.palette}
@@ -26,7 +26,7 @@ function IfElseBlock(props) {
                         : null}
                     </div>
                   </MainDroppable>
-                  to
+                  &nbsp;then&nbsp;
                 </div>
               </div>
               <div className="flex-row center w-full">
@@ -45,7 +45,7 @@ function IfElseBlock(props) {
               </div>
               <div className="flex-row center w-full">
                 <div className="text-bold text-small text-white mr-8 text-nowrap">
-                  jeśli nie
+                  else
                 </div>
               </div>
               <div className="flex-row center w-full">

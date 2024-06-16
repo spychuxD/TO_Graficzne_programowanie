@@ -1,20 +1,20 @@
 export const consoleOut = {
   id: "consoleOut",
-  texts: ["Wyświetl"],
+  texts: ["Display"],
   styleClass: "bg-color-list",
   structureCS: "Console.Write(?)",
   structureJS: "console.log( ? )",
   structurePython: "print( ? )",
-  moveText: "Wyświetl",
+  moveText: "Display",
   appendBeforeTraverseInJSGenerator: true,
 };
 export const returnValue = {
   id: "returnValue",
-  texts: ["Zwróć"],
+  texts: ["Return"],
   styleClass: "bg-color-list",
   structureCS: "return ?",
   structureJS: "return ?",
-  moveText: "Zwróć",
+  moveText: "Return",
   appendBeforeTraverseInJSGenerator: true,
 };
 export const AtIndex = {
@@ -73,7 +73,7 @@ export const constructors = {
   texts: ["Constructor",""],
   styleClass: "bg-color-list",
   structureCS: " new ?(?)",
-  moveText: "Zwróć",
+  moveText: "Constructor",
   appendBeforeTraverseInJSGenerator: true,
 };
 export const delegate = {
