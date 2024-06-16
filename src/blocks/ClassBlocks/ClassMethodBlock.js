@@ -22,7 +22,7 @@ export default function ClassMethodBlock(props) {
       >
         {!props.isOverlay ? (
           <div className="blocks-container">
-            <div className="text-nowrap">Dla obiektu</div>
+            <div className="text-nowrap">On object</div>
             <MainDroppable dropId={props.id + "|0"} disabled={props.palette}>
               <div className="w-min-50px w-full bg-color-console-text h-20px b-r-10">
                 {props.children
@@ -31,7 +31,7 @@ export default function ClassMethodBlock(props) {
               </div>
             </MainDroppable>
             <div className="text-nowrap" style={{ marginRight: 5 }}>
-              wykonaj
+            execute
             </div>
             <div className="text-nowrap">
               {methodObject === undefined ? props.name : methodObject?.name}

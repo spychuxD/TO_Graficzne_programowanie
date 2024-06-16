@@ -31,10 +31,10 @@ export default function ClassFieldBlock(props) {
                   : null}
               </div>
             </MainDroppable>
-            <div className="text-nowrap">Z obiektu</div>
+            <div className="text-nowrap">from object</div>
           </div>
         ) : (
-          <div>{methodObject?.name}Pole klasy</div>
+          <div>{methodObject?.name}Class field</div>
         )}
       </DragHandle>
     </Fragment>
