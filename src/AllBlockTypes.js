@@ -68,9 +68,25 @@ export const array = {
   appendBeforeTraverseInJSGenerator: true,
   disableMainDroppable: false,
 };
-
+export const constructors = {
+  id: "constructors",
+  texts: ["Constructor",""],
+  styleClass: "bg-color-list",
+  structureCS: " new ?(?)",
+  moveText: "Zwróć",
+  appendBeforeTraverseInJSGenerator: true,
+};
+export const delegate = {
+  id: "delegate",
+  texts: ["delegeate variable","and do"],
+  styleClass: "bg-color-list",
+  structureCS: " delegate(?){?;}",
+  moveText: "Delegate",
+  appendBeforeTraverseInJSGenerator: true,
+};
 export const blockTypesInit = {
   js: [arrowFunction, nextLine, object, array],
   standardTypes: [consoleOut, returnValue],
-  referenceTypes: [AtIndex,AssignTo],
+  referenceTypes: [AtIndex,AssignTo,delegate],
+  constructorsTypes:[constructors]
 };

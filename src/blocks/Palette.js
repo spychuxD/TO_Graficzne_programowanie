@@ -381,6 +381,17 @@ export default function Palette({ blocksState, setBlocksState }) {
               id={classVariableDeclarationBlock}
               palette={true}
             />
+             {isLanguage === "csharp"
+                ? blockTypes?.constructorsTypes?.map((v, k) => (
+                    <StandardBlock
+                      id={standardBlock + "|" + v.id}
+                      key={k}
+                      subType={v.id}
+                      data={v}
+                      palette={true}
+                    />
+                  ))
+                : null}
             {classes.map((v, k) => (
               <div key={k}>
                 <ClassDataTypeBlock
@@ -389,6 +400,7 @@ export default function Palette({ blocksState, setBlocksState }) {
                   classId={v.id}
                   palette={true}
                 />
+               
                 {v.fields.map((field, index) => (
                   <ClassFieldBlock
                     name={field.name}

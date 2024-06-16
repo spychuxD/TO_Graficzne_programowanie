@@ -30,6 +30,7 @@ function VariableDeclarationBlock(props) {
       })
     );
   };
+ 
   /*const classObject = props.children?.length>0?useSelector(
     
   ):undefined;*/
@@ -79,7 +80,9 @@ function VariableDeclarationBlock(props) {
                 if (!props.palette) dispatch(toggleDisableDraggable());
               }}
             />
-            {props.children &&
+            {
+            isLanguage !== "csharp"&&
+            props.children &&
             props.children[0].length > 0 &&
             props.children[0][0].type === classDefinitionBlock ? (
               <Fragment>

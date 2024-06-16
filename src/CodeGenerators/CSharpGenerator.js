@@ -63,7 +63,7 @@ function CSharpGenerator(props) {
         json,
         json.classes[page].methods[0].children[2],
         json.classes[page],
-        2,
+        3,
         true,
         ""
       );
@@ -392,36 +392,6 @@ function CSharpGenerator(props) {
           result += findedMethodForField?.name;
           break;
         case standardBlock:
-          debugger
-          /*let elementStructure = blockTypes.find(
-            (el) => el.id === element.subType
-          );
-          result += generateTabs(level);
-          const splitedCode = elementStructure.structureCPlusPLus.split("?");
-          let i = 0;
-          splitedCode.forEach((el) => {
-            result += el;
-            if (elementStructure.id === consoleOut.id)
-              result += traverse(
-                json,
-                element.children[i],
-                classObject,
-                0,
-                false,
-                "<<"
-              );
-            else
-              result += traverse(
-                json,
-                element.children[i],
-                classObject,
-                0,
-                false,
-                ""
-              );
-            i++;
-          });
-          break;*/
           let elementStructure = blockTypes.find(
             (el) => el.id === element.subType
           );
@@ -439,11 +409,7 @@ function CSharpGenerator(props) {
                 classObject,
                 0,
                 false,
-                elementStructure.id === "arrowFunction"
-                  ? ";\n"
-                  : elementStructure.disableComma === true
-                  ? ""
-                  : ", "
+                element.subType === "consoleOut"?"+":","
               );
             } else {
               result += traverse(
@@ -460,6 +426,10 @@ function CSharpGenerator(props) {
 
             i++;
           });
+          /*if(element.subType === "delegate")
+            {
+              result+="\n"
+            }*/
           break;
         default:
           result += "undefined";
